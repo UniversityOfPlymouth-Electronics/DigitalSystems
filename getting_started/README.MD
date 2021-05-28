@@ -20,37 +20,60 @@ From the user manual:
 </figure>
 
 
-> **TIP**
+> **TIPS**
 >
-> Make a note of the FPGA part number: EP4CE22F17C6N
+> Make a note of the FPGA part number: **EP4CE22F17C6N**
 >
+> Bookmark the link to the [user manual for the DE0-Nano board]https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=593&FID=75023fa36c9bf8639384f942e65a46f3)
+> 
 > This is needed when creating new projects in Quartus.
 
-# Software 
+<hr>
+
+## Software 
 All software used on this course is available to students at no cost.
 
-## Development Tools
+### Development Tools
 
 Two software development tools are used in this course:
 
 * Intel Quartus II Lite Edition (with Cyclone IV support) available from [Intel](https://www.intel.com/content/www/us/en/programmable/downloads/download-center.html)
 * ModelSim (Intel FPGA Starter Edition, bundled with Quartus II)
 
-The current version we are using is Quartus II **Lite** v20.1.1. All support materials in this course refer to the version for Microsoft Windows.
+The current version we are using is Quartus II **Lite**. All support materials in this course refer to the version for Microsoft Windows.
+
+If you are planning to work on your own computer (Running Windows 10), please please observe the following instructions when setting up your computer.
+
+**Written Installation Instructions**
+
+* Download Quartus II from [Intel](https://www.intel.com/content/www/us/en/programmable/downloads/download-center.html)
+   * Select the Lite edition
+   * Choose the release you want to install
+   * You can download the combined installer (larger)
+   * Alternatively, you can download the individual files
+      * Quartus Prime (Lite)
+      * ModelSim-Intel FPGA Edition (includes Starter Edition)
+      * Cyclone IV device support
 
 * Install Quartus II on your computer
    * When asked, include Cyclone IV Support
-   * When asked, include only the ModelSim **Starter Edition**
+   * When asked, include install the ModelSim **Starter Edition**
 
 * Plug in your DE0-Nano Board
 * Run device manager on your PC
    * Find the entry for "Altera USB Blaster" (it will have an exclamation mark against it)
    * Right click this device, and click Update Driver
    * Choose "Browse my Computer for Drivers"
-   * Browse to `C:\intelFPGA_lite\20.1\quartus\drivers`
+   * Browse to `C:\intelFPGA_lite\20.1.1\quartus\drivers`
 
-Device manager should be able to locate the driver and install it. If this does not success, see the "Cannot program the FPGA" section in the [trouble shooting guide](troubleshooting.md).
+Device manager should be able to locate the driver and install it. If this does not succeed, see the "Cannot program the FPGA" section in the [trouble shooting guide](troubleshooting.md).
 
+**Video Installation Instructions**
+For those that prefer a video, please watch the following:
+
+
+
+<hr>
 ## Version Control
 
 These notes and the examples that accompany them are hosted on [GitHub](https://github.com/). This requires the use of the [git version control system](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control).
