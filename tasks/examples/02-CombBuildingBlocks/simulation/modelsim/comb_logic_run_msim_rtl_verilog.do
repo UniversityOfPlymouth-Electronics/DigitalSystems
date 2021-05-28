@@ -5,5 +5,5 @@ if {[file exists rtl_work]} {
 vlib rtl_work
 vmap work rtl_work
 
-vlog -sv -work work +incdir+/home/noutram/git/ELEC241-Staff/sysv/02-CombBuildingBlocks {/home/noutram/git/ELEC241-Staff/sysv/02-CombBuildingBlocks/uop_and2.sv}
+vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/examples/02-CombBuildingBlocks {C:/git/DigitalSystems/tasks/examples/02-CombBuildingBlocks/uop_and2.sv}
 
