@@ -43,6 +43,7 @@
 
 # ModelSim
 *.sdo
+*.svo
 *.vho
 *.vcd
 *.bak
