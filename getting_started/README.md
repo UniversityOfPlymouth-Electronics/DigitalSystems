@@ -52,9 +52,10 @@ If you are planning to work on your own computer (Running Windows 10), please pl
 
 You should watch the following three videos:
 
+1. [Quartus Installation Video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e8ce89d8-bf5a-4bf4-9376-ad5c01089a90)
 1. [Test the Programmer](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=9f05c9c1-0a2e-4455-b639-ad5c0108a2b9)
 1. [Test ModelSim](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d80ed159-23e5-433a-9b4b-ad5c0108a658)
-1. [Quartus Installation Video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e8ce89d8-bf5a-4bf4-9376-ad5c01089a90)
+
 
 The example project is located in [\<root of this repository\>\tasks\Task-0-GettingStarted](/tasks/Task-0-GettingStarted)
 
