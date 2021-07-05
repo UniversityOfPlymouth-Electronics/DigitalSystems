@@ -1,3 +1,7 @@
+[Back](../README.md)
+
+---
+
 # Getting Started
 
 This section is for all students who are using FPGA technology at the University of Plymouth.
@@ -162,3 +166,7 @@ This will generate an email for the tutor to review your proposed changes and th
 # References
 DE0-Nano User Manual, [Terrasic.com](https://www.terasic.com.tw/cgi-bin/page/archive_download.pl?Language=English&No=593&FID=75023fa36c9bf8639384f942e65a46f3)
 , accessed 27/05/2021
+
+---
+
+[Back](../README.md)
