@@ -14,7 +14,7 @@ It is assumed the student is knowledgable in digital electronics, including the 
 
 ## Table of Contents
 
-1. [Getting Started](../../getting_started/README.md)
+1. [Getting Started](/getting_started/README.md)
 2. TO BE DONE
 
 <hr>
