@@ -1,0 +1,20 @@
+# Compile of comb_logic.v was successful.
+# Compile of comb_logic.v was successful.
+vsim -gui work.comb_logic
+# vsim -gui work.comb_logic 
+# Start time: 15:11:04 on Sep 09,2021
+# Loading sv_std.std
+# Loading work.comb_logic
+add wave -position insertpoint sim:/comb_logic/*
+force -freeze sim:/comb_logic/KEY0 0 0
+force -freeze sim:/comb_logic/KEY1 0 0
+run
+force -freeze sim:/comb_logic/KEY0 1 0
+run
+force -freeze sim:/comb_logic/KEY1 1 0
+run
+force -freeze sim:/comb_logic/KEY0 0 0
+run
+quit -sim
+# End time: 15:13:58 on Sep 09,2021, Elapsed time: 0:02:54
+# Errors: 0, Warnings: 6

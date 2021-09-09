@@ -27,9 +27,9 @@ I suggest you use HTML for images so that you can control the width. Here is an 
 
 ### The `img` element
 ```HTML
-<img src="./img/Icon-jpg-small.jpg" width="150px">
+<img src="./img/hdl.png" width="150px">
 ```
-<img src="./img/Icon-jpg-small.jpg" width="150px">
+<img src="./img/hdl.png" width="150px">
 
 <hr>
 
@@ -44,7 +44,7 @@ You have more control with `figure`
 ```
 
 <figure>
-<img src="./img/Icon-jpg-small.jpg" width="150px">
+<img src="./img/hdl.png" width="150px">
 <figcaption>Course Icon</figcaption>
 </figure>
 
