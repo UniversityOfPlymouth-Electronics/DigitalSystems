@@ -22,7 +22,7 @@ By the end of this section, you should be able to:
 * Create a simple testbench to automate the testing of a combinational logic component
 
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
-To re-enforce the idea of a netlist.
+It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
 
 | Task | - |
 |--- |---|
