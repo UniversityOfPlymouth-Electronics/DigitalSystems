@@ -24,6 +24,10 @@ By the end of this section, you should be able to:
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
 It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
 
+> First, [watch this video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7b6372d5-a7c2-418d-b3d7-ad9f00e714c4).
+> 
+> We will now work through each step and repeat what was shown in the video.
+
 | Task | - |
 |--- |---|
 | 1 | Open the Quartus project `Task206-SchematicToHDL` and build the project|
@@ -45,20 +49,18 @@ It is interesting to see how Quartus schematics are converted to an HDL. Not onl
 <figcaption>Converting a schematic to an HDL in Quartus</figcaption>
 </figure>
 
-| | |
-| --- | --- |
 | 4 | Select `Verilog HDL` (remember that SystemVerilog is backwards compatible with Verilog)|
+| --- | --- |
 
 <figure>
 <img src="../img/quartus_choose_hdl.png" width="200px">
 <figcaption>Converting a schematic to an HDL in Quartus</figcaption>
 </figure>
 
-| | |
+| 5 | Identify the internal wires on the schematic |
 | --- | --- |
-| 5 | Open the generated file `comb_logic.v` |
-
-The output should be similar to the listing below (I have removed some whitespace).
+| - | Open the generated file `comb_logic.v` |
+| - | The output should be similar to the listing below (I have removed some whitespace) |
 
 ```verilog
 // PROGRAM		"Quartus Prime"
@@ -97,7 +99,10 @@ wire	SYNTHESIZED_WIRE_2;
 wire	SYNTHESIZED_WIRE_3;
 ```
 
-> **Challenge:** Can you identify their position in the schematic? (write it down, then hover the mouse over the `?` to check your answer)
+| - | Can you identify the position of these wires in the schematic? |
+| - | - |
+| - | Note how there is one internal wire for each logic-gate output. |
+| - | (write it down, then hover the mouse over the `?` to check your answer) |
 
 | Node | Wire |
 | - | - |
@@ -111,12 +116,7 @@ wire	SYNTHESIZED_WIRE_3;
 <figcaption>Internal wires labelled as A,B,C and D.</figcaption>
 </figure>
 
-> Note how there is one internal wire for each logic-gate output.
-
-Let's look at different sections of this code in turn.
-
-### Module Declaration
-Note how the module was declared:
+Let's now look at how the module was declared:
 
 ```verilog
 module comb_logic(
@@ -168,36 +168,30 @@ The convention used in this course is as follows:
 * For assessment purposes, you may be asked to confirm to this convention
 * Third party components may deviate from this
 
+| 6 | Add the verilog file to your project |
+| - | - |
+| - | Add `comb_logic.v` to your project (`Project->Add Current File To Project...`) |
+| - | Remove the schematic from the project (`Project->Add/Remote Files from Project...`). This is to avoid the confusion of two entities with the same name |
 
-> **Challenge**
->
-> First, [watch this video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7b6372d5-a7c2-418d-b3d7-ad9f00e714c4).
-> 
-> Now using ModelSim, see if you can repeat what you saw in the video for yourself
-> * Concert the schematic to verilog
->    * Add `comb_logic.v` to your project (`Project->Add Current File To Project...`)
-> * Remove the schematic from the project (`Project->Add/Remote Files from Project...`)
->    * This is to avoid the confusion of two entities with the same name
-> * Make `comb_logic.v` your top level entity (instead of the schematic)
-> * Build and simulate with ModelSim
->    * Use a Wave window to change the inputs and visualise the output 
+| 7 | Experiment - Test it is logically identical |
+| - | - |
+| - | Make `comb_logic.v` your top level entity (instead of the schematic) |
+| - | Build and simulate with ModelSim. Use a Wave window to change the inputs and visualise the output |
 
 <figure>
 <img src="../img/circuit/xor_sop_sim.png" width="600px">
 <figcaption>Check your simulation matches this</figcaption>
 </figure>
 
+| 8 | Experiment - Use a more concise module declaration |
+| - | - |
+| - |  modify the `comb_logic.v` to use a more concise declaration (as above) |
+| - |  Don't forget to recompile! |
+| - | Build and simulate with ModelSim to check it is logically unchanged. |
 
-> Now to check:
-> * modify the `comb_logic.v` to use a more concise declaration (as above)
->    * Don't forget to recompile!
-> * Build and simulate with ModelSim to check it is logically unchanged.
+The simulation output should confirm this as an XOR gate (as shown above and in the video).
 
-The simulation output should confirm this as an XOR gate (as shown below):
-
-> **Challenge** The internal logic is defined in the lines shown below. Each assignment described a logic relationship that will ultimately be synthesised in hardware. 
->
-> Change the order of the lines and show that the logic of the component is unchanged.  
+The internal logic is defined in the lines shown below. Each assignment described a logic relationship that will ultimately be synthesised in hardware.
 
 ```verilog
 assign	SYNTHESIZED_WIRE_3 = SYNTHESIZED_WIRE_0 & KEY1;
@@ -207,12 +201,24 @@ assign	SYNTHESIZED_WIRE_0 =  ~KEY0;
 assign	SYNTHESIZED_WIRE_1 =  ~KEY1;
 ```
 
-### HDL Style
-In this example, when we exported a schematic in Quartus, the tools chose to use *continuous assignment*. This would seem to make intuitive sense as the logic in the schematic was limited to simple primitive operations (AND, OR, NOT). Such gates are pre-synthesised in the macro-cells of the FPGA, so it is not difficult to envisage how this might be synthesised in practise. However, I say *envisage* for a reason.
+| 9 | Experiment - Reorder assignments in the HDL |
+| - | - |
+| - | Change the order of the lines and show that the logic of the component is unchanged. |
+| - | Use ModelSim to confirm your result |  
 
-> The exact same synthesis could be produced using *gate models*. 
+## Task 207 - Schematics and gate-models
 
-Using gate models may be preferred when a design is build from more complex components, and not simply made from primitive gates (although as everything is built from primitive gates, it would be possible, albeit messy).
+In the previous task, when we exported a schematic in Quartus, the tools chose to exclusively use *continuous assignment* (`assign`).  This would seem to make intuitive sense as all the logic in the schematic was limited to simple primitive operations (AND, OR, NOT). 
+
+Such gates are pre-synthesised in the macro-cells of the FPGA, so it is not difficult to envisage how this might be synthesised in practise. However, I say *envisage* because we did not specify this - the decision was made by the development tools. The tools could equally implement the exact same logic using *gate models*.
+
+> * *continuous assignment* is somewhat *abstracted* from the physical hardware. It describes logical relationships, but not the gates as such (although the relationship may be apparent). 
+>
+> * *gate models* are a literal description of which hardware to use and how it should be connected. It can be considered a one-to-one mapping of HDL onto hardware.
+
+> All circuits could ultimately be built with either style, or a combination of the two. As we will see later however, there are other ways to specify behaviour of logic systems that are even more abstracted (and convenient!)
+
+*Gate models* are important as they allow us to "place and connect" other components to wires in our design. This is illustrated in the next task.
 
 | Task | - |
 |--- |---|
