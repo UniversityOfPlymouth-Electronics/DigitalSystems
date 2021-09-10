@@ -111,7 +111,9 @@ wire	SYNTHESIZED_WIRE_3;
 <figcaption>Internal wires labelled as A,B,C and D.</figcaption>
 </figure>
 
-> Note how there is one internal wire for each logic-gate output. 
+> Note how there is one internal wire for each logic-gate output.
+
+Let's look at different sections of this code in turn.
 
 ### Module Declaration
 Note how the module was declared:
@@ -128,7 +130,7 @@ input wire	KEY1;
 output wire	LED0;
 ```
 
-The wires `KEY0, KEY1` and `LED0` are the input and output signals to the `comb_logic` component. The "type" is `wire` (other types exist in SystemVerilog as we will discover). Another way to write this is as follows:
+The wires `KEY0, KEY1` and `LED0` are the input and output signals to the `comb_logic` component, as presented to the outside world. The "type" is `wire` (other types exist in SystemVerilog as we will discover). Another way to write this is as follows:
 
 ```verilog
 module comb_logic(input wire KEY0, input wire KEY1, output wire LED0);
@@ -146,20 +148,25 @@ Or even more concisely (not advised) the compiler can infer `wire`:
 module comb_logic(input KEY0, KEY1, output LED0);
 ```
 
-Although all these styles are equivalent, being overly concise can become ambiguous to the reader (and thus frowned upon!). For this course, we will try and use the following **convention**:
+Although all these styles are equivalent, being overly concise can become ambiguous to the reader (and thus can be frowned upon!). For this course, we will try and use the following **convention**:
 
 ```verilog
 module comb_logic(output wire LED0, input wire KEY0, input wire KEY1);
 ```
 
+In this convention, the outputs are listed first, and every input / output has a type. It is still more concise than the example above.
+
 > **Note the following:**
-> It is very helpful is HDL is written in a style that is unambiguous, without being too verbose. It makes it easier to understand but also to spot errors (bugs). As we will discover, SystemVerilog contains language constructs that help some of the common issues found in it's predecessor, Verilog.
+>
+> It is very helpful is HDL is written in a style that is unambiguous, but without being too verbose. Not only is it easier to understand, it is also easier to spot errors (bugs). As we will discover, SystemVerilog contains language constructs that help some of the common issues found in it's predecessor, Verilog.
+
+The convention used in this course is as follows:
 
 * The outputs are listed first
 * All inputs and outputs are explicitly declared as an `input` or `output`
 * All input and output **types** are explicitly declared (type `wire` in this case)
 * For assessment purposes, you may be asked to confirm to this convention
-   * Third party components may deviate from this
+* Third party components may deviate from this
 
 
 > **TASK** - watch the following video
