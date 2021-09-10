@@ -169,15 +169,11 @@ The convention used in this course is as follows:
 * Third party components may deviate from this
 
 
-> **TASK** - watch the following video
-> [ **TODO - ADD VIDEO** ]
->
-
-Now complete the following challenge. 
-
 > **Challenge**
+>
+> First, [watch this video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7b6372d5-a7c2-418d-b3d7-ad9f00e714c4).
 > 
-> Using ModelSim, see if you can repeat what you saw in the video for yourself
+> Now using ModelSim, see if you can repeat what you saw in the video for yourself
 > * Concert the schematic to verilog
 >    * Add `comb_logic.v` to your project (`Project->Add Current File To Project...`)
 > * Remove the schematic from the project (`Project->Add/Remote Files from Project...`)
