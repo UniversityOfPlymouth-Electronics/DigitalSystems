@@ -226,14 +226,83 @@ Such gates are pre-synthesised in the macro-cells of the FPGA, so it is not diff
 | 2 | If not already visible, open the schematic `comb_logic` |
 |  | You should see a schematic similar to the figure below |
 
-**TODO** - finish this
 
 <figure>
 <img src="../img/circuit/mux_component.png" width="600px">
 <figcaption>Circuit that embeds another (multiplexer)</figcaption>
 </figure>
 
+| 3 | Right-click the mux21 component and choose "Open Design File" |
+| - | - |
+| - | You should observe the following Verilog file opens |
 
+```verilog
+
+module mux21( output wire Y, input wire [1:0] D, input wire sel);
+
+	assign Y = D[sel];
+	
+endmodule
+```
+
+Make a note of the names of the inputs and outputs (you can also see them on the schematic). The top level schematic contains a single *instance* of the `mux21` component. The definition for this component is in `mux21.sv`.
+
+> In the physical world, if we were to solder a component to a Printed Circuit Board, then it would an instance of that chip type.
+
+| 4 | Export the top level schematic as a verilog file. |
+| --- | --- |
+| - | Look closely at the output. You should see something similar to the code below |
+
+```verilog
+module comb_logic(
+	KEY0,
+	KEY1,
+	MODE,
+	LED0
+);
+
+input wire	KEY0;
+input wire	KEY1;
+input wire	MODE;
+output wire	LED0;
+
+wire	[1:0] data;
+
+mux21	b2v_inst(
+	.sel(MODE),
+	.D(data),
+	.Y(LED0));
+
+assign	data[1] = KEY1;
+assign	data[0] = KEY0;
+
+endmodule
+```
+
+We can see the verilog equivalent of component placement in this HDL script:
+
+```verilog
+mux21	b2v_inst(
+	.sel(MODE),
+	.D(data),
+	.Y(LED0));
+```
+
+Note the following:
+
+* The type of component is `mux21`, which is a 2-1 multiplexer
+* The instance name is `b2v_inst`. 
+* The labels `sel`, `D` and `Y` are the names of the multiplexer's input and output ports.
+* The input and output ports are connected to the signals `MODE`, `D` and `LED0` (external to the multiplexer component).
+
+You can have multiple instances of a component, but each must have a unique instance name.
+
+## Reflection
+From the exercises in the previous two tasks, there are some key points:
+
+* A schematic can easily be converted to HDL. 
+* This is typically continuous assignment or a netlist of gate models. 
+* Components (usually written with a HDL ) can be instantiated and connected.
 
 ## References
 
