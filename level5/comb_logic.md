@@ -21,6 +21,43 @@ By the end of this section, you should be able to:
 * Use ModelSim to interactively debug a component using modelled delay parameters
 * Create a simple testbench to automate the testing of a combinational logic component
 
+## HDLs and Programming Languages are NOT the same
+A hardware description language (HDL) such as SystemVerilog, is precisely what it says: a language that describes hardware. It is a language the defines the connection of primitive logic components, or at the more abstract level, logical behaviours (such as performing boolean algebra, arithmetic or storage). Ultimately, the output of an HDL is a netlist of interconnected logic components, such as AND, OR and NO gates. For an HDL, **there is no CPU** - the nearest equivalent is an FPGA, which is an a large collection of pre-synthesised macrocells, containing logic primitives (AND, OR, NOT and Latches). The HDL specified how these gates are connected, thus forming bespoke hardware.
+
+> The output of an HDL is ultimately a netlist of gates and interconnects. The conceptual equivalent is a schematic drawing of gates and wires, and not a programming language.
+
+The resulting hardware is bespoke to match your intent and design, and every circuit is built from logic gates and wires as described by a HDL. 
+
+A common problem for newcomers is that on first inspection, an HDL *resembles* a programming language, such as C or C++, but the resemblance can be misleading. Like a a programming language, an HDL can describe a behaviour. However with a programming language, the output is not a netlist of gates, but a **sequence** of instructions performed on a pre-manufactured Central Processing Unit (CPU). 
+
+It is interesting to note that CPU was itself is likely to have been designed with an HDL (at the time of writing, usually in SystemVerilog).
+
+* When we write a computer program to run on a single CPU, we write a sequence of instruction that are performed in turn, one at at time. As our program scales (gets longer and more complex), so the **time** it takes gets longer. The hardware size remains static of course. We might say that as the task scales, so the task grow temporally.
+
+* When we write HDL, we specify behaviour that will be implemented by interconnected logic gates. As our design scales (gets larger and more complex), so the occupied **space** and number of gates increases. We might say that as the task scales, so the task grows spacially.
+
+This is not a physics lesson in theories of space-time, neither is anyone going to get quantum (I'll leave that to those fabricating the ASICs), but it is a useful way to visualise things. You can mix the two models, and they often are mixed. We commonly see manufacturers design multi-core processors - adding more silicon (space) to perform more tasks (in parallel). Equally, we can use an HDL to design digital hardware that is sequential, and save silicon by spreading a task out over time. We will meet examples of these towards the end of the course.
+
+To start things more gently, we begin with **combination logic**. Combinational logic has no notion of a clock. There are inputs, and there are outputs. Each input produces a specific output. The only role that time plays is in the speed of the synthesised hardware, such as propagation delay. We call this an artefact (unwanted). Ideal hardware would ideally have no delay. With ideal hardware (pure logic), the output changes as soon as the input changes, and that output is entirely stable.
+
+Combinational logic can be defined with a **truth table**. For example:
+
+| A | B | Y |
+| - | - | - |
+| 0 | 0 | 1 |
+| 0 | 1 | 0 |
+| 1 | 0 | 0 |
+| 1 | 1 | 1 |
+
+We might write a Boolean expression to describe this as Y = <span style="text-decoration:overline">A</span> <span style="text-decoration:overline">B</span> + A B, or in the form `Y = 00 + 11`.
+
+
+
+
+
+## Task 201 - Modules and Files
+
+
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
 It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
 
