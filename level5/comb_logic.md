@@ -44,9 +44,9 @@ An HDL can be written in different styles, with different levels of abstraction 
 * **Dataflow modelling** is more abstracted, and describes logic by it's function using operators. We typically see the keyword `assign` and boolean expressions.
 * **Behavioural modelling** is the most abstracted, and describes logic at the functional and algorithmic level. We typically see the keyword `always` and is commonly used for (but not always) sequential logic.
 
-The more abstraction we use, the more we rely on the tools to synthesise our models in real hardware.
+The more abstraction we use, the more we rely on the tools to synthesise our models in real hardware. However, more abstracted HDL is often more concise, easier to write and clearer to understand.
 
-To start things more gently, we begin with **combination logic**. Combinational logic has no notion of a clock. There are inputs, and there are outputs. Each input produces a specific output. The only role that time plays is in the speed of the synthesised hardware, such as propagation delay. We call this an artefact (unwanted). Ideal hardware would ideally have no delay. With ideal hardware (pure logic), the output changes as soon as the input changes, and that output is entirely stable.
+To start things more gently, we begin with **combination logic**. Combinational logic has no notion of a clock. There are inputs, and there are outputs. Each input produces a specific output. The only role that time plays is in the speed of the synthesised hardware, such as propagation delay. We call such a delay an artefact (unwanted). Ideal hardware would ideally have no delay. With ideal hardware (pure logic), the output changes as soon as the input changes, and that output is entirely stable. In the absence of timing models, simulated hardware outputs change / update in zero time.
 
 Combinational logic can be defined with a **truth table**. For example:
 
@@ -59,12 +59,55 @@ Combinational logic can be defined with a **truth table**. For example:
 
 We might write a Boolean expression to describe this as Y = <span style="text-decoration:overline">A</span> <span style="text-decoration:overline">B</span> + A B, or in the form `Y = 00 + 11`.
 
+Let's now look at how we might model this circuit using different styles and levels of abstraction.
 
+## Task 201 - Gate Level Modelling
+Let's begin with the least abstracted model, gate level.
 
+| Task 201 | Gate Level |
+| - | - |
+| 1 | Open the Quartus project in Task-201 |
+| 2 | Open the schematic and double-lock the uop_nxor component to reveal the HDL |
+| - | Read the code and the comments carefully. |
+| 3 | Build the project. Quartus not only compiles the HDL, but it also synthesises it for a given FPGA device. We can see this more closely by using the Netlist Viewer  |
+| 4 | Click Tools-> Netlist Viewers -> RTL Viewer |
+| - | You should see an image similar to the one below.
 
+<figure>
+<img src="../img/circuit/xnor_rtl_view.png" width="400px">
+<figcaption>RTL View </figcaption>
+</figure>
 
-## Task 201 - Modules and Files
+| 5 | Click the + symbol to expand. You should see a circuit similar to the figure below |
+| - | - |
 
+<figure>
+<img src="../img/circuit/xnor_gate_view.png" width="600px">
+<figcaption>Gate Level View</figcaption>
+</figure>
+
+| 6 | Now contrast the figure below with the HLD (shown below)
+| - | - |
+| - | Note the similarities and differences |
+| - | You can also click on u3, u4 and u5 in the navigator |
+
+```verilog
+module uop_nxor(output wire Y, input wire A, input wire B);
+
+//Internal wires
+wire Ainv;
+wire Binv;
+wire term0;
+wire term3;
+
+//Place and connect gates
+not u1 (invA, A);
+not u2 (invB, B);
+and u3 (term0, invA, invB);
+and u4 (term3, A, B);
+or  u5 (Y, term0, term3);
+endmodule
+```
 
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
 It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
