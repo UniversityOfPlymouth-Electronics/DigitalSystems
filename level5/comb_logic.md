@@ -90,6 +90,7 @@ Let's begin with the least abstracted model, gate level.
 | - | - |
 | - | Note the similarities and differences |
 | - | You can also click on u3, u4 and u5 in the navigator |
+| Question | Where are `u1` and `u2`? |
 
 ```verilog
 module uop_nxor(output wire Y, input wire A, input wire B);
@@ -108,6 +109,61 @@ and u4 (term3, A, B);
 or  u5 (Y, term0, term3);
 endmodule
 ```
+
+You can see the very close relationship between the HDL and the synthesised hardware. This style of HDL is often called **structural** as it also describes the structure of the logic at a gate and wiring level. We say it is the *lowest level of abstraction*.
+
+> We will soon learn that **structural** HDL is used frequently for integrating other components into our design, including testing. However, most components (modules) themselves are not written with structural HDL as it is tedious and error prone.
+
+## Task 202 - Dataflow Modelling
+Structural HDL is lowest level of abstraction. The style with the next lowest is often called dataflow. 
+
+| Task 202 | DataFlow Level |
+| - | - |
+| 1 | Open the Quartus project in Task-202 |
+| 2 | Open the schematic and double-lock the uop_nxor component to reveal the HDL |
+| - | Read the code and the comments carefully. |
+| 3 | Build the project. |
+| 4 | Click Tools-> Netlist Viewers -> RTL Viewer. Expand again by clicking the + symbol |
+| - | Once again, you should see an image similar to the one below.
+
+<figure>
+<img src="../img/circuit/nor_dataflow_gate_view.png" width="600px">
+<figcaption>Gate Level View</figcaption>
+</figure>
+
+
+| 5 | Now contrast the figure below with the HLD (shown below)
+| - | - |
+| - | You can also click on `term0`, `term3` and `Y` in the navigator |
+| Question | What do `term0`, `term3` and `Y` represent? |
+
+```verilog
+module uop_nxor(output wire Y, input wire A, input wire B);
+
+//Internal wires
+wire term0;
+wire term3;
+
+//Continuous Assignment (order does not matter)
+assign Y = term0 | term3;
+assign term0 = ~A & ~B;
+assign term3 = A & B;
+
+endmodule
+```
+
+This style of SystemVerilog is known as **continuous assignment**. Instead of specifying which gates to include, and how to wire them, the HDL describes the logical relationships in terms of primitive operations. Note the operators are the same as the C programming language.
+
+
+
+
+** ******************HERE*************** **
+
+
+
+
+
+
 
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
 It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
