@@ -67,7 +67,7 @@ Let's begin with the least abstracted model, gate level.
 | Task 201 | Gate Level |
 | - | - |
 | 1 | Open the Quartus project in Task-201 |
-| 2 | Open the schematic and double-lock the uop_nxor component to reveal the HDL |
+| 2 | Open the schematic and double-click the uop_nxor component to reveal the HDL |
 | - | Read the code and the comments carefully. |
 | 3 | Build the project. Quartus not only compiles the HDL, but it also synthesises it for a given FPGA device. We can see this more closely by using the Netlist Viewer  |
 | 4 | Click Tools-> Netlist Viewers -> RTL Viewer |
@@ -112,15 +112,15 @@ endmodule
 
 You can see the very close relationship between the HDL and the synthesised hardware. This style of HDL is often called **structural** as it also describes the structure of the logic at a gate and wiring level. We say it is the *lowest level of abstraction*.
 
-> We will soon learn that **structural** HDL is used frequently for integrating other components into our design, including testing. However, most components (modules) themselves are not written with structural HDL as it is tedious and error prone.
+> We will soon learn that **structural** HDL is used frequently for integrating other components into our design, including testing. However, most components (modules) themselves are not written with structural HDL as it is slow and error prone.
 
 ## Task 202 - Dataflow Modelling
-Structural HDL is lowest level of abstraction. The style with the next lowest is often called dataflow. 
+Structural HDL is lowest level of abstraction. The next lowest is often called dataflow modelling. 
 
 | Task 202 | DataFlow Level |
 | - | - |
 | 1 | Open the Quartus project in Task-202 |
-| 2 | Open the schematic and double-lock the uop_nxor component to reveal the HDL |
+| 2 | Open the schematic and double-click the uop_nxor component to reveal the HDL |
 | - | Read the code and the comments carefully. |
 | 3 | Build the project. |
 | 4 | Click Tools-> Netlist Viewers -> RTL Viewer. Expand again by clicking the + symbol |
@@ -132,7 +132,7 @@ Structural HDL is lowest level of abstraction. The style with the next lowest is
 </figure>
 
 
-| 5 | Now contrast the figure below with the HLD (shown below)
+| 5 | Now contrast the figure below with the HDL (shown below)
 | - | - |
 | - | You can also click on `term0`, `term3` and `Y` in the navigator |
 | Question | What do `term0`, `term3` and `Y` represent? |
@@ -154,19 +154,63 @@ endmodule
 
 This style of SystemVerilog is known as **continuous assignment**. Instead of specifying which gates to include, and how to wire them, the HDL describes the logical relationships in terms of primitive operations. Note the operators are the same as the C programming language.
 
+> For a discussion on [SystemVerilog operators][SysVerilogOperators], see [[3](#references)].
+
+## Task 203 - Behavioural Modelling (preview)
+Behavioural HDL is the highest level of abstraction, and the one most commonly used.
+
+| Task 203 | Behavioural Level |
+| - | - |
+| 1 | Open the Quartus project in Task-203 |
+| 2 | Open the schematic and double-click the uop_nxor component to reveal the HDL |
+| - | Read the code and the comments carefully. |
+| 3 | Build the project. |
+| 4 | Click Tools-> Netlist Viewers -> RTL Viewer. Expand again by clicking the + symbol |
+| - | You should see an image similar to the one below.
+
+<figure>
+<img src="../img/circuit/nxor_behavioural_gate_view.png" width="600px">
+<figcaption>Gate Level View</figcaption>
+</figure>
 
 
-
-** ******************HERE*************** **
-
-
+| 5 | Now contrast the figure below with the HDL (shown below)
+| - | - |
 
 
+```verilog
+module uop_nxor(output reg Y, input wire A, input wire B);
 
+always @(A or B)
+begin
+	if (A == B)
+		Y = 1;
+	else
+		Y = 0;
+end		
 
+endmodule
+```
+
+**Question**: Would you have been able to predict the hardware synthesis from the HDL?
+
+This is written with a **behavioural** style. Note the inclusion of the [verilog][verilog] `always` statement. Much more will be said about this later. For now, you should concentrate on the HDL inside this block:
+
+You will observe HDL that looks very similar to the C programming language. **Remember - there is no CPU being used**. 
+
+* The semantics are very similar to C, but the way it is compiled and synthesised is very different.
+* Like C, the **behaviour** is described sequentially. Unlike C, it is (efficiently) synthesised with combinational logic.
+
+> Key Point: As we will learn, behavioural HDL is written in a style where the order of statements is important. However, once again, I want to stress that this is **not** a programming language (there is no CPU!). 
+>
+> *Behavioural-style HDL is simply a means by which an engineer expresses and defines the required behaviour of hardware through sequential statements*. The compiler and synthesis tools do the magic and turn this into hardware. It may be combinational logic, or sequential.
+
+It is hard to predict how behavioural logic will be synthesised. In this case, the sequential code inside the `always` block resulted in combinational logic. It can also be used to model sequential logic. This can be a little ambiguous and results in accidental latching etc. [SystemVerilog][SysVerilog] has improvements over [Verilog][Verilog] in this regard.
+
+Later in this course we will take a much closer look at behavioural HDL and `always` blocks.
 
 ## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
-It is interesting to see how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
+Quartus provides a facility to create structural designs using schematic capture. As an interesting exercise, we can investigate how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
 
 > First, [watch this video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7b6372d5-a7c2-418d-b3d7-ad9f00e714c4).
 > 
@@ -274,6 +318,8 @@ input wire	KEY1;
 output wire	LED0;
 ```
 
+Note how a slightly different syntax is used to previous examples.
+
 The wires `KEY0, KEY1` and `LED0` are the input and output signals to the `comb_logic` component, as presented to the outside world. The "type" is `wire` (other types exist in SystemVerilog as we will discover). Another way to write this is as follows:
 
 ```verilog
@@ -298,18 +344,18 @@ Although all these styles are equivalent, being overly concise can become ambigu
 module comb_logic(output wire LED0, input wire KEY0, input wire KEY1);
 ```
 
-In this convention, the outputs are listed first, and every input / output has a type. It is still more concise than the example above.
+In this convention, the *outputs are listed first*, and *every input / output has a type*. It is clear while still being more concise than the first example.
 
 > **Note the following:**
 >
-> It is very helpful is HDL is written in a style that is unambiguous, but without being too verbose. Not only is it easier to understand, it is also easier to spot errors (bugs). As we will discover, SystemVerilog contains language constructs that help some of the common issues found in it's predecessor, Verilog.
+> It is very helpful if HDL is written in a style that is unambiguous, but without being too verbose. Not only is it easier to understand, it is also easier to spot errors (bugs). As we will discover, SystemVerilog contains language constructs that help some of the common issues found in it's predecessor (and subset), Verilog.
 
 The convention used in this course is as follows:
 
 * The outputs are listed first
 * All inputs and outputs are explicitly declared as an `input` or `output`
 * All input and output **types** are explicitly declared (type `wire` in this case)
-* For assessment purposes, you may be asked to confirm to this convention
+* For assessment purposes, you may be asked to conform to this convention
 * Third party components may deviate from this
 
 | 6 | Add the verilog file to your project |
@@ -335,7 +381,7 @@ The convention used in this course is as follows:
 
 The simulation output should confirm this as an XOR gate (as shown above and in the video).
 
-The internal logic is defined in the lines shown below. Each assignment described a logic relationship that will ultimately be synthesised in hardware.
+The internal logic is defined in the lines shown below. Each assignment describes a logic relationship that will ultimately be synthesised in hardware. In this case it is possible to infer the structure.
 
 ```verilog
 assign	SYNTHESIZED_WIRE_3 = SYNTHESIZED_WIRE_0 & KEY1;
@@ -349,20 +395,24 @@ assign	SYNTHESIZED_WIRE_1 =  ~KEY1;
 | - | - |
 | - | Change the order of the lines and show that the logic of the component is unchanged. |
 | - | Use ModelSim to confirm your result |  
+| - | Use the Quartus Netlist Viewer to confirm the synthesis is as expected |
+
 
 ## Task 207 - Schematics and gate-models
 
 In the previous task, when we exported a schematic in Quartus, the tools chose to exclusively use *continuous assignment* (`assign`).  This would seem to make intuitive sense as all the logic in the schematic was limited to simple primitive operations (AND, OR, NOT). 
 
-Such gates are pre-synthesised in the macro-cells of the FPGA, so it is not difficult to envisage how this might be synthesised in practise. However, I say *envisage* because we did not specify this - the decision was made by the development tools. The tools could equally implement the exact same logic using *gate models*.
+Such gates are pre-synthesised in the macro-cells of the FPGA, so it is not difficult to envisage how this might be synthesised in practice. However, I say *envisage* because we did not specify this - the decision was made by the development tools. The tools could equally implement the exact same logic using *gate models*.
 
-> * *continuous assignment* is somewhat *abstracted* from the physical hardware. It describes logical relationships, but not the gates as such (although the relationship may be apparent). 
+Again, we remind ourselves about the two lowest-level styles of SystemVerilog:
+
+> * *continuous assignment* is somewhat *abstracted* from the physical hardware. It describes logical relationships, but not the gates as such (although the relationship may be apparent). This is sometimes called the dataflow style.
 >
-> * *gate models* are a literal description of which hardware to use and how it should be connected. It can be considered a one-to-one mapping of HDL onto hardware.
+> * *gate models* are a low-level description of which hardware to use and how it should be connected. It can be considered a one-to-one mapping of HDL onto hardware.
 
-> All circuits could ultimately be built with either style, or a combination of the two. As we will see later however, there are other ways to specify behaviour of logic systems that are even more abstracted (and convenient!)
+> All circuits could ultimately be built with either style, or a combination of the two. As we will cover later however, behavioural styles are much more expressive and concise, but we need to be careful as it is so abstracted from the hardware, subtle mistakes can be made.
 
-*Gate models* are important as they allow us to "place and connect" other components to wires in our design. This is illustrated in the next task.
+In practise, a mix of styles can be used. For example, *gate models* are important as they allow us to "place and connect" other components. This is illustrated in the next task.
 
 | Task | - |
 |--- |---|
@@ -450,8 +500,20 @@ From the exercises in the previous two tasks, there are some key points:
 
 ## References
 
-1. Zwolonski M., Digital System Design with SystemVerilog., Prentice Hall, 2021
-2. EDA Playground., https://www.edaplayground.com/, accessed 10 September 2021
+[1] Zwolonski M., Digital System Design with SystemVerilog., Prentice Hall, 2021
 
- 
+[2] EDA Playground., https://www.edaplayground.com/, accessed 10 September 2021
 
+[3] An introduction to SystemVerilog Operators., https://www.fpgatutorial.com/systemverilog-operators/, accessed 25 September 2021
+
+[4] SystemVerilog (Wikipedia page), https://en.wikipedia.org/wiki/SystemVerilog, accessed 25 September 2021
+
+[5] Verilog (Wikipedia Page), https://en.wikipedia.org/wiki/Verilog, accessed 25 September 2021
+
+[EDAPlayground]: https://www.edaplayground.com/
+
+[SysVerilogOperators]: https://www.fpgatutorial.com/systemverilog-operators/
+
+[Verilog]:   https://en.wikipedia.org/wiki/Verilog
+
+[SysVerilog]: https://en.wikipedia.org/wiki/SystemVerilog

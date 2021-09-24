@@ -1,3 +1,4 @@
+[//]: # (This comment won't be rendered to the visitor!)
 
 # For Authors
 
@@ -51,4 +52,21 @@ You have more control with `figure`
 ## LaTeX
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+
+
+# Citations
+You can cite using the name [SystemVerilog][SysVerilog] and like this [[1]].
+
+# References
+
+[1]: https://en.wikipedia.org/wiki/SystemVerilog
+[[1]] SystemVerilog (Wikipedia)., https://en.wikipedia.org/wiki/SystemVerilog, accessed 2021
+
+
+[//]: # (Hidden references)
+
+[Verilog]:   https://en.wikipedia.org/wiki/Verilog
+
+[SysVerilog]: https://en.wikipedia.org/wiki/SystemVerilog
+
 
