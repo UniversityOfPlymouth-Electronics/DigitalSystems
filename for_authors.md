@@ -12,6 +12,10 @@ You can use HTML codes to create simple equations and formatting.
 
 _Note the semi-colon on the end._
 
+Overline is possible
+
+Y = <span style="text-decoration:overline">A</span> <span style="text-decoration:overline">B</span> + A B, or in the form `Y = 00 + 11`.
+
 [Markdown Syntax from GitHub](https://guides.github.com/features/mastering-markdown/)
 
 Also:

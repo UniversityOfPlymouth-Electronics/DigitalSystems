@@ -8,6 +8,23 @@ In this section, we will begin our exploration of the SystemVerilog language by 
 
 This practical session is designed to be standalone. However, chapter 3 in [1] will compliment it as supplementary reading.
 
+| TABLE OF CONTENTS |
+| - |
+[Intended Leaning Outcomes](#Intended-Learning-Outcomes)
+[HDLs and Programming Languages](#HDLs-and-Programming-Languages)
+[Task 201: Gate Level Modelling](#Task-201:-Gate-Level-Modelling)
+[Task 202: Dataflow Modelling](#Task-202:-Dataflow-Modelling)
+[Task 203: Behavioural Modelling](#Task-203:-Behavioural-Modelling)
+[TASK 204: Logic Levels](#Task-204:-Logic-Values)
+[Modelling Delays](#Modelling-Delays)
+[Parameters](#Parameters)
+[Task 206: Converting a schematic to a Hardware Definition Language](#Task-206:-Converting-a-schematic-to-a-Hardware-Definition-Language)
+[Task 207: Schematics and gate models](#Task-207:-Schematics-and-gate-models)
+[Task 209: Introduction to Testbenches](#Task-209:-Introduction-to-Testbenches)
+[Challenges](#Challenges)
+[Reflection](#Reflection)
+[References](#References)
+
 ## Intended Learning Outcomes
 
 By the end of this section, you should be able to:
@@ -21,7 +38,7 @@ By the end of this section, you should be able to:
 * Use ModelSim to interactively debug a component using modelled delay parameters
 * Create a simple testbench to automate the testing of a combinational logic component
 
-## HDLs and Programming Languages are NOT the same
+## HDLs and Programming Languages
 A hardware description language (HDL) such as SystemVerilog, is precisely what it says: a language that describes hardware. It is a language can define the connection of primitive logic components, or at the more abstract level, logical behaviours (such as performing boolean algebra, arithmetic or storage). Ultimately, the output of an HDL is a netlist of interconnected logic components, such as AND, OR and NOT gates. For an HDL, **there is no CPU** - the nearest equivalent is an FPGA, which is an a large collection of pre-synthesised macrocells, containing logic primitives (such as AND, OR, NOT and Latches). The HDL specifies how these gates are connected, thus forming bespoke hardware.
 
 > The output of an HDL is ultimately a netlist of gates and interconnects. The conceptual equivalent is a schematic drawing of gates and wires, and not a programming language.
@@ -61,7 +78,7 @@ We might write a Boolean expression to describe this as Y = <span style="text-de
 
 Let's now look at how we might model this circuit using different styles and levels of abstraction.
 
-## Task 201 - Gate Level Modelling
+## Task 201: Gate Level Modelling
 Let's begin with the least abstracted model, gate level.
 
 | Task 201 | Gate Level |
@@ -110,12 +127,14 @@ or  u5 (Y, term0, term3);
 endmodule
 ```
 
-You can see the very close relationship between the HDL and the synthesised hardware. This style of HDL is often called **structural** as it also describes the structure of the logic at a gate and wiring level. We say it is the *lowest level of abstraction*.
+You can see the very close relationship between the HDL and the synthesised hardware netlist (prior to place and route). This style of HDL is often called **structural** as it also describes the structure of the logic at a gate and wiring level. We say it is the *lowest level of abstraction*. 
+
+To be precise, this is not strictly the final hardware. The actual final physical synthesis will depend on placement and routing for the particular device being targeted (FPGA or ASIC).
 
 > We will soon learn that **structural** HDL is used frequently for integrating other components into our design, including testing. However, most components (modules) themselves are not written with structural HDL as it is slow and error prone.
 
-## Task 202 - Dataflow Modelling
-Structural HDL is lowest level of abstraction. The next lowest is often called dataflow modelling. 
+## Task 202: Dataflow Modelling
+Structural HDL is lowest level of abstraction we can describe hardware. The next lowest is often called dataflow modelling.
 
 | Task 202 | DataFlow Level |
 | - | - |
@@ -156,7 +175,10 @@ This style of SystemVerilog is known as **continuous assignment**. Instead of sp
 
 > For a discussion on [SystemVerilog operators][SysVerilogOperators], see [[3](#references)].
 
-## Task 203 - Behavioural Modelling (preview)
+Some of the operators [are listed here](Operators.md)
+
+
+## Task 203: Behavioural Modelling
 Behavioural HDL is the highest level of abstraction, and the one most commonly used.
 
 | Task 203 | Behavioural Level |
@@ -207,9 +229,168 @@ You will observe HDL that looks very similar to the C programming language. **Re
 
 It is hard to predict how behavioural logic will be synthesised. In this case, the sequential code inside the `always` block resulted in combinational logic. It can also be used to model sequential logic. This can be a little ambiguous and results in accidental latching etc. [SystemVerilog][SysVerilog] has improvements over [Verilog][Verilog] in this regard.
 
-Later in this course we will take a much closer look at behavioural HDL and `always` blocks.
+Note also that the output `Y` is not a wire, but a [Verilog][Verilog] `reg`. You cannot write to a wire from within an `always` block. Although the name `reg` suggests register, in *this* case, there are no registers (it is all combinational logic). This is understandably a common source of confusion, and is partly why [SystemVerilog][SysVerilog] introduced `logic` type. 
 
-## Task 206 - Converting a schematic to a Hardware Definition Language (HDL)
+> Confused? Absolutely! This can be very confusing, but you need to know the rules of all three {`wire`,`reg`,`logic`} as you will see them time and time again. Later in this course we will take a much closer look at behavioural HDL and `always` blocks, where all this will be discussed in more detail.
+
+## Task 204: Logic Values
+So far, we have only considered combinational logic where the logic levels were `1` or `0` (true and false). SystemVerilog actually supports 4 possible values:
+
+* Strong LOW: `0` 
+* Strong HIGH: `1`
+* High Impedance: `z` or `?`
+* Unknown `x`
+
+To help you understand the purpose of these 4 states, **watch the following video**:
+
+[VIDEO: Understanding the 4 logic levels in SystemVerilog](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e937e15c-1541-4bc7-b13c-adb000fcd798)
+
+| TASK 204 | Logic Levels |
+| - | - |
+| 1 | Open Task204 in Quartus, build and simulate with ModelSim |
+| 2 | Simulate the component, again adding the signals to a waveform as shown in the video |
+| 3 | Set all inputs LOW as shown in the video |
+| 4 | This time, keeping OE LOW, set LE to a 1, simulate for 100ps, then pull LE back to 0 and simulate for another 100ps |
+| - | Was there any change in the output? Explain |
+| 5 | Now set OE HIGH and simulate for another 100ps |
+| - | Again, was there any change in the output? Explain |
+
+In this task, the difference was that output `Y` had been defined before it was enabled. This avoided the 'x' output level as signified by a red trace.
+
+There is more we could say about the `x` (or `?`) levels, but we can defer that to later in the course.
+
+If we use Quartus to inspect the Netlist, we see the following:
+
+<figure>
+<img src="../img/circuit/dlatch_gate_view.png" width="600px">
+<figcaption>RTL View of the D-Latch, showing the D-Latch connected to a tri-state buffer</figcaption>
+</figure>
+
+Now contrast this with the HDL below:
+
+```verilog
+module uop_dlatch(
+	output reg Y, 	//Output
+	input wire A, 	//Data input
+	input wire LE, 	//Latch Enable
+	input wire OE	//Output Enable
+);
+
+//D-Latch, written using Verilog (we will look at SystemVerilog improvements later)
+
+reg yy;				//Note this is type reg
+
+//Continuous Assignment
+assign Y = OE ? yy : 1'bz;	// Y is High Impendence is OE == 0
+
+//Behavioural HDL
+always @(A, LE)			// Update if A or LE change
+begin
+	if (LE == 1'b1)		// Set yy to A if LE is equal to 1, otherwise latch (stay unchanged)
+		yy <= A;
+end
+
+endmodule
+```
+
+This is a mixture of dataflow style HDL and behavioural. For the logic related to the output enable `OE`, continuous assignment is used as follows:
+
+```verilog
+assign Y = OE ? yy : 1'bz;	// Y is High Impedance is OE == 0
+```
+
+where `yy` is internal signal of type `reg` (register). For the behavioural HDL, we see the `always` block and a *sensitivity list* `(A, LE)`:
+
+```verilog
+always @(A, LE)			// Update if A or LE change
+begin
+	if (LE == 1'b1)		// Set yy to A if LE is equal to 1, otherwise latch (stay unchanged)
+		yy <= A;
+end
+```
+
+In words, this can be translated as:
+
+> if either `A` or `LE` change (sensitivity list), then conditionally update `yy`; if the `LE` input is equal to the single bit binary value of `1` ( `1'b1`), then assign `yy` to the value in `A`, otherwise continue to latch the previous value.
+
+**Note** that `yy` cannot be a `wire` type as it is assigned in an `always` block.
+
+If this is confusing, do not be surprised as we have not discussed sequential logic yet. What is important to note is how the `@always` block is used to *describe the behaviour*, and it is the tools that convert this to a netlist of components (where it can be synthesised). We say such HDL is abstracted from the hardware.
+
+## Modelling Delays
+So far, we have looked at HDL with no consideration for delays. SystemVerilog gives us a facility to add delays to signals. These delays will be ignored for synthesis, but are useful for simulation purposes.
+
+Instead of writing the following:
+
+```verilog
+not u1 (invA, A);
+```
+
+we could write
+
+```verilog
+not #(10ps) u1 (invA, A);
+```
+
+This would delay changes in the output `invA` by 10ps after the input `A` changes.
+
+Similarly, for continuous assignment, instead of the following:
+
+```verilog
+assign intV = ~A;
+```
+
+we could write:
+
+```verilog
+assign #(10ps) invA = ~A;
+```
+
+Where we see the `#` suggests a *parameter*. 
+
+## Parameters
+Sometimes we want different variants of the same module. For example, we might want one that models propagation delay, and one that does not. We can use a parameter to pass in a value at build time so it can be customised.
+
+Consider the example below:
+
+```verilog
+module uop_nxor #(parameter delay=10ps) (output wire Y, input wire A, input wire B);
+
+//Internal wires
+wire term0;
+wire term3;
+
+//Continuous Assignment (order does not matter)
+assign #delay Y = term0 | term3;
+assign term0 = ~A & ~B;
+assign term3 = A & B;
+
+endmodule
+```
+
+Note the inclusion of the parameter `delay` in the module declaration:
+
+```verilog
+module uop_nxor #(parameter delay=10ps) (output wire Y, input wire A, input wire B);
+```
+
+This value is then referenced in the body of the module as follows:
+
+```verilog
+assign #delay Y = term0 | term3;
+```
+
+The value of `delay` can be changed *for each instance* of the component `uop_xnor`. If no parameter is specified, then a default of `10ps` will be used.
+
+For example, to use the component above in another design, we might write:
+
+```verilog
+uop_xnor #(50ps) u1 (yy, aa, bb);
+```
+
+Adding parameters and delays will also be useful when we come to perform testing as we will see later.
+
+## Task 206: Converting a schematic to a Hardware Definition Language
 Quartus provides a facility to create structural designs using schematic capture. As an interesting exercise, we can investigate how Quartus schematics are converted to an HDL. Not only is it useful when performing simulations, but it also provides some insight.
 
 > First, [watch this video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7b6372d5-a7c2-418d-b3d7-ad9f00e714c4).
@@ -397,8 +578,7 @@ assign	SYNTHESIZED_WIRE_1 =  ~KEY1;
 | - | Use ModelSim to confirm your result |  
 | - | Use the Quartus Netlist Viewer to confirm the synthesis is as expected |
 
-
-## Task 207 - Schematics and gate-models
+## Task 207: Schematics and gate models
 
 In the previous task, when we exported a schematic in Quartus, the tools chose to exclusively use *continuous assignment* (`assign`).  This would seem to make intuitive sense as all the logic in the schematic was limited to simple primitive operations (AND, OR, NOT). 
 
@@ -408,11 +588,11 @@ Again, we remind ourselves about the two lowest-level styles of SystemVerilog:
 
 > * *continuous assignment* is somewhat *abstracted* from the physical hardware. It describes logical relationships, but not the gates as such (although the relationship may be apparent). This is sometimes called the dataflow style.
 >
-> * *gate models* are a low-level description of which hardware to use and how it should be connected. It can be considered a one-to-one mapping of HDL onto hardware.
+> * *gate models* are a low-level description of which hardware to use and how it should be connected. It ia the closest to a one-to-one mapping of HDL onto hardware.
 
-> All circuits could ultimately be built with either style, or a combination of the two. As we will cover later however, behavioural styles are much more expressive and concise, but we need to be careful as it is so abstracted from the hardware, subtle mistakes can be made.
+> All circuits could ultimately be built with either style, or a combination of the two. As we will cover later however, behavioural styles are much more expressive and concise, but we need to be careful. Because it is so abstracted from the hardware, subtle mistakes and inefficiencies can be made.
 
-In practise, a mix of styles can be used. For example, *gate models* are important as they allow us to "place and connect" other components. This is illustrated in the next task.
+In practise, a mix of styles can be used. For example, *gate models* are important as they allow us to "place and connect" other components within a larger design. This is illustrated in the next task.
 
 | Task | - |
 |--- |---|
@@ -426,7 +606,7 @@ In practise, a mix of styles can be used. For example, *gate models* are importa
 <figcaption>Circuit that embeds another (multiplexer)</figcaption>
 </figure>
 
-| 3 | Right-click the mux21 component and choose "Open Design File" |
+| 3 | Right-click the `mux21` component and choose "Open Design File" |
 | - | - |
 | - | You should observe the following Verilog file opens |
 
@@ -438,6 +618,8 @@ module mux21( output wire Y, input wire [1:0] D, input wire sel);
 	
 endmodule
 ```
+
+Notice the input `D` is no longer a single wire, but 2 wires (bits 1 down to 0) written as `D[1:0]`. 
 
 Make a note of the names of the inputs and outputs (you can also see them on the schematic). The top level schematic contains a single *instance* of the `mux21` component. The definition for this component is in `mux21.sv`.
 
@@ -491,6 +673,22 @@ Note the following:
 
 You can have multiple instances of a component, but each must have a unique instance name.
 
+## Task 209: Introduction to Testbenches
+Testing during the development of HDL components is absolutely essential. No component you write has any value until there is evidence of correct functionality.
+
+So far, we have tested logic components using ModelSim interactively. This is useful for exploration, but can easily become tedious and slow down development. It is certainly not the way we should proceed when we begin formal testing and quality assurance.
+
+It is very common practise to automate testing by writing what is referred to as a **Testbench**. Interesting, it is usual to create a testbench using more HDL.
+
+Let us look at an example that illustrates the concept.
+
+[**TODO**]
+
+## Challenges
+Here are some challenges for you to try to re-enforce the content in this section.
+
+[**TODO**]
+
 ## Reflection
 From the exercises in the previous two tasks, there are some key points:
 
@@ -498,17 +696,11 @@ From the exercises in the previous two tasks, there are some key points:
 * This is typically continuous assignment or a netlist of gate models. 
 * Components (usually written with a HDL ) can be instantiated and connected.
 
+[**TODO**]
+
 ## References
 
-[1] Zwolonski M., Digital System Design with SystemVerilog., Prentice Hall, 2021
-
-[2] EDA Playground., https://www.edaplayground.com/, accessed 10 September 2021
-
-[3] An introduction to SystemVerilog Operators., https://www.fpgatutorial.com/systemverilog-operators/, accessed 25 September 2021
-
-[4] SystemVerilog (Wikipedia page), https://en.wikipedia.org/wiki/SystemVerilog, accessed 25 September 2021
-
-[5] Verilog (Wikipedia Page), https://en.wikipedia.org/wiki/Verilog, accessed 25 September 2021
+See [References](references.md) for a list of numbered references in this course.
 
 [EDAPlayground]: https://www.edaplayground.com/
 
