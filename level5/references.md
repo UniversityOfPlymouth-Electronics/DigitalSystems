@@ -13,3 +13,4 @@
 
 [6] SystemVerilog., https://www.asic-world.com/systemverilog, accessed 27 September 2021
 
+[7] https://www.systemverilog.io/, accessed 29 September 2021
