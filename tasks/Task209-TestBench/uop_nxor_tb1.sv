@@ -1,4 +1,4 @@
-module uop_nxor_tb;
+module uop_nxor_tb1;
 
 //Internal wires
 reg aa;
