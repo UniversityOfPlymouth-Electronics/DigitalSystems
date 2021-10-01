@@ -9,7 +9,4 @@ assign Y = term0 | term3;
 assign term0 = ~A & ~B;
 assign term3 = A & B;
 
-//TASK - can you remove term0 and term3 and write everthing on one line?
-
-
 endmodule

@@ -24,12 +24,20 @@ begin
    $display("DONE");
    #50ps;
 
-   assign {aa,bb} = mt;
+	//Now using another style
+   assign {aa,bb} = mt;		//Any change to mt will have an immediate effect on aa and bb
 	
 	mt = 0;
    #50ps assert (yy==1) $display("Passed %b", mt); else $error("Failed for %b", mt);
+	mt = 1;
+   #50ps assert (yy==0) $display("Passed %b", mt); else $error("Failed for %b", mt);
+   mt = 2;
+	#50ps assert (yy==0) $display("Passed %b", mt); else $error("Failed for %b", mt);
+   mt = 3;	
+	#50ps assert (yy==1) $display("Passed %b", mt); else $error("Failed for %b", mt);
 
-	#100ps;
+	#50ps;
+
 
 end
 
