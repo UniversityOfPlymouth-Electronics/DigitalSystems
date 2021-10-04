@@ -1,5 +1,12 @@
-module uop_nxor_tb2;
+// ----------------------------------
+// Test bench for the uop_nxor module
+// ----------------------------------
+//
+// --------------------------------------------------
+// Note the testbench module has no inputs or outputs
+// --------------------------------------------------
 
+module uop_nxor_tb2;
 
 //Internal wires
 reg aa;
@@ -9,7 +16,6 @@ reg yy;
 //structural
 uop_nxor u1 (yy, aa, bb);
 
-//Here we go!
 initial
 begin
 

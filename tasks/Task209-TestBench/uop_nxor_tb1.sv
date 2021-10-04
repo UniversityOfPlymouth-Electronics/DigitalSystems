@@ -13,7 +13,7 @@ reg aa;
 reg bb;
 reg yy;
 
-//instantiale a xnor gate using a structural style
+//Instantiate a xnor gate using a structural style
 uop_nxor u1 (yy, aa, bb);
 
 // Note how the signals yy, aa and bb are connected to the output and inputs of u1
@@ -40,6 +40,7 @@ begin
    bb = 1'b1;
    #50ps;
    $display("DONE");	// Similar to printf.
+
 
 end
 

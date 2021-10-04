@@ -33,7 +33,8 @@ By the end of this section, you should be able to:
 * Use _continuous assignment_ to establish logical relationships between points in a circuit
 * Build a circuit 'Netlist' from basic gates (convert schematics to text)
 * Contrast and apply bit-wise logical operators for building logic functions
-* Contrast and use the different supported signal states `1`, `0`, `X`, `?`, `Z`  
+* Contrast and use the different supported signal states `1`, `0`, `X`, `?`, `Z`
+* Use concatination operators  
 * Write components with appropriate commenting and structure
 * Use ModelSim to interactively debug a component using modelled delay parameters
 * Create a simple testbench to automate the testing of a combinational logic component
@@ -679,10 +680,202 @@ Testing during the development of HDL components is absolutely essential. No com
 So far, we have tested logic components using ModelSim interactively. This is useful for exploration, but can easily become tedious and slow down development. It is certainly not the way we should proceed when we begin formal testing and quality assurance.
 
 It is very common practise to automate testing by writing what is referred to as a **Testbench**. Interesting, it is usual to create a testbench using more HDL.
-
 Let us look at an example that illustrates the concept.
 
-[**TODO**]
+The **component under test** is our now-familiar xnor gate `uop_nxor.sv`:
+
+```verilog
+module uop_nxor (output wire Y, input wire A, input wire B);
+
+//Internal wires
+wire term0;
+wire term3;
+
+//Continuous Assignment (order does not matter)
+assign Y = term0 | term3;
+assign term0 = ~A & ~B;
+assign term3 = A & B;
+
+endmodule
+```
+
+We could now create another SystemVerilog file, `uop_nxor_tb1.sv` to create an instance of `uop_nxor` and **exhaustively test** it. 
+
+| Task 209 | Testbench |
+|--- |---|
+| 1 | Open the Quartus project `Task209-TestBench` and build the project|
+| 2 | Launch ModelSim by selecting Tools->Run Simulation Tool->RTL Simulation |
+| 3 | In the `work` library, right-click `uop_nxor_tb1` and click Edit |
+| - | Read the code and comments carefully. |
+| 4 | Now run a simulation and view all signals on the waveform |
+
+Note how the testbench generates all the input stimuli for you using SystemVerilog. So yes, *we are using Systemverilog to test Systemverilog*. In this example, you still need to inspect the waveform to confirm correction functionality. Later we will see how we can automate much of the testing.
+
+The testbench code is shown below. 
+
+```verilog
+// Testbench has no inputs or outputs
+module uop_nxor_tb1;
+
+//Internal signals
+reg aa;
+reg bb;
+reg yy;
+
+//Instantiate a xnor gate using a structural style
+uop_nxor u1 (yy, aa, bb);
+
+// Note how the signals yy, aa and bb are connected to the output and inputs of u1
+
+// *********************************
+// This HDL works in simulation only
+// *********************************
+
+initial	//Similar to always block, starting at time t=0 (use for sim only)
+begin
+
+	//Stimulate the aa and bb signals and manually observe the change in yy
+
+   aa = 1'b0;	// 1'b0 => 1 bit wide, binary, value 0
+   bb = 1'b0;
+   #50ps;		// Simulate 50ps delay
+   aa = 1'b0;
+   bb = 1'b1;	// 1'b1 => 1 bit wide, binary, value 1
+   #50ps;
+   aa = 1'b1;
+   bb = 1'b0;
+   #50ps;
+   aa = 1'b1;
+   bb = 1'b1;
+   #50ps;
+   $display("DONE");	// Similar to printf.
+
+end
+
+endmodule
+```
+
+### Unit Under Test
+Our objective is to test a component to prove it is functionally correct. The physical analogy of a testbench is as follows:
+
+* Place the component to be tested
+* Connect wires to the inputs and outputs
+* Stimulate the input wires 
+* Check the output wires
+
+When we *place* a component, we say we *instantiate* it. You can have multiple *instances* of a component. Each has a label, just as you would on a schematic. This is one of the occasions where structural (gate level) HDL is needed:
+
+```verilog
+uop_nxor u1 (yy, aa, bb);
+```
+
+`uop_nxor` is the gate type (name of another module); `u1` us the instance label; `(yy, aa, bb)` connects the test wires.
+
+### Initial Block
+Next, we see the `initial` block, along with `begin` and `end` delimiters. Like `always`,  code between the delimiters is **procedural** (i.e. the sequence matters). The approach is then to apply changes to the `aa` and `bb` signals, **allow some time to pass**, then observe the output signal `yy`.
+
+```verilog
+   aa = 1'b0;	// 1'b0 => 1 bit wide, binary, value 0
+   bb = 1'b0;
+   #50ps;		// Simulate 50ps delay
+```
+
+It is important to understand that changing a signal has no immediate effect. Whether real or simulated, time must be allowed to pass for changes to take effect. In the case of simulation, this is a very small time quantum.
+
+Note how delays are implemented:
+
+```verilog
+#50ps;
+```
+
+You can also write a delay as part of a statement, such as:
+
+```verilog
+#50ps $display("DONE");
+```
+
+Without delays, there is no time to see the consequence of any actions. `$display` is a *system function* that performs similar tasks to the well-known `printf` in C and C++. 
+
+Also note that you cannot modify a `wire` within a procedural block. It must be type `reg` or (in SystemVerilog) `logic`.
+
+### Numeric Literals
+You may have observed that `aa=1'b1` was written instead of writing the shorter form `aa=1`. Both are valid in this case, but sometimes it is important to be more explicit.
+
+The format is:
+```
+<size>'<signed><radix>value
+```
+
+Items in \<angle brackets\> are optional
+
+`size` is the number of bits. The default is 32 bits 
+
+`<signed>` is `s` or `S` to indicate signed values. The default is unsigned.
+
+`radix` is one of the following: 
+
+* **b** - Binary
+* **d** - Decimal (default)
+* **h** - Hexadecimal
+* **o** - Octal
+
+So for example:
+
+* `4'b1010` is a 4-bit value, specified in binary with the value `1010`
+* `4'b10` is a 4-bit value, specified in binary with the value `0010`
+* `8'd7`  is `00000111` in binary
+* `8'h1F` is `00011111` in binary
+
+You can also add spaces to binary numbers to make them more readable:
+
+```verilog
+$display("%x", 12'b 1010_1111_0001);
+```
+
+would display `AF1`.
+
+| 5 | Edit the testbench `uop_nxor_tb2`  |
+|- |-|
+| - | Note how concatination is used to make the HDL more concise |
+
+Concatination can be used on either side of an assignment. For example:
+
+```verilog
+{aa,bb} = 2'b01;
+```
+
+`aa` is set to 0 and `bb` is set to 1. `{aa,bb}` is 2 bits wide, with `aa` as the most significant bit.
+
+| 6 | Edit the testbench `uop_nxor_tb3`  |
+|- |-|
+| - | Note again how concatination is used to make the HDL more concise |
+
+In this example, a new 2-bit signal is created:
+
+```verilog
+reg [1:0] mt;
+```
+
+Note the square brackets to determin the range of bits (left to right, from bit 1 to 0). Then *inside* the initial block, the following continuous assignment is made:
+
+```verilog
+assign {aa,bb} = mt;	
+```
+
+Now any change to `mt` will immediately change `aa` and `bb`. This allows the mintern to be expressed in decimal (e.g. `mt = 3`).
+
+| 7 | Finally, edit the testbench `uop_nxor_tb4`  |
+|- |-|
+| - | Read the comments and note the assert command |
+| 8 | Build and run this testbench |
+| 9 | Now to demonstrate the use of this, edit the component and add an error on purpose |
+| - | Edit `uop_nxor.sv` |
+| - | For `term0`, delete one of the not operators `~` | 
+| - | Recompile and test with the testbench `uop_nxor_tb4`|
+| - | Note the error messages |
+
+
+Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
 ## Challenges
 Here are some challenges for you to try to re-enforce the content in this section.
@@ -690,7 +883,7 @@ Here are some challenges for you to try to re-enforce the content in this sectio
 [**TODO**]
 
 ## Reflection
-From the exercises in the previous two tasks, there are some key points:
+From the exercises in the previous tasks, there are some key points:
 
 * A schematic can easily be converted to HDL. 
 * This is typically continuous assignment or a netlist of gate models. 
