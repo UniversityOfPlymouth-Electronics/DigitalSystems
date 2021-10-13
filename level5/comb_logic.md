@@ -880,7 +880,39 @@ Here we see the all-important `assert` command being used. Note how error messag
 ## Challenges
 Here are some challenges for you to try to re-enforce the content in this section.
 
-[**TODO**]
+**1** Create a systemverilog module to implement the following combinational logic using continuous assignment (dataflow style). Do not attempt to simplify the logic.
+
+| A | B | C | | Y |
+| - | - | - | - | - |
+| 0 | 0 | 0 | | 0 |
+| 0 | 0 | 1 | | 0 |
+| 0 | 1 | 0 | | 1 |
+| 0 | 1 | 1 | | 1 |
+| 1 | 0 | 0 | | 1 |
+| 1 | 0 | 1 | | 1 |
+| 1 | 1 | 0 | | 0 |
+| 1 | 1 | 1 | | 0 |
+
+**2** Create a testbench to exhaustively test (1). Show the results on a waveform.
+
+**3** Create a systemverilog module to implement the following combinational logic using gate level HDL. Do not attempt to simplify the logic.
+
+| A | B | C | | Y |
+| - | - | - | - | - |
+| 0 | 0 | 0 | | 0 |
+| 0 | 0 | 1 | | 0 |
+| 0 | 1 | 0 | | 1 |
+| 0 | 1 | 1 | | 0 |
+| 1 | 0 | 0 | | 0 |
+| 1 | 0 | 1 | | 1 |
+| 1 | 1 | 0 | | 0 |
+| 1 | 1 | 1 | | 0 |
+
+**4** Create a testbench to exhaustively test (3). Use the assert command to automatically test the output.
+
+**5** Add 10ps delay to the output of each gate used in (3). Add a test to the testbench in (4) that applies the following input sequence: `{A,B,C}=3'b010` followed by a delay of 100ps, followed by `{A,B,C}=3'b101`. Show the result in a wave window. What did you expect the output `Y` and explain any differences.
+
+
 
 ## Reflection
 From the exercises in the previous tasks, there are some key points:
