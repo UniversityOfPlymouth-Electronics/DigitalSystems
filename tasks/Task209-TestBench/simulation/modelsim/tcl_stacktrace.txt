@@ -1,0 +1,14 @@
+Wed Oct 20 18:04:19 BST 2021
+Trace back: bad option "scan": must be annotate, bbox, cget, compare, configure, count, decreaseindent, delete, dump, edit, fold, get, index, increaseindent, insert, keywords, loadlexer, margin, mark, marker, property, scisearch, search, see, ssm, style, tag, textwidth, version, xview, yview, zoom, zoomin, or zoomout
+    while executing
+"$w scan mark $x $y"
+    (procedure "::scintilla::TextScanMark" line 3)
+    invoked from within
+"::scintilla::TextScanMark .main_pane.source2.interior.cs.body.srcobj.sci 282 314"
+    invoked from within
+"if {!$tk_strictMotif} {
+        ::scintilla::TextScanMark .main_pane.source2.interior.cs.body.srcobj.sci 282 314
+    }"
+    (command bound to event)
+  <2:C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/tk8.6/bgerror.tcl:106: ::tkerror {bad option "scan": must be annotate, bbox, cget, compare, configure, count, decreaseindent, delete, dump, edit, fold, get, index, increaseindent, insert, keywords, loadlexer, margin, mark, marker, property, scisearch, search, see, ssm, style, tag, textwidth, version, xview, yview, zoom, zoomin, or zoomout}
+  <1:eval:1: ::tk::dialog::error::bgerror {bad option "scan": must be annotate, bbox, cget, compare, configure, count, decreaseindent, delete, dump, edit, fold, get, index, increaseindent, insert, keywords, loadlexer, margin, mark, marker, property, scisearch, search, see, ssm, style, tag, textwidth, version, xview, yview, zoom, zoomin, or zoomout}
