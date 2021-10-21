@@ -19,9 +19,9 @@ package uop_utils;
 
 	static function void writeRow (input int minterm, input logic[Nip] inputs, input logic [Nop] outputs);
 		   $write("%4d | ", minterm);	                                         //Minterm
-	      for (int n=$size(inputs)-1; n>=0; n--) $write("%b ", inputs[n]);      //Each bit of the minterm
+	      for (int n=0; n<$size(inputs); n++) $write("%b ", inputs[n]);      //Each bit of the minterm
 			$write("| ");
-			for (int n=$size(outputs)-1; n>=0; n--) $write("%b ", outputs[n]);      //Each bit of the output
+			for (int n=0; n<$size(outputs); n++) $write("%b ", outputs[n]);      //Each bit of the output
 		   $display("");	
 	endfunction : writeRow
 
