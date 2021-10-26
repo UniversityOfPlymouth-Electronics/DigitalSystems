@@ -910,9 +910,38 @@ Here are some challenges for you to try to re-enforce the content in this sectio
 
 **4** Create a testbench to exhaustively test (3). Use the assert command to automatically test the output.
 
-**5** Add 10ps delay to the output of each gate used in (3). Add a test to the testbench in (4) that applies the following input sequence: `{A,B,C}=3'b010` followed by a delay of 100ps, followed by `{A,B,C}=3'b101`. Show the result in a wave window. What did you expect the output `Y` and explain any differences.
+**5** Add 5ps delay to the output of **every** gate used in (3). Add two more tests to the testbench in (4) that apply the following input sequence: 
+
+```verilog
+{A,B,C}=3'b010;
+#100ps; 			//a delay of 100ps
+{A,B,C}=3'b101;
+#100ps;
+```
+
+**5** Show the result in a wave window. What did you expect the output `Y` to show and explain any differences.
+
+If written correctly, you should see an output similar to the figure below:
+
+<figure>
+<img src="../img/hazzard_2+5.png" >
+<figcaption>Showing a static hazzard (highlighted in yellow) caused by internal delays in a component</figcaption>
+</figure>
+
+**This is such a fundamental issue, it deserves further analysis**
+
+In an ideal world, the following would describe the transitions of all the signals. 
+
+| t | A | B | C | | Y |
+| - | - | - | - | - | - |
+| 0ps | 0 | 1 | 0 | | 1 |
+| | ↓ | ↓ | ↓ | |
+| 100ps | 1 | 0 | 1 | | 1 |
+
+Indeed, this reflects the steady state, but *not the intermediate states*. Instead, we can draw another truth table, including the outputs of all gates as they change. 
 
 
+** TBD **
 
 ## Reflection
 From the exercises in the previous tasks, there are some key points:
