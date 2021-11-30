@@ -877,6 +877,14 @@ Now any change to `mt` will immediately change `aa` and `bb`. This allows the mi
 
 Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
+## Arrays, Slicing and Concatination
+We briefly met contatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog.
+
+TBD
+
+TASK 210
+
+
 ## Challenges
 Here are some challenges for you to try to re-enforce the content in this section.
 
@@ -940,6 +948,15 @@ In an ideal world, the following would describe the transitions of all the signa
 
 Indeed, this reflects the steady state, but *not the intermediate states*. Instead, we can draw another truth table, including the outputs of all gates as they change. 
 
+| t    | A | B | C |   | ~A | ~B | ~C | m2 | m5 |   | Y |
+| -    | - | - | - | - | -  | -  |  - | -  | -  | - | - |
+| 0ps  | 0 | 1 | 0 |   |  1 |  0 |  1 |  1 |  0 |   | 1 |
+|      | ↓ | ↓ | ↓ |   |    |    |    |    |    |   |   |
+| 5ps  | 1 | 0 | 1 |   |  1 |  0 |  1 |  1 |  0 |   | 1 |
+|      |   |   |   |   |  ↓ |  ↓ |  ↓ |    |    |   | ↓ |
+| 10ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  1 |  0 |   | 0 |
+|      |   |   |   |   |    |    |    |  ↓ |  ↓ |   |   |
+| 15ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  1 |  0 |   | 0 |
 
 ** TBD **
 
