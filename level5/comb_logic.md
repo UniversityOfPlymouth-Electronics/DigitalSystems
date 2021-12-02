@@ -878,12 +878,130 @@ Now any change to `mt` will immediately change `aa` and `bb`. This allows the mi
 Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
 ## Arrays, Slicing and Concatination
-We briefly met contatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog.
+We briefly met concatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog. Key to this are two further types:
 
-TBD
+* **Packed Arrays** - arrays of bits that make up an N-bit word
+* **Unpacked Arrays** - a convention array of words or bits, similar to a memory.
 
-TASK 210
+### Packed Arrays
+Very often, a component will have inputs, intermedtiate states and outputs that are N-bits wide, where N≥2.
 
+For example, an 8-bit signal could be declared as follows:
+
+```verilog
+wire [7:0] data;
+```
+
+or alternatively in SystemVerilog:
+
+```verilog
+logic [7:0] data; 					
+```
+
+This *packed array* can be assigned an 8-bit number. For following three statements **all produce the same result**:
+
+```verilog
+data = 8'b10101100;
+data = 8'hAC;
+data = 8'd172;
+```
+
+Another way is to concatenate two values using the `{` and `}` braces:
+
+```verilog
+data = {4'hA, 4'hC};
+```
+
+You can concatenate the left hand side as well. For example:
+
+```verilog
+logic [7:0] databyte; 				//Packed Array 
+logic [3:0] datanibble;				//Packed array
+...
+{databyte, datanibble} = 12'b111101010011;
+```
+
+This way, `databyte` is `11110101` and `datanibble` is `0011`.
+
+For clarity we can also write:
+
+```verilog
+{databyte, datanibble} = 12'b11110101_0011;
+```
+
+there the `_` character provides a visual break in the number to help us read it.
+
+You can also extract sub-slices of larger data words. For example, to extract bits 2..5 you could do the following:
+
+```verilog
+databyte = 8'b10101100;
+datanibble = databyte[5:2];
+```
+
+so `datanibble` would be equal to `1011`. What is not permitted is the following:
+
+```verilog
+datanibble = databyte[2:5];
+```
+
+as the directions must match. As you can hopefully see, bit manipulation in SystemVerilog is very concise and easy to perform.
+
+### Unpacked Arrays
+It is useful top contrast the above with *unpacked arrays*. These are similar to an array you might encounter in the C and C++ programming languages.
+
+For example, to create an array of single 1-bit values, you could write:
+
+```verilog
+logic arrayOfBits [7:0];			//Unpacked Packed array of bits
+```
+
+We can set each bit using the square brackets `[ ]`. For example:
+
+```verilog
+arrayOfBits[0] = 1;	//Set array element 0
+arrayOfBits[1] = 0;	//Set array element 1
+arrayOfBits[7:0] = {1, 0, 1, 0, 1, 1, 0, 1};	//Set elements 7 down to 0
+```
+
+what you **cannot** do is this:
+
+```verilog
+arrayOfBits[7:0] = 0;		//ERROR
+```
+
+We can also have arrays of N-bit words (packed arrays)
+
+```verilog
+logic [3:0] arrayOfNibbles[7:0];	//Unpacked array of 4-bit values
+```
+
+We can set values in this array again using square brackets:
+
+```verilog
+arrayOfNibbles[0] = 4'b0100;
+arrayOfNibbles[7:0] = { 4'd1,  4'd2,  4'd3,  4'd4, 4'hA, 4'hB, 4'hC, 4'hD };
+arrayOfNibbles[7:4] = { 4'd1,  4'd2,  4'd3,  4'd4 };
+arrayOfNibbles[3:0] = { 4'hA,  4'hB,  4'hC,  4'hD };
+```
+
+Unpacked arrays can be thought of as blocks of memory.
+
+## Task 210 - Data Word Manipulation
+
+Now it is your turn!
+
+| TASK 210 | |
+| - | - |
+| 1 | Using ModelSim, change the directory to the folder `Task210-SignalManipulation` |
+| 2 | Compile the file `task210.sv` |
+| 3 | Read the comments and attempts the challenges |
+| 4 | Build and simulate `task210.sv`. Check the logs for errors |
+| - | Solutions can be found in `solutions.sv` in the same folder |
+
+Notes:
+
+* `task210.sv` is actually testbench. It cannot be synthesised, and is only for testing. The style of SystemVerilog is behavioural.
+* `assert` was used to check the answers. This was made more concise by invoking as `task`. We will meet tasks again later in the course.
 
 ## Challenges
 Here are some challenges for you to try to re-enforce the content in this section.
