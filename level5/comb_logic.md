@@ -877,10 +877,11 @@ Now any change to `mt` will immediately change `aa` and `bb`. This allows the mi
 
 Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
-## Arrays, Slicing and Concatination
+## Task 210 - Data Word Manipulation
+
 We briefly met concatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog. Key to this are two further types:
 
-* **Packed Arrays** - arrays of bits that make up an N-bit word
+* **Packed Arrays** - arrays of bits that make up an N-bit word.
 * **Unpacked Arrays** - a convention array of words or bits, similar to a memory.
 
 ### Packed Arrays
@@ -986,19 +987,17 @@ arrayOfNibbles[3:0] = { 4'hA,  4'hB,  4'hC,  4'hD };
 
 Unpacked arrays can be thought of as blocks of memory.
 
-## Task 210 - Data Word Manipulation
-
-Now it is your turn!
+*Now it is your turn!*
 
 | TASK 210 | |
 | - | - |
 | 1 | Using ModelSim, change the directory to the folder `Task210-SignalManipulation` |
 | 2 | Compile the file `task210.sv` |
-| 3 | Read the comments and attempts the challenges |
-| 4 | Build and simulate `task210.sv`. Check the logs for errors |
+| 3 | Read the comments in this file and attempt the "single line challenges" |
+| 4 | Build and simulate `task210.sv`. Check the output to see if your solutions work |
 | - | Solutions can be found in `solutions.sv` in the same folder |
 
-Notes:
+**Notes:**
 
 * `task210.sv` is actually testbench. It cannot be synthesised, and is only for testing. The style of SystemVerilog is behavioural.
 * `assert` was used to check the answers. This was made more concise by invoking as `task`. We will meet tasks again later in the course.
@@ -1006,7 +1005,7 @@ Notes:
 ## Challenges
 Here are some challenges for you to try to re-enforce the content in this section.
 
-**1** Create a systemverilog module to implement the following combinational logic using continuous assignment (dataflow style). Do not attempt to simplify the logic.
+**1** Create a SystemVerilog module to implement the following combinational logic using continuous assignment (dataflow style). Do not attempt to simplify the logic.
 
 | A | B | C | | Y |
 | - | - | - | - | - |
@@ -1021,7 +1020,7 @@ Here are some challenges for you to try to re-enforce the content in this sectio
 
 **2** Create a testbench to exhaustively test (1). Show the results on a waveform.
 
-**3** Create a systemverilog module to implement the following combinational logic using gate level HDL. Do not attempt to simplify the logic.
+**3** Create a systemverilog module to implement the following combinational logic using **gate level HDL**. Do **not** attempt to simplify the logic.
 
 | A | B | C | | Y |
 | - | - | - | - | - |
@@ -1064,7 +1063,7 @@ In an ideal world, the following would describe the transitions of all the signa
 | | ↓ | ↓ | ↓ | |
 | 100ps | 1 | 0 | 1 | | 1 |
 
-Indeed, this reflects the steady state, but *not the intermediate states*. Instead, we can draw another truth table, including the outputs of all gates as they change. 
+Indeed, this reflects the steady state, but *not the intermediate states*. Instead, we can draw another truth table, including the outputs of all gates as they change at different times. 
 
 | t    | A | B | C |   | ~A | ~B | ~C | m2 | m5 |   | Y |
 | -    | - | - | - | - | -  | -  |  - | -  | -  | - | - |
@@ -1083,9 +1082,8 @@ From the exercises in the previous tasks, there are some key points:
 
 * A schematic can easily be converted to HDL. 
 * This is typically continuous assignment or a netlist of gate models. 
-* Components (usually written with a HDL ) can be instantiated and connected.
-
-[**TODO**]
+* Components (usually written with a HDL ) can be instantiated and connected using gate level HDL
+* Data flow style HDL defines logical relationships. We often use *continuous assignment* which 
 
 ## References
 
