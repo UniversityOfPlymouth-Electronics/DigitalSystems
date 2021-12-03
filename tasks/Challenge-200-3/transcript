@@ -1,0 +1,92 @@
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003.sv was successful.
+# Load canceled
+# Load canceled
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003.sv was successful.
+# Compile of challenge2003_tb.sv was successful.
+# 2 compiles, 0 failed with no errors.
+vsim work.challenge2003
+# vsim work.challenge2003 
+# Start time: 15:38:58 on Dec 03,2021
+# Loading sv_std.std
+# Loading work.challenge2003
+add wave -position insertpoint  \
+sim:/challenge2003/A \
+sim:/challenge2003/B \
+sim:/challenge2003/C \
+sim:/challenge2003/mt2 \
+sim:/challenge2003/mt5 \
+sim:/challenge2003/notA \
+sim:/challenge2003/notB \
+sim:/challenge2003/notC \
+sim:/challenge2003/Y
+force -freeze sim:/challenge2003/A 0 0
+force -freeze sim:/challenge2003/B 1 0
+force -freeze sim:/challenge2003/C 0 0
+run
+force -freeze sim:/challenge2003/A 1 0
+force -freeze sim:/challenge2003/B 0 0
+force -freeze sim:/challenge2003/C 1 0
+run
+run
+run
+run
+run
+run
+run
+quit -sim
+# End time: 16:35:59 on Dec 03,2021, Elapsed time: 0:57:01
+# Errors: 0, Warnings: 12
+vsim work.challenge2003
+# vsim work.challenge2003 
+# Start time: 16:37:32 on Dec 03,2021
+# Loading sv_std.std
+# Loading work.challenge2003
+add wave -position insertpoint  \
+sim:/challenge2003/A \
+sim:/challenge2003/B \
+sim:/challenge2003/C \
+sim:/challenge2003/mt2 \
+sim:/challenge2003/mt5 \
+sim:/challenge2003/notA \
+sim:/challenge2003/notB \
+sim:/challenge2003/notC \
+sim:/challenge2003/Y
+force -freeze sim:/challenge2003/A 0 0
+force -freeze sim:/challenge2003/B 1 0
+force -freeze sim:/challenge2003/C 0 0
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+force -freeze sim:/challenge2003/A 1 0
+force -freeze sim:/challenge2003/B 0 0
+force -freeze sim:/challenge2003/C 1 0
+add wave -position 3  sim:/challenge2003/notA
+add wave -position 4  sim:/challenge2003/notB
+add wave -position 5  sim:/challenge2003/notC
+run
+run
+run
+run
+run

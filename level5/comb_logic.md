@@ -1050,7 +1050,7 @@ If written correctly, you should see an output similar to the figure below:
 
 <figure>
 <img src="../img/hazzard_2+5.png" >
-<figcaption>Showing a static hazzard (highlighted in yellow) caused by internal delays in a component</figcaption>
+<figcaption>Showing a static hazard (highlighted in yellow) caused by internal delays in a component</figcaption>
 </figure>
 
 **This is such a fundamental issue, it deserves further analysis**
@@ -1070,12 +1070,31 @@ Indeed, this reflects the steady state, but *not the intermediate states*. Inste
 | 0ps  | 0 | 1 | 0 |   |  1 |  0 |  1 |  1 |  0 |   | 1 |
 |      | ↓ | ↓ | ↓ |   |    |    |    |    |    |   |   |
 | 5ps  | 1 | 0 | 1 |   |  1 |  0 |  1 |  1 |  0 |   | 1 |
-|      |   |   |   |   |  ↓ |  ↓ |  ↓ |    |    |   | ↓ |
-| 10ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  1 |  0 |   | 0 |
-|      |   |   |   |   |    |    |    |  ↓ |  ↓ |   |   |
-| 15ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  1 |  0 |   | 0 |
+|      |   |   |   |   |  ↓ |  ↓ |  ↓ |  ↓ |    |   |   |
+| 10ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  0 |  0 |   | 1 |
+|      |   |   |   |   |    |    |    |    |  ↓ |   | ↓ |
+| 15ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  0 |  1 |   | 0 |
+|      |   |   |   |   |    |    |    |    |    |   | ↓ |
+| 20ps | 1 | 0 | 1 |   |  0 |  1 |  0 |  0 |  1 |   | 1 |
 
-** TBD **
+We can see this on the timing diagram below:
+
+<figure>
+<img src="../img/challenge2005-annotated.png" >
+<figcaption>Showing the evolution of the static hazard caused by internal delays in a component</figcaption>
+</figure>
+
+(a) Inputs change
+(b) Minterm m2 changes as a consequence of (a)
+(c) Inverter outputs change as a consequence of (a)
+(d) Minterm m5 changes as consequence of (c)
+
+We also see the output `Y` (a function of the minterms) change in reaction to (b) and (d).
+
+* It takes 15ps to resolve a steady-state of `Y`.  
+* During this 15s interval, Y changes twice
+
+In conclusion, we cannot trust the outputs of combinational logic until it has reached its steady state. This is a key motivation to use synchronous logic. Synchronous logic used a clock edge to update inputs and sample outputs at fixed intervals. The internal propagation delays limit how fast such a clock can switch.
 
 ## Reflection
 From the exercises in the previous tasks, there are some key points:
@@ -1084,6 +1103,7 @@ From the exercises in the previous tasks, there are some key points:
 * This is typically continuous assignment or a netlist of gate models. 
 * Components (usually written with a HDL ) can be instantiated and connected using gate level HDL
 * Data flow style HDL defines logical relationships. We often use *continuous assignment* which 
+* For real synthesised logic, the output of combinational logic can produce spurious results until a stead-state has been reached.
 
 ## References
 
