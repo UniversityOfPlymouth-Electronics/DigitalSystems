@@ -21,6 +21,8 @@ This practical session is designed to be standalone. However, chapter 3 in [1] w
 [Task 206: Converting a schematic to a Hardware Definition Language](#Task-206:-Converting-a-schematic-to-a-Hardware-Definition-Language)
 [Task 207: Schematics and gate models](#Task-207:-Schematics-and-gate-models)
 [Task 209: Introduction to Testbenches](#Task-209:-Introduction-to-Testbenches)
+[Numeric Literals](#Numeric-Literals)
+[Task 210: Data Word Manipulation](#Task-210:-Data-Word-Manipulation)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -877,7 +879,7 @@ Now any change to `mt` will immediately change `aa` and `bb`. This allows the mi
 
 Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
-## Task 210 - Data Word Manipulation
+## Task 210: Data Word Manipulation
 
 We briefly met concatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog. Key to this are two further types:
 
@@ -1085,8 +1087,11 @@ We can see this on the timing diagram below:
 </figure>
 
 (a) Inputs change
+
 (b) Minterm m2 changes as a consequence of (a)
+
 (c) Inverter outputs change as a consequence of (a)
+
 (d) Minterm m5 changes as consequence of (c)
 
 We also see the output `Y` (a function of the minterms) change in reaction to (b) and (d).
