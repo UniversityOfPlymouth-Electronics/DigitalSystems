@@ -887,7 +887,7 @@ We briefly met concatination in the section on testbenches. The manipulation of 
 * **Unpacked Arrays** - a convention array of words or bits, similar to a memory.
 
 ### Packed Arrays
-Very often, a component will have inputs, intermedtiate states and outputs that are N-bits wide, where N≥2.
+Very often, a component will have inputs, intermediate states and outputs that are N-bits wide, where N≥2.
 
 For example, an 8-bit signal could be declared as follows:
 
