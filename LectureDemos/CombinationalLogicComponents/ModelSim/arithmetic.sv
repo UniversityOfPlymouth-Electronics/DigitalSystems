@@ -69,22 +69,25 @@ module adder_tb;
 endmodule
 
 
+// This example uses a wildcart
 module mul_tb;
 
-	logic [3:0] P, Q;
-	logic [8:0] PROD;
+	parameter N=3;
+	logic [N-1:0] A, B;
+	logic [2*N-1:0] Y;
 	
-	mul u1(PROD, P, Q);
+	//Wildcard can be used if the names match perfectly
+	mul #N u1(.*);
 	
 	initial 
 	begin
 
-	    for (int i=0; i<=7; i = i + 1) begin
-              for (int j=i; j<=7; j = j + 1) begin
-                P = i;
-                Q = j;
+	    for (int i=0; i<2**N; i = i + 1) begin
+              for (int j=i; j<2**N; j = j + 1) begin
+                A = i;
+                B = j;
                 #10ps;
-		assert (PROD == (i*j)) $display("PASS"); else $display("ERROR %d * %d <> %d", i, j, PROD);
+		assert (Y == (i*j)) $display("PASS"); else $display("ERROR %d * %d <> %d", i, j, Y);
               end
             end
 
