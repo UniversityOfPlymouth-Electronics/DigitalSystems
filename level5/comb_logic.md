@@ -27,6 +27,7 @@ This practical session is designed to be standalone. However, chapter 3 in [1] w
 [Reflection](#Reflection)
 [References](#References)
 
+
 ## Intended Learning Outcomes
 
 By the end of this section, you should be able to:

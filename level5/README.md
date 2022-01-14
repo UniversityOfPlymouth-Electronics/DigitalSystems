@@ -27,6 +27,21 @@ It is assumed the student is knowledgable in digital electronics, including the 
 1. [Complex Systems](./complex_sys.md)
 1. [Glossary](../glossary/README.md)
 
+
+## Plymouth Students
+
+Below is a table cross referencing the series of lectures and associated lab sessions.
+
+| Lecture | Title | Lab |
+| - | - | - |
+| Lecture 1 | [	SystemVerilog and FPGAs](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0be4e1b8-9156-439e-a98a-ae1d011735e0) | [Getting Started](../getting_started/README.md) |
+| Lecture 2 | [Combinational Logic with SystemVerilog](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8908f7c0-6a97-42c9-987a-ae1d01173520) | [Combinational Logic](./comb_logic.md) |
+| Lecture 3 | [Combinational Logic Components](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d55c066b-00e9-4876-aa21-ae1d01173486) | [Combinational Logic components](./comb_logic_components.md) |
+| - |
+
+Note that these videos are only accessible to University of Plymouth (UK) students.
+
+
 <hr>
 
 (c) 2021 [Dr. Nicholas J Outram](https://www.plymouth.ac.uk/staff/nicholas-outram), [University of Plymouth (UK)](https://www.plymouth.ac.uk/schools/school-of-engineering-computing-and-mathematics/electronics-robotics). Licensed under Creative Commons
