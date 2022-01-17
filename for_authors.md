@@ -10,6 +10,8 @@ You can use HTML codes to create simple equations and formatting.
 
 `I`<sub>`R`</sub> = &theta;
 
+`A` &geq; `B`
+
 _Note the semi-colon on the end._
 
 Overline is possible
