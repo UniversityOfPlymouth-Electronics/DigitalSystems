@@ -342,6 +342,82 @@ Note the default parameter value for `N` is set to 4.
 | - | The input value for `x` should be 10101100 |
 | - | A solution `muxN_tb-solution.sv` is provided if you get stuck |
 
+## Task-218: Arithmetic
+
+One of the most useful features of FPGAs is the ability to perform arithmetic, often in parallel. Some of the core arithmetic operations can be performed with combinational logic. We will look at some of these now.
+
+A simple N-bit adder can be created using behavioural HDL.
+
+```verilog
+module adder_N #(parameter N = 4) (Sum, Cout, A, B, Cin);
+
+//Use the more 'vertical' syntax to fit on the page
+output logic [N-1:0] Sum;
+output logic Cout;
+input logic [N-1:0] A, B;
+input logic Cin;
+
+always_comb
+	{Cout, Sum} = A + B + Cin;
+
+endmodule
+```
+
+Here we rely on the `+` operator to add packed arrays using 2's compliment arithmetic. We do not specify any Boolean algebra or gates in the design.
+
+| Task 217 | Arithmetic |
+| - | - |
+| 1 | In ModelSim, change the directory to `task-218` |
+| 2 | Compile both `adder_N.sv` and `adder_N_tb.sv` |
+| 3 | Simulate  the testbench. Include a waveform output |
+| 4 | Now watch the following video and replicate what is shown |
+|   | [VIDEO: Grouping and Combining Signals in ModelSim](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=7283f239-1908-4a10-84c9-ae21010eb42b) |
+| 5 | Write an additional testbench `adder_8_tb.sv` to test an 8-bit adder built from two cascaded 4-bit adders (as shown in the figure below) |
+| - | Instantiate 2x 4-bit adders and use the structural style to connect `Cout` to `Cin` | 
+| - | A solution is provided in `adder_8_tb-solution.sv` |
+
+<figure>
+<img src="../img/circuit/cascaded_adder.jpg" width="350px">
+<figcaption>Cascading two 8-bit adders to build a 16-bit adder</figcaption>
+</figure>
+
+### Ripple Adder
+
+You may recall a device known as a ripple-adder. This applies the concept shown in the previous example, only using one-bit adder circuits. A simple one-bit adder, or *full adder* as it is known, can be built as follows:
+
+```verilog
+//From Chapter 3 [1]
+module fulladder (output logic sum, cout, input logic a, b, cin);
+always_comb
+begin
+	sum = a ^ b ^ cin;
+	cout = a & b | a & cin | b & cin;
+end
+endmodule
+```
+
+We can then cascade an arbitrary number of these using `generate for`:
+
+```verilog
+//Adapted from example in the book by Mark Zwolinski (see chapter 3 of [1]])
+module ripple_adder #(parameter N = 4) (output logic [N-1:0] Sum, output logic Cout, input logic [N-1:0] A, B, input logic Cin);
+	logic [N-1:0] Ca;
+	assign Ca[0] = Cin;
+
+	genvar i;
+	generate for (i = 0; i < N-1; i++) 
+		begin : f_loop
+			fulladder fi (Sum[i], Ca[i+1], A[i], B[i], Ca[i]);
+		end
+	endgenerate
+
+	//msb
+	fulladder fN (Sum[N-1], Cout, A[N-1], B[N-1], Ca[N-1]);
+endmodule
+```
+
+`generate` is used to instantiate a number of replica components.
+
 
 ## Challenges
 

@@ -69,7 +69,7 @@ module adder_tb;
 endmodule
 
 
-// This example uses a wildcart
+// This example uses a wildcard
 module mul_tb;
 
 	parameter N=3;
