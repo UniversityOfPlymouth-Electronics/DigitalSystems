@@ -199,16 +199,147 @@ We have spent some considerable time looking at different ways to implement a si
 
 <sup>**</sup>It is unlikely that something as simple as a 2-to-1 multiplexer can be further optimised.
 
-## Task 216 - 4-to-1 Multiplexer
+## Task 216 - N-to-1 Multiplexer
 
 Let's now scale up our multiplexer design to have 4 inputs. To select which of the 4 inputs to route to the output, we need `log`<sub>2</sub>(4)=2 select lines.
 
-> Another way to view this is that if we have 2 select lines, we can choose 2<sup>2</sup>=4 inputs.
+> If we have 2 select lines, `S` can present the four binary values 00, 01, 10, 11 (0..3 decimal)
+
+Another way to view this is that if we have M select lines, we can choose 2<sup>M</sup> inputs.
+
+We could extend what we did with the 2-to-1 multiplexer:
+
+```verilog
+module mux4_behavioural_v1 (output logic out, input logic a, b, c, d, logic [1:0] s);
+
+always_comb
+	if (s == 0)
+	   out = a;	//Single line does not need begin
+	else if (s == 1)
+	   out = b;
+	else if (s == 2)
+	   out = c;
+	else
+	   out = d;
+
+endmodule
+```
+
+| Task 216 | N-to-1 Multiplexer |
+| - | - |
+| 1 | Change directory to `Task216-N-to-1-multiplexer`|
+| 2 | Build `mux4_behavioural_v1.sv`. Read the source and comments|
+| 3 | Build the testbench `mux4_behavioural_v1_tb.sv`. Again read the source and comments |
+
+Let us look at the testbench for this component:
+
+```verilog
+module mux4_behavioural_v1_tb;
+
+//Internal signals for testing
+logic y1, aa, bb, cc, dd;
+logic [1:0] ss; //2 bit signal
+
+//Instantiate the component under test
+mux4_behavioural_v1 u1(y1, aa, bb, cc, dd, ss);
 
 
-## Task 217 - N-to-1 Multiplexer
-So far we have considered a simple fixed sizes multiplexers. In general we would consider a N-to-1 multiplexer, where N &geq; 2.
+initial
+begin
+	//Unpacked array of expected (correct) outputs. Automatic means this has local scope
+	automatic logic expected[4] = {1'b1, 1'b0, 1'b1, 1'b1};
 
+	//Set inputs
+	{aa, bb, cc, dd} = 4'b1011;
+
+	//Iterate over all input sequences
+	for (int n=0; n<4; n = n + 1) begin
+		//Set the select line
+		ss = n;
+
+		//Add a delay so that the outputs update
+		#10ps;
+
+	    //Check output is the expected value
+    	assert (y1 == expected[n])
+            //Note how $display and $error can be used much like printf in C
+           $display("Passed test %d, output=%d, expected=%d", n, y1, expected[n]);
+        else
+            $error("Error for test %d: expected %d and got %d", n, expected[n], y1);		
+	end
+end
+endmodule
+```
+
+Some points to note:
+
+* The output is compared with a value stored in the **unpacked array** `expected`.
+   * Note the position of the square brackets
+   * The method of obtaining the expected output must be calculated using same algorithm as the component. *By simply looking up the expected value, we avoid this (common) mistake*.
+* The testbench is now longer than the component. This is not unusual.
+* The `assert` function supports placeholders like `printf` in C.
+* Any signal declared within the `initial` block must to be qualified as either `automatic` or `static`.
+   * We will almost always use `automatic`
+   * Did you know that in C and C++, this is also the case for local variables? The difference is that `automatic` is assumed unless you write `static`.
+
+Now try to modify the testbench.
+
+| Task 216 | continued |
+| - | - |
+| 4 | Try different values for (`aa, bb, cc, dd`) and rerun the test. Don't forget to update the expected values in the array |
+
+So far, the two multiplexers have been fixed in size. This might be fine for 2 or 4 inputs, but what if we later wanted 64 inputs? Using the approach above, we will end up with very long and tedious components.
+
+A improvement is to use a *packed array*. We can rewrite the above as follows:
+
+```verilog
+module mux4_behavioural_v2 (output logic out, input logic [3:0] x, logic [1:0] s);
+
+always_comb
+	if (s == 0)
+	   out = x[0];	//Single line does not need begin
+	else if (s == 1)
+	   out = x[1];
+	else if (s == 2)
+	   out = x[2];
+	else
+	   out = x[3];
+endmodule
+```
+
+| Task 216 | continued |
+| - | - |
+| 5 | Compile both `mux4_behavioural_v2.sv` and `mux4_behavioural_v2_tb.sv` |
+| 6 | Read through the testbench and then run to check all tests pass |
+| 7 | Now change the component to the following code and retest |
+
+```verilog
+module mux4_behavioural_v2 (output logic out, input logic [3:0] x, logic [1:0] s);
+   assign out = x[s];
+endmodule
+```
+
+The previous version was much shorter. As `x` is a packed array, we can reference each bit using the square brackets.
+
+This is still a fixed sized multiplexer of course, but now it is simple to parametrize our component to make it generic. We want a single N-to-1 multiplexer component, where N &geq; 2.
+
+```verilog
+module muxN #(parameter N=4) (output logic out, input logic [N-1:0] x, logic [$clog2(N)-1:0] s);
+
+ assign out = x[s];
+
+endmodule
+```
+
+Note the default parameter value for `N` is set to 4. 
+
+| Task 216 | continued |
+| - | - |
+| 8 | Compile both `muxN.sv` and edit to confirm it matches the code above |
+| 9 | Using the code in `mux4_behavioural_v2_tb.sv` as a starting point, create a new testbench `muxN_tb.sv` and adapt it to test an 8 input MUX. |
+| - | You will need to instantiate an instance of `muxN` for `N=8` |
+| - | The input value for `x` should be 10101100 |
+| - | A solution `muxN_tb-solution.sv` is provided if you get stuck |
 
 
 ## Challenges
