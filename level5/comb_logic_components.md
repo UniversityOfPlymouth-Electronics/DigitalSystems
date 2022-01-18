@@ -13,6 +13,7 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Combinational Logic](#)
 [Task 215: 2-1 Multiplexer](#Task-215:-Multiplexer)
+[Task 216: N-to-1 Multiplexer](#Task-216:-N-to-1-Multiplexer)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -199,7 +200,7 @@ We have spent some considerable time looking at different ways to implement a si
 
 <sup>**</sup>It is unlikely that something as simple as a 2-to-1 multiplexer can be further optimised.
 
-## Task 216 - N-to-1 Multiplexer
+## Task 216: N-to-1 Multiplexer
 
 Let's now scale up our multiplexer design to have 4 inputs. To select which of the 4 inputs to route to the output, we need `log`<sub>2</sub>(4)=2 select lines.
 
