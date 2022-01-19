@@ -72,7 +72,6 @@ behavioural_run_msim_rtl_vhdl.do
 *.hex
 *.html
 *.jdi
-*.jpg
 
 # *.mif
 
