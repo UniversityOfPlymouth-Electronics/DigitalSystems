@@ -14,6 +14,7 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Combinational Logic](#)
 [Task 215: 2-1 Multiplexer](#Task-215:-Multiplexer)
 [Task 216: N-to-1 Multiplexer](#Task-216:-N-to-1-Multiplexer)
+[Task-218: Arithmetic](#Task-218:-Arithmetic)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -422,7 +423,31 @@ module ripple_adder #(parameter N = 4)
 endmodule
 ```
 
-`generate for` is used to instantiate a number of replica components **at compile time**. It is very important to stress that this is a **compile time** operation (we cannot add components at run time!), that can used to make designs more flexible. To explain this further, as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
+| Task 217 | continued |
+| - | - |
+| 6 | Modify `adder_N_tb.sv` to simultaneously test the ripple adder |
+| - | Make sure you instantiate the rippled adder and give it separate outputs |
+| - | Check that the output of the rippled adder is the same as the `adder_N` component |
+
+You can see the impact of the `generate` statement when a component is added to a design in Quartus (Tools->Netlist Viewers->RTL Viewer).
+
+If you instantiate an 8-bit ripple adder, the following is created: 
+
+<figure>
+<img src="../img/circuit/ripple_adder_rtlview.jpg" width="600px">
+<figcaption>Showing the Quartus RTL Viewer for the Ripple Adder </figcaption>
+</figure>
+
+You can see how the `generate` statement has replicated the full-adder component 8 times. Note the instance name for each one. Drilling down into one of the full adders, we see the following:
+
+<figure>
+<img src="../img/circuit/full_adder_rtlview.jpg" width="600px">
+<figcaption>Showing the Quartus RTL Viewer for the Full Adder </figcaption>
+</figure>
+
+> **Note**
+>
+> `generate for` is used to instantiate a number of replica components **at compile time**. It is very important to stress that this is a **compile time** operation (we cannot add components at run time!), that can used to make designs more flexible. To explain this further, and as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
 
 ## The Generate Statement
 The `generate` statement has a number of applications, including (but not only):

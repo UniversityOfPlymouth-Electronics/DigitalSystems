@@ -383,6 +383,8 @@ set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (SystemVerilog)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
+set_global_assignment -name SYSTEMVERILOG_FILE ../ripple_adder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../fulladder.sv
 set_global_assignment -name VERILOG_FILE pll_main.v
 set_global_assignment -name SDC_FILE DE0_NANO_TEMPLATE.SDC
 set_global_assignment -name BDF_FILE TopLevelSchematic.bdf

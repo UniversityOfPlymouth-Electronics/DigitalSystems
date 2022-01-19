@@ -374,6 +374,55 @@ https://fpgasoftware.intel.com/eula.
 	)
 	(annotation_block (parameter)(rect 880 448 1055 486))
 )
+(symbol
+	(rect 384 216 568 328)
+	(text "ripple_adder" (rect 5 0 64 12)(font "Arial" ))
+	(text "inst2" (rect 8 96 30 113)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "A[N-1..0]" (rect 0 0 44 12)(font "Arial" ))
+		(text "A[N-1..0]" (rect 21 27 65 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "B[N-1..0]" (rect 0 0 44 12)(font "Arial" ))
+		(text "B[N-1..0]" (rect 21 43 65 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "Cin" (rect 0 0 16 12)(font "Arial" ))
+		(text "Cin" (rect 21 59 37 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 184 32)
+		(output)
+		(text "Sum[N-1..0]" (rect 0 0 60 12)(font "Arial" ))
+		(text "Sum[N-1..0]" (rect 113 27 173 39)(font "Arial" ))
+		(line (pt 184 32)(pt 168 32)(line_width 3))
+	)
+	(port
+		(pt 184 48)
+		(output)
+		(text "Cout" (rect 0 0 23 12)(font "Arial" ))
+		(text "Cout" (rect 144 43 167 55)(font "Arial" ))
+		(line (pt 184 48)(pt 168 48))
+	)
+	(parameter
+		"N"
+		"8"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 168 96))
+	)
+	(annotation_block (parameter)(rect 568 176 737 214))
+)
 (connector
 	(pt 176 88)
 	(pt 200 88)
@@ -494,6 +543,12 @@ https://fpgasoftware.intel.com/eula.
 	(text "key0" (rect 194 248 217 265)(font "Intel Clear" ))
 	(pt 184 264)
 	(pt 296 264)
+)
+(connector
+	(text "led[7..0]" (rect 578 232 616 249)(font "Intel Clear" ))
+	(pt 568 248)
+	(pt 624 248)
+	(bus)
 )
 (junction (pt 744 520))
 (text "LEDs" (rect 1072 392 1101 411)(font "Intel Clear" (font_size 8)))
