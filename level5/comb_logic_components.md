@@ -24,6 +24,7 @@ By the end of this section, you should be able to:
 
 * Create and test a generic N-to-1 multiplex using different styles of SystemVerilog
 * Create and test components with tri-state outputs
+* Generate multiple instances of a component using the `generate` statement
 * Use don't care inputs to simplify a HDL design
 * Perform arithmetic operations in SystemVerilog
 * Create and test generic encoders and decoder objects in SystemVerilog
@@ -396,11 +397,16 @@ end
 endmodule
 ```
 
-We can then cascade an arbitrary number of these using `generate for`:
+We can then cascade an arbitrary number of these using the `generate` statement:
 
 ```verilog
 //Adapted from example in the book by Mark Zwolinski (see chapter 3 of [1]])
-module ripple_adder #(parameter N = 4) (output logic [N-1:0] Sum, output logic Cout, input logic [N-1:0] A, B, input logic Cin);
+module ripple_adder #(parameter N = 4) 
+                     (output logic [N-1:0] Sum, 
+				      output logic Cout, 
+				      input logic [N-1:0] A, B, 
+				      input logic Cin);
+	
 	logic [N-1:0] Ca;
 	assign Ca[0] = Cin;
 
@@ -416,7 +422,13 @@ module ripple_adder #(parameter N = 4) (output logic [N-1:0] Sum, output logic C
 endmodule
 ```
 
-`generate` is used to instantiate a number of replica components.
+`generate for` is used to instantiate a number of replica components **at compile time**. It is very important to stress that this is a **compile time** operation (we cannot add components at run time!), that can used to make designs more flexible. To explain this further, as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
+
+## The Generate Statement
+The `generate` statement has a number of applications, including (but not only):
+
+* Creating multiple instances of a component 
+* Changing a design depending on parameters
 
 
 ## Challenges
