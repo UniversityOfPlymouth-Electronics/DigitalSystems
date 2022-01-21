@@ -23,6 +23,7 @@ This practical session is designed to be standalone. However, chapter 3 in [1] w
 [Task 209: Introduction to Testbenches](#Task-209:-Introduction-to-Testbenches)
 [Numeric Literals](#Numeric-Literals)
 [Task 210: Data Word Manipulation](#Task-210:-Data-Word-Manipulation)
+[Task-212: The generate statement](#Task-212:-The-generate-statement)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -1101,6 +1102,165 @@ We also see the output `Y` (a function of the minterms) change in reaction to (b
 * During this 15s interval, Y changes twice
 
 In conclusion, we cannot trust the outputs of combinational logic until it has reached its steady state. This is a key motivation to use synchronous logic. Synchronous logic used a clock edge to update inputs and sample outputs at fixed intervals. The internal propagation delays limit how fast such a clock can switch.
+
+## Task-212: The generate statement
+
+The `generate` statement can be used to make designs more flexible. To explain this further, and as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
+
+The `generate` statement in SystemVerilog has a number of applications, including (but not only):
+
+* Creating multiple instances of a component 
+* Changing a design depending on parameters
+
+We will look at examples of each.
+
+### Replicating hardware with `generate for`
+The first use-case of `generate` is to replicate hardware. 
+
+| TASK 212 | Generate |
+| - | - |
+| 1 | Using Quartus, open the project in the folder `Task212-Generate/Quartus` |
+| 2 | Build the project and program your FPGA |
+| 3 | Using the blue probe provided, change the position of the DIP switches  and observe the LEDs |
+| 4 | In the top level schematic, double-click the `invN` component to see the HDL (also shown below).`
+| 5 | Click the menu item Tools->Netlist Viewers->RTL Viewer |
+| 6 | Expand the `invN` component by clicking the large + symbol |
+|   | You should see something similar to the figure below |
+
+<figure>
+<img src="../img/circuit/N_inverters.jpg" width="600px">
+<figcaption>Course Icon</figcaption>
+</figure>
+
+Let us now look more closely at the HDL that *described* this component:
+
+```verilog
+// Example of generate for to replicate hardware
+module invN #(parameter N=8) (output logic[N-1:0] Y, input logic[N-1:0] X);
+
+//An integer that will never be represented in the final synthesis
+genvar i;
+
+generate 
+ for (i=0; i<N; i=i+1) 
+ begin : i_loop
+	not ui (Y[i], X[i]);
+ end
+endgenerate
+
+endmodule
+```
+
+**Key points**
+* Inside the generate block, there is a for-loop. The index `i` of this loop is type `genvar`. 
+   * This is a special type of integer that never features in the final output (it is merely used for describing intent).
+* Within the for-loop, we instantiate a `not` gate `N` times.
+   * The `i`<sup>`th`</sup> not gate has input connected to `X[i]` (bit `i` of X )
+   * The `i`<sup>`th`</sup> not gate has output connected to `Y[i]` (bit `i` of Y )
+* `N` is a parameter. You can add additional devices to your design with (theoretically) any value of `N`
+* `genvar` is a special type of integer. It does not feature in the final design.
+* `generate for` is used to instantiate a number of replica inverters **at compile time**. In this example we a structural style.
+
+> It is very important to stress that this is a **compile time** operation (we cannot add components at run time!).
+
+We could have also used *continuous assignment*:
+
+```verilog
+...
+generate 
+ for (i=0; i<N; i=i+1) 
+ begin : i_loop1
+	assign Y[i] = ~X[i];
+ end
+endgenerate
+...
+```
+
+| TASK 212 | continued |
+| - | - |
+| 7 | Modify the component so that only **alternative** inputs are inverted |
+|   | The even bits should be inverted. The odd bits should pass straight through |
+| - | Hint - You might find continuous assignment simpler |
+|   | If correct, the RTL Viewer should replicate the figure below (for `N=4`).
+| 8 | Using ModelSim, create a testbench to exhaustively test this component for `N=4` |
+| 
+
+<figure>
+<img src="../img/circuit/task212_alt_inv.jpg" width="600px">
+<figcaption>Task-212-7 Generate this using SystemVerilog </figcaption>
+</figure>
+
+### Changing a design depending on parameters
+
+Another application of `generate`, when combined with parameters, is to adapt how a component behaves.
+
+| TASK 212 | continued |
+| - | - |
+| 9 | In Quartus, in the top level schematic, double-click the `U0` and `U1` components to see the HDL (also shown below).`. You should find **they contain the exact same HDL**.
+|    | In the top level schematic, note the parameter values for `f` |
+| 10 | Now to see what is actually compiled, click the menu item `Tools->Netlist Viewers->RTL Viewer` |
+| - | Expand `custom_function:U0` and then `custom_function:U1` |
+| - | Note the differences |
+
+The logic contained in each instance depends on the value of parameter`f`. Let's look at the component:
+
+```verilog
+module custom_function #(parameter int f = 0) (output logic Y, input logic A, B);
+
+generate
+	if (f == 0) 
+		assign Y = A & B;
+	else if (f == 1)
+		assign Y = A | B;
+	else
+		assign Y = A ^ B;
+endgenerate
+
+endmodule
+```
+
+The component has a **parameter** `f` which is specified when the component is instantiated. We can do this both in a schematic or with a HDL (see next part of the task). With `generate if`, you can then specify what logic to include in that particular instance of the component.
+
+Remember:
+* A parameter is specified each time the module is used
+* A parameter must have a value. 
+   * A default value can be used for when a value is not specified.
+
+The key observation in this example is that each instance (`U0` and `U1`) has entirely different logic.
+
+| TASK 212 | continued |
+| - | - |
+| 11 | Using ModelSim, compile and view the following files: |
+| Component | `custom_function.sv` |
+| Testbench | `custom_function_tb.sv` |
+| 12 |  You task is to complete the testbench to exhaustively test `custom_function` using the `assert` command |
+| -  | A solution `custom_function_tb-solution.sv` is provided. |
+
+### Challenge (optional)
+If you wish to accept the challenge, consider attempting the following!
+
+Build a module that calculates the parity `P` of an N-bit input `X`. You must use the `generate for` to `xor` all inputs bits in `X` together. You may only use a 2-input `xor`
+
+For example, for a fixed architecture of 4 input bits, we could write:
+```verilog
+assign P = ( ( (X[0] ^ X[1]) ^ X[2]) ^ X[3] );
+```
+
+Note how the output of the first xor function `(X[0] ^ X[1])` acts as an input into the next. Or (more challenging) you could write a hierarchical implementation:
+
+```verilog
+assign P = (X[0] ^ X[1]) ^ (X[2]) ^ X[3]);
+```
+
+Start with the following:
+
+```verilog
+module parity_challenge #(parameter N=8) (output logic P, input logic [N-1:0] X);
+
+// TODO: write HDL here
+
+endmodule
+```
 
 ## Reflection
 From the exercises in the previous tasks, there are some key points:

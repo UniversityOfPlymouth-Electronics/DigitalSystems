@@ -14,7 +14,9 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Combinational Logic](#)
 [Task 215: 2-1 Multiplexer](#Task-215:-Multiplexer)
 [Task 216: N-to-1 Multiplexer](#Task-216:-N-to-1-Multiplexer)
-[Task-218: Arithmetic](#Task-218:-Arithmetic)
+[Task-218: Addition](#Task-218:-Addition)
+[Task-220: Shift and Rotate](#Task-220:-Shift-and-Rotate)
+[Task-222: Multiply and Divide](#Task-222:-Multiply-and-Divide)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -344,7 +346,7 @@ Note the default parameter value for `N` is set to 4.
 | - | The input value for `x` should be 10101100 |
 | - | A solution `muxN_tb-solution.sv` is provided if you get stuck |
 
-## Task-218: Arithmetic
+## Task-218: Addition
 
 One of the most useful features of FPGAs is the ability to perform arithmetic, often in parallel. Some of the core arithmetic operations can be performed with combinational logic. We will look at some of these now.
 
@@ -445,16 +447,16 @@ You can see how the `generate` statement has replicated the full-adder component
 <figcaption>Showing the Quartus RTL Viewer for the Full Adder </figcaption>
 </figure>
 
-> **Note**
->
-> `generate for` is used to instantiate a number of replica components **at compile time**. It is very important to stress that this is a **compile time** operation (we cannot add components at run time!), that can used to make designs more flexible. To explain this further, and as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
 
-## The Generate Statement
-The `generate` statement has a number of applications, including (but not only):
+## Task-220: Shift and Rotate
 
-* Creating multiple instances of a component 
-* Changing a design depending on parameters
+TO BE DONE
 
+## Task-222: Multiply and Divide
+
+TO BE DONE
+
+## Task-224: Encoders
 
 ## Challenges
 
