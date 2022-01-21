@@ -450,7 +450,6 @@ You can see how the `generate` statement has replicated the full-adder component
 
 ## Task-220: Shift and Rotate
 
-TO BE DONE
 
 ## Task-222: Multiply and Divide
 
