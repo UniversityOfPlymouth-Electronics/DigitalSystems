@@ -449,7 +449,100 @@ You can see how the `generate` statement has replicated the full-adder component
 
 
 ## Task-220: Shift and Rotate
+Shift and rotate are common operations performed on binary numbers (packed arrays in the case of SystemVerilog).
 
+### Shift
+
+The shift is commonly used to scale a value by a power of 2.
+
+* A left shift of B bits is to multiply by 2<sup>B</sup>
+* A right shift of B bits is to divide by 2<sup>B</sup> (and round)
+
+The Shift operation has two variants : *logical* and *arithmetic*. They only differ when a binary number is considered to be represented in 2's compliment signed format. For unsigned values, they are identical.
+
+First consider the logical left shift. A left shift by 1 bit is illustrated as follows:
+
+<figure>
+<img src="../img/logical_left_shift.jpg" width="600px">
+<figcaption>Logical Left Shift by 1</figcaption>
+</figure>
+
+<figure>
+<img src="../img/logical_right_shift.jpg" width="600px">
+<figcaption>Logical Right Shift by 1</figcaption>
+</figure>
+
+* Logical left shift:
+   * The most-significant-bit is lost. 
+   * The new least-significant-bit is `0`
+* Logical right shift
+   * The new most-significant-bit is `0`. 
+   * The least-significant-bit is lost.
+* A Logical shift does NOT account for the sign of a value. It simply shifts the bits irrespective of value.
+
+The arithmetic shift differs when (and only when) the value is signed. Consider the figures below:
+
+<figure>
+<img src="../img/arithmetic_left_shift.jpg" width="600px">
+<figcaption>Arithmetic Left Shift by 1: (Upper) A negative value, shifted left by 1; (Lower) Negative value becomes positive due to an underflow.</figcaption>
+</figure>
+
+<figure>
+<img src="../img/arithmetic_right_shift.jpg" width="600px">
+<figcaption>Arithmetic Right Shift by 1: (Upper) A negative value shifted right; (Lower) Positive value shifted right. Note how the sign bit is replicated</figcaption>
+</figure>
+
+* Arithmetic left shift:
+   * The most-significant-bit is lost (the digit to the right will be equal up to the point of overflow or underflow).
+   * The new least-significant-bit is always `0`.
+* Arithmetic right shift
+   * The most-significant-bit is duplicated and hence preserved. 
+   * The least-significant-bit is lost.
+* An arithmetic shift in SystemVerilog DOES account for the sign of a value. 
+   * For signed values, the sign is preserved (unless you overflow or underflow).
+   * For unsigned values, it is equivalent to the logical shift.
+
+You might be wondering which data types in SystemVerilog are considered signed?
+
+> The `int` data-type is signed.
+>
+> Other Verilog and SystemVerilog types are usually assumed to be unsigned, unless stated otherwise (you can use the `signed` keyword). 
+> 
+> With regards to arithmetic, it is important to be explicit if you wish to treat values as signed. 
+
+For example, for a packed array, you would define as value to be treated as signed as follows:
+
+```verilog
+logic signed [7:0] X,Y;
+```
+
+You can then apply the following operators to perform a shift:
+
+| Operator | Function |
+| - | - |
+| << | Logical Shift Left |
+| >> | Logical Shift Right |
+| <<< | Arithmetic Shift Left |
+| >>> | Arithmetic Shift Right |
+
+| Task-220 | Shift and Rotate |
+| - | - |
+| 1 | In ModelSim, change to the `Task220-Shift_and_Rotate` folder |
+| 2 | Compile all files in this folder |
+| 3 | Read the `ShiftN.sv` source and all the comments. Note this is written as a test bench  |
+| 4 | Simulate |
+| 5 | Examine the output to see where the result is not the expected arithmetic result. This will flag both sign, overflow and underflow errors |
+
+### Rotation
+
+The rotate operation is more commonly used in encoding schemes. With rotation, the same bits circulate around as illustrated below:
+
+<figure>
+<img src="../img/rotate.jpg" width="600px">
+<figcaption>(Upper) Rotate left by 1 bit; (Lower) Rotate right by 1 bit</figcaption>
+</figure>
+
+There is no operator for rotate. However, it is simple enough to perform a rotate operation by using bit manipulation.
 
 ## Task-222: Multiply and Divide
 
