@@ -17,6 +17,7 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Task-218: Addition](#Task-218:-Addition)
 [Task-220: Shift and Rotate](#Task-220:-Shift-and-Rotate)
 [Task-222: Multiply and Divide](#Task-222:-Multiply-and-Divide)
+[Task-224: Encoders]
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -544,9 +545,54 @@ The rotate operation is more commonly used in encoding schemes. With rotation, t
 
 There is no operator for rotate. However, it is simple enough to perform a rotate operation by using bit manipulation.
 
-## Task-222: Multiply and Divide
+| Task-220 | continued |
+| - | - |
+| 6 | In ModelSim, open `rotateN.sv` and read the code + comments |
+| 7 | Write a testbench `rotateN_tb.sv` to test this component |
+| - | Start with the value of `8'b10101100` and rotate it forwards 8 times, then backwards 8 times |
 
-TO BE DONE
+The HDL for `rotateN` is shown below:
+
+```verilog
+module rotateN #(parameter N=8) (output logic[N-1:0] Y, input logic[N-1:0] X, logic DIR);
+
+//Rotate right when DIR == 1
+assign Y = (DIR == 1) ? { X[0], X[N-1:1] } : { X[N-2:0], X[N-1] };
+
+endmodule
+```
+
+### Challenge (optional)
+Can you write a generic component to rotate an N bit input by M bits, where M<N?
+
+## Task-222: Multiply and Divide
+A shift can be used as very efficient scaler. It is common that algorithms are engineered to require multiples that are a power of 2, thus avoiding the need for multiplication of division.
+
+However, there are times when multiplication and division are needed. This is quite a large topic, and one that needs it's own discussion. Some of the practicalities will be covered here.
+
+A multiplier can be written very concisely. For example, an unsigned multiplier can be written as simply as follows:
+
+```verilog
+module mul #(parameter N = 4) (output logic [2*N - 1 : 0] Y, 
+                               input logic [N-1:0] A, B);
+	always_comb
+	begin
+		Y = A*B;
+	end
+endmodule
+```
+
+Note how the output has twice the width of the inputs to accommodate the size of the result.
+
+| Task-222 | Multiply and Divide |
+| - | - |
+| 1 | In ModelSim, change to the `Task222-MulDiv` folder |
+| 2 | Compile all files in this folder |
+| 3 | Complete the testbench `mul_tb.sv` to test the `mul` component. |
+| - | On this occasion, use the `assert` command to test only the edge cases for `N=4` |
+| - | A solution `mul_tb-solution.sv` is provided |
+
+
 
 ## Task-224: Encoders
 
