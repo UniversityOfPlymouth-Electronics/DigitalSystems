@@ -18,6 +18,7 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Task-220: Shift and Rotate](#Task-220:-Shift-and-Rotate)
 [Task-222: Multiply and Divide](#Task-222:-Multiply-and-Divide)
 [Task-224: Decoders](#Task-224:-Decoders)
+[Task-225: Demultiplexers](#Task-225:-Demultiplexers)
 [Task-226: Encoders](#Task-226:-Encoders)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
@@ -728,6 +729,54 @@ It is important to note that this uses `casez` and not `case` (as described in s
 
 3. Again with the same strip of 1024 LEDs, you wish to display one of 23 patterns. *How many input lines does the decoder need?*
 **<p title="ceiling(log2(23)) = 5. Some input combinations will not be used">Hover here for the solution</p>**
+
+## Task-225: Demultiplexers
+A demultiplexer is the mirror of a multiplexer. It can also be considered a *type* of decoder (which results in the terms being confused).
+
+* A multiplexer routes one of `N` input signals to a single output
+* A demultiplexer routes a single input to one of `N` outputs.
+
+To illustrate this, do the following:
+
+| Task225 | Demultiplexers |
+| - | - |
+| 1 | Open the Quartus project in Task225-Demux |
+| 2 | Build and deploy the project to your FPGA board |
+| 3 | Use the DIP switches to select which LED output should flash |
+
+The schematic looks like this:
+
+<figure>
+<img src="../img/circuit/demux_8.jpg">
+<figcaption>1-to-8 demultiplexer</figcaption>
+</figure>
+
+The SystemVerilog for this is shown below:
+
+```verilog
+module demux (output logic [7:0] Y, input logic D, input logic [2:0] SEL);
+
+always_comb
+	unique casez ({D,SEL})
+		4'b0??? : Y = 8'd0;
+		4'b1000 : Y = 8'b00000001;
+		4'b1001 : Y = 8'b00000010;
+		4'b1010 : Y = 8'b00000100;
+		4'b1011 : Y = 8'b00001000;
+		4'b1100 : Y = 8'b00010000;
+		4'b1101 : Y = 8'b00100000;
+		4'b1110 : Y = 8'b01000000;
+		4'b1111 : Y = 8'b10000000;
+	endcase
+endmodule
+```
+
+As you can probably see, this is a special case of a decoder. The input data signal `D` is essentially one of the select lines. Note again the use of `unique`, `casez` and don't care inputs.
+
+| Task225 | continued |
+| - | - |
+| 4 | Write a testbench to test the component `demux.sv` |
+| - | Use ModelSim to run the simulation |
 
 ## Task-226: Encoders
 An encoder does much the same thing as a decoder, but again, there are some standard uses of the term. One example is the priority-encoder (as covered in Zwolinski [1]).
