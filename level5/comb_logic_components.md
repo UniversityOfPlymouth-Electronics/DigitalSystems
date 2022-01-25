@@ -634,14 +634,14 @@ In the first example, the decoder as a 3-bit binary input `SEL`. This selects wh
 <figcaption>3-to-8 decoder</figcaption>
 </figure>
 
-
 | Task224 | Decoders |
 | - | - |
 | 1 | Open the Quartus project in Task224-Decoders |
 | 2 | Build and deploy the project to your FPGA board |
 | 3 | Select which LED to light using the DIP switches 0, 1 and 2 |
+| - | DIP Switch 3 is not used |
 
-
+The decoder HDL is shown below:
 
 ```verilog
 module decoder_8 (	output logic [7:0] Y, input logic [2:0] SEL);				
@@ -660,12 +660,134 @@ module decoder_8 (	output logic [7:0] Y, input logic [2:0] SEL);
 endmodule
 ```
 
+Note the application of the `case` statement. Every input combination is considered. However, this is a fixed size. Using a different approach, we can build a generic component.
+
+| Task224 | continued |
+| - | - |
+| 4 | Replace the `decoder_8` with a `decoder_N`  |
+| 5 | Build, program and test |
+
+The HDL for `decoder_N` is shown below:
+
+```verilog
+module decoder_N #(parameter N = 8, M = $clog2(N)) (	output logic [N-1:0] Y, input logic [M-1 : 0] SEL);
+												
+	always_comb
+		Y = 1'b1 << SEL;
+													
+endmodule
+```
+
+This version uses a logical left shift operator `<<` to set the respective output.
+
+### Don't Care Inputs
+The next decoder variant does not need all the input combinations. One approach is to use *don't care* inputs.
+
+| Task224 | continued |
+| - | - |
+| 6 | Replace the `decoder_8` with a `decoder_dc`  |
+| 5 | Build, program and test all select line combinations for switches 0, 1 and 2 |
+| - | Note in particular the select patterns 6 and 7 |
+
+The SystemVerilog is shown below. 
+
+```verilog
+module decoder_dc (	output logic [7:0] Y, input logic [2:0] SEL);					always_comb
+		casez(SEL)
+		3'b000 : Y = 8'b10101010;
+		3'b001 : Y = 8'b01010101;
+		3'b010 : Y = 8'b00110011;
+		3'b011 : Y = 8'b11001100;
+		3'b100 : Y = 8'b11100111;
+		3'b101 : Y = 8'b00011000;
+		3'b11? : Y = 8'b00000000;
+		endcase											
+endmodule	
+```
+
+It is important to note that this uses `casez` and not `case` (as described in section 4.2.3 of [1]). The don't care `?` and `z` are interchangable. There is also a `casex` where inputs are undefined, but this only applies to simulation.
+
+**Key Points:**
+
+* Decoders typically have more outputs than inputs
+* The decoder `decoder_N` has many applications. This application allows `N` outputs to be asserted using `M` inputs, where `M<N`. 
+   * There are `2`<sup>`M`</sup> inputs combinations.
+   * Therefore, there are `2`<sup>`M`</sup> output combinations.
+   * The number of output combinations is therefore a subset of the 2<sup>N</sup> output lines.
+* Another popular example is the 7-segment display decoder. 
+   * This uses 4 input bits (0..15) to control up to 16 combinations of 7 LEDs (e.g. to display a hex digit 0-F).
+   * An example of this is found in section 4.2.3 of Zwolinski [1]
+
+**Questions**
+
+1. You have a strip of 1024 LEDs, and you only needed to light up 1 at a time. As your device does not have 1024 GPIO outputs, you decided to use a decoder. *How many input lines does the decoder need?*
+**<p title="log2(1024) = 10">Hover here for the solution</p>**
+
+2. You have the same strip of LEDs, and you wish to display one of 8 unique patterns. *How many input lines does the decoder need?*
+**<p title="log2(8) = 3">Hover here for the solution</p>**
+
+3. Again with the same strip of 1024 LEDs, you wish to display one of 23 patterns. *How many input lines does the decoder need?*
+**<p title="ceiling(log2(23)) = 5. Some input combinations will not be used">Hover here for the solution</p>**
+
 ## Task-226: Encoders
+An encoder does much the same thing as a decoder, but again, there are some standard uses of the term. One example is the priority-encoder (as covered in Zwolinski [1]).
 
+The truth table for a 4-input priority encoder is shown below:
 
-## Challenges
+| A3 | A2 | A1 | A0 | | Y1 | Y0 | Valid |
+|  - |  - |  - |  - | - | - |  - |   -   |
+|  0 |  0 |  0 |  0 |  | 0 |  0 | **0** |
+|  0 |  0 |  0 |  1 |  | 0 |  0 |   1   |
+|  0 |  0 |  1 |  - |  | 0 |  1 |   1   |
+|  0 |  1 |  - |  - |  | 1 |  0 |   1   |
+|  1 |  - |  - |  - |  | 1 |  1 |   1   |
+
+Note that `-` depicts a **don't care input** (i.e. can be any state). The SystemVerilog for such a component is shown below:
+
+```verilog
+module priority_encoder (output logic [1:0] y, logic valid, input logic [3:0]a);
+parameter OK = 1'b1;
+
+// There are less output combinations than input
+always_comb
+	unique casez (a)
+		4'b1??? : {y,valid} = {2'd3, OK};
+		4'b01?? : {y,valid} = {2'd2, OK};
+		4'b001? : {y,valid} = {2'd1, OK};
+		4'b0001 : {y,valid} = {2'd0, OK};
+		default : {y,valid} = {2'd0, ~OK};
+	endcase
+endmodule
+```
+
+**Key Points**
+
+* Again, `casez` is used to allow the use of don't care inputs
+* The order of the cases is important. If there are *overlapping* cases, the first is used for simulation. In synthesis, it is not defined.
+	* To avoid this ambiguity, the keyword `unique` is added so enforce that all rows are indeed unique
+
+| Task226 | Encoders |
+| - | - |
+| 1 | Open ModelSim and change the direction to the Task226-Encoders folder |
+| 2 | Build `encoder.sv` |
+| 3 | Complete the testbench `encoder_tb.sv` |
+| - | A solution `encoder_tb-solution.sv` is provided |
+
+Now how the testbench uses *unpacked arrays* to store and look up the expected result. Sometimes this is known as a look-up table. 
+
+> Look-up tables are a useful method for testing combinational logic. You must ensure the expected results are calculated using a different method to the component under test.
 
 ## Reflection
+
+This section has introduced some of the most common combinational logic components. It is far from complete, but hopefully it has enabled you to learn a number of SystemVerilog techniques.
+
+Combinational logic always has an output that is a fixed function of it's inputs. If there are `N` inputs, there are `2`<sup>`N`</sup> output **combinations**. 
+
+Combinational logic can always be defined by a truth table. Sometimes these can be too long, and so don't care terms are used.
+
+For an FPGA, signals that are connected to physical output pins can use tri-state logic. Using tri-state logic internally results in implicit multiplexers being synthesised.
+
+Finally, we should always remember that in the absence of any timing being added to our models, our functional simulation can only reveal the steady state outputs. In practise, combinational logic will often produce spurious outputs for a period time. We therefore need to wait before trusting the outputs of combinational logic. This is one of the main reasons synchronous sequential logic is used, and this is the topic we will discuss next.
 
 ## References
 

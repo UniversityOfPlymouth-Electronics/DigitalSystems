@@ -21,35 +21,24 @@ https://fpgasoftware.intel.com/eula.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 200 96)
-	(text "decoder_N" (rect 5 0 49 12)(font "Arial" ))
+	(rect 16 16 184 96)
+	(text "decoder_dc" (rect 5 0 52 12)(font "Arial" ))
 	(text "inst" (rect 8 64 20 76)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
-		(text "SEL[M-1..0]" (rect 0 0 48 12)(font "Arial" ))
-		(text "SEL[M-1..0]" (rect 21 27 69 39)(font "Arial" ))
+		(text "SEL[2..0]" (rect 0 0 38 12)(font "Arial" ))
+		(text "SEL[2..0]" (rect 21 27 59 39)(font "Arial" ))
 		(line (pt 0 32)(pt 16 32)(line_width 3))
 	)
 	(port
-		(pt 184 32)
+		(pt 168 32)
 		(output)
-		(text "Y[N-1..0]" (rect 0 0 35 12)(font "Arial" ))
-		(text "Y[N-1..0]" (rect 128 27 163 39)(font "Arial" ))
-		(line (pt 184 32)(pt 168 32)(line_width 3))
+		(text "Y[7..0]" (rect 0 0 27 12)(font "Arial" ))
+		(text "Y[7..0]" (rect 120 27 147 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 3))
 	)
-	(parameter
-		"N"
-		"8"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(parameter
-		"M"
-		""
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(rectangle (rect 16 16 168 64)(line_width 1))
+		(rectangle (rect 16 16 152 64)(line_width 1))
 	)
-	(annotation_block (parameter)(rect 200 -64 300 16))
 )
