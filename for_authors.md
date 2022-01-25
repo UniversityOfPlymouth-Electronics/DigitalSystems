@@ -45,13 +45,13 @@ You have more control with `figure`
 
 ```HTML
 <figure>
-<img src="./img/Icon-jpg-small.jpg" width="150px">
+<img src="../img/Icon-jpg-small.jpg" width="150px">
 <figcaption>Course Icon</figcaption>
 </figure>
 ```
 
 <figure>
-<img src="./img/hdl.png" width="150px">
+<img src="../img/hdl.png" width="150px">
 <figcaption>Course Icon</figcaption>
 </figure>
 

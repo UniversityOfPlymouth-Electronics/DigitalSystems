@@ -17,7 +17,8 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 [Task-218: Addition](#Task-218:-Addition)
 [Task-220: Shift and Rotate](#Task-220:-Shift-and-Rotate)
 [Task-222: Multiply and Divide](#Task-222:-Multiply-and-Divide)
-[Task-224: Encoders]
+[Task-224: Decoders](#Task-224:-Decoders)
+[Task-226: Encoders](#Task-226:-Encoders)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -592,9 +593,75 @@ Note how the output has twice the width of the inputs to accommodate the size of
 | - | On this occasion, use the `assert` command to test only the edge cases for `N=4` |
 | - | A solution `mul_tb-solution.sv` is provided |
 
+Although integer multiplication would seem simple, it is important to consider what happens in terms of *synthesis*. How a multiplier is synthesised very much depends on the target.
+
+* Some devices have pre-synthesised multiplier logic
+* Multiplication can consume a significant number of gates
+* Different multiplier designs exist, trading speed and gate count.
+
+To get some insight, let's now switch to Quartus.
+
+| Task-222 | continued |
+| - | - |
+| 4 | Open and build the Quartus project in the `Task222-MulDiv` folder |
+| - | Note this project is configured to target a specific FPGA device |
+|   | Look at the compilation report. Take note of the number of gates and Embedded Multipliers used |
+| 5 | There are three multipliers on the schematic. Double click each one. Some are library components provided by the manufacturer and will have "wizzards" which take you the settings. |
+| - | <p title="U1 is built from discrete logic elements. U2 uses a dedicated multiplier">What is the difference between U1 and U2?</p> |
+| 6 | Now click Tools->Netlist Views->RTL Viewer |
+| - | Expand U1, U2 and U3 to confirm which component uses discrete gates and which uses dedicated multiplier hardware (on the FPGA) |
+
+It is interesting to note that the HDL version (U3) indeed uses a dedicated hardware multiplier. Where devices support this, there will be a finite number that can be used.
+
+<figure>
+<img src="../img/multipliers.jpg" width="500px">
+<figcaption>Three different multiplier variations</figcaption>
+</figure>
+
+**Challenge (optional)**
+
+Add another multiplier to multiply `prod1` and `prod2` to produce a 32-bit result `prod4`. Don't forget to include an output pin as was done with the others (Quartus will not synthesise components that are not utilised).
+
+<p title="Should be an additional 2">How many additional dedicated multipliers are used?</p>
+
+## Task-224: Decoders
+What we define by encoding or decoding data is very context specific. Both have inputs that are transformed into outputs. However, there are some standard *decoder* components we encounter in digital system design.
+
+In the first example, the decoder as a 3-bit binary input `SEL`. This selects which of the 8 possible outputs `Y[7..0]` will be asserted `HIGH`.
+
+<figure>
+<img src="../img/circuit/decoder_8.jpg">
+<figcaption>3-to-8 decoder</figcaption>
+</figure>
 
 
-## Task-224: Encoders
+| Task224 | Decoders |
+| - | - |
+| 1 | Open the Quartus project in Task224-Decoders |
+| 2 | Build and deploy the project to your FPGA board |
+| 3 | Select which LED to light using the DIP switches 0, 1 and 2 |
+
+
+
+```verilog
+module decoder_8 (	output logic [7:0] Y, input logic [2:0] SEL);				
+	always_comb
+		case(SEL)
+		3'd0 : Y = 8'b00000001;
+		3'd1 : Y = 8'b00000010;
+		3'd2 : Y = 8'b00000100;
+		3'd3 : Y = 8'b00001000;
+		3'd4 : Y = 8'b00010000;
+		3'd5 : Y = 8'b00100000;
+		3'd6 : Y = 8'b01000000;
+		3'd7 : Y = 8'b10000000;
+		endcase
+													
+endmodule
+```
+
+## Task-226: Encoders
+
 
 ## Challenges
 
