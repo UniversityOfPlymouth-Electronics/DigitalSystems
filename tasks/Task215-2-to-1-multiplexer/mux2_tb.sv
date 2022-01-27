@@ -24,7 +24,7 @@ begin
 	else
 		$error("Error");
 
-	//Setect input 1 (bb)
+	//Select input 1 (bb)
 	ss = 1'b1;
 	#10ps;
 
