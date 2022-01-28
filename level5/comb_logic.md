@@ -18,16 +18,16 @@ This practical session is designed to be standalone. However, chapter 3 in [1] w
 [HDLs and Programming Languages](#HDLs-and-Programming-Languages)
 [Task 201: Gate Level Modelling](#Task-201-Gate-Level-Modelling)
 [Task 202: Dataflow Modelling](#Task-202-Dataflow-Modelling)
-[Task 203: Behavioural Modelling](#Task-203:-Behavioural-Modelling)
-[TASK 204: Logic Levels](#Task-204:-Logic-Values)
+[Task 203: Behavioural Modelling](#Task-203-Behavioural-Modelling)
+[TASK 204: Logic Levels](#Task-204-Logic-Values)
 [Modelling Delays](#Modelling-Delays)
 [Parameters](#Parameters)
-[Task 206: Converting a schematic to a Hardware Definition Language](#Task-206:-Converting-a-schematic-to-a-Hardware-Definition-Language)
-[Task 207: Schematics and gate models](#Task-207:-Schematics-and-gate-models)
-[Task 209: Introduction to Testbenches](#Task-209:-Introduction-to-Testbenches)
+[Task 206: Converting a schematic to a Hardware Definition Language](#Task-206-Converting-a-schematic-to-a-Hardware-Definition-Language)
+[Task 207: Schematics and gate models](#Task-207-Schematics-and-gate-models)
+[Task 209: Introduction to Testbenches](#Task-209-Introduction-to-Testbenches)
 [Numeric Literals](#Numeric-Literals)
-[Task 210: Data Word Manipulation](#Task-210:-Data-Word-Manipulation)
-[Task-212: The generate statement](#Task-212:-The-generate-statement)
+[Task 210: Data Word Manipulation](#Task-210-Data-Word-Manipulation)
+[Task-212: The generate statement](#Task-212-The-generate-statement)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -142,7 +142,7 @@ To be precise, this is not strictly the final hardware. The actual final physica
 
 > We will soon learn that **structural** HDL is used frequently for integrating other components into our design, including testing. However, most components (modules) themselves are not written with structural HDL as it is slow and error prone.
 
-## Task 202: Dataflow Modelling
+## Task 202 Dataflow Modelling
 Structural HDL is lowest level of abstraction we can describe hardware. The next lowest is often called dataflow modelling.
 
 | Task 202 | DataFlow Level |
@@ -187,7 +187,7 @@ This style of SystemVerilog is known as **continuous assignment**. Instead of sp
 Some of the operators [are listed here](Operators.md)
 
 
-## Task 203: Behavioural Modelling
+## Task 203 Behavioural Modelling
 Behavioural HDL is the highest level of abstraction, and the one most commonly used.
 
 | Task 203 | Behavioural Level |
@@ -242,7 +242,7 @@ Note also that the output `Y` is not a wire, but a [Verilog][Verilog] `reg`. You
 
 > Confused? Absolutely! This can be very confusing, but you need to know the rules of all three {`wire`,`reg`,`logic`} as you will see them time and time again. Later in this course we will take a much closer look at behavioural HDL and `always` blocks, where all this will be discussed in more detail.
 
-## Task 204: Logic Values
+## Task 204 Logic Values
 So far, we have only considered combinational logic where the logic levels were `1` or `0` (true and false). SystemVerilog actually supports 4 possible values:
 
 * Strong LOW: `0` 
@@ -587,7 +587,7 @@ assign	SYNTHESIZED_WIRE_1 =  ~KEY1;
 | - | Use ModelSim to confirm your result |  
 | - | Use the Quartus Netlist Viewer to confirm the synthesis is as expected |
 
-## Task 207: Schematics and gate models
+## Task 207 Schematics and gate models
 
 In the previous task, when we exported a schematic in Quartus, the tools chose to exclusively use *continuous assignment* (`assign`).  This would seem to make intuitive sense as all the logic in the schematic was limited to simple primitive operations (AND, OR, NOT). 
 
@@ -682,7 +682,7 @@ Note the following:
 
 You can have multiple instances of a component, but each must have a unique instance name.
 
-## Task 209: Introduction to Testbenches
+## Task 209 Introduction to Testbenches
 Testing during the development of HDL components is absolutely essential. No component you write has any value until there is evidence of correct functionality.
 
 So far, we have tested logic components using ModelSim interactively. This is useful for exploration, but can easily become tedious and slow down development. It is certainly not the way we should proceed when we begin formal testing and quality assurance.
@@ -885,7 +885,7 @@ Now any change to `mt` will immediately change `aa` and `bb`. This allows the mi
 
 Here we see the all-important `assert` command being used. Note how error messages can be displayed without the need to visually check any waveforms. You can also use waveforms, and if you double-click and error, ModelSim will jump to the location.
 
-## Task 210: Data Word Manipulation
+## Task 210 Data Word Manipulation
 
 We briefly met concatination in the section on testbenches. The manipulation of signals is quite elegant in SystemVerilog. Key to this are two further types:
 
@@ -1107,7 +1107,7 @@ We also see the output `Y` (a function of the minterms) change in reaction to (b
 
 In conclusion, we cannot trust the outputs of combinational logic until it has reached its steady state. This is a key motivation to use synchronous logic. Synchronous logic used a clock edge to update inputs and sample outputs at fixed intervals. The internal propagation delays limit how fast such a clock can switch.
 
-## Task-212: The generate statement
+## Task-212 The generate statement
 
 The `generate` statement can be used to make designs more flexible. To explain this further, and as this is such a powerful (and confusing) construct, it deserves it's own separate treatment.
 
