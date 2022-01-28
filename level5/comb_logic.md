@@ -16,7 +16,7 @@ This practical session is designed to be standalone. However, chapter 3 in [1] w
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [HDLs and Programming Languages](#HDLs-and-Programming-Languages)
-[Task 201: Gate Level Modelling](#Task-201:-Gate-Level-Modelling)
+[Task 201: Gate Level Modelling](#Task-201-Gate-Level-Modelling)
 [Task 202: Dataflow Modelling](#Task-202:-Dataflow-Modelling)
 [Task 203: Behavioural Modelling](#Task-203:-Behavioural-Modelling)
 [TASK 204: Logic Levels](#Task-204:-Logic-Values)
@@ -87,7 +87,7 @@ We might write a Boolean expression to describe this as Y = <span style="text-de
 
 Let's now look at how we might model this circuit using different styles and levels of abstraction.
 
-## Task 201: Gate Level Modelling
+## Task 201 Gate Level Modelling
 Let's begin with the least abstracted model, gate level.
 
 | Task 201 | Gate Level |
