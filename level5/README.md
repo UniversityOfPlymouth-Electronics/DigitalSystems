@@ -5,7 +5,7 @@
 # Digital Systems in Verilog and System Verilog - Level 5
 
 <figure>
-<img src="../img/HDL.png" width="300px">
+<img src="../img/hdl.png" width="300px">
 <figcaption>Hardware Definition Language</figcaption>
 </figure>
 
