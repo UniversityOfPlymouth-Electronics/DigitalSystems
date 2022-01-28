@@ -2,6 +2,10 @@
 
 ---
 
+<figure>
+<img src="../img/hdl.png" width="300px">
+</figure>
+
 # Getting Started
 
 This section is for all students who are using FPGA technology at the University of Plymouth.

@@ -2,6 +2,10 @@
 
 ---
 
+<figure>
+<img src="../img/hdl.png" width="300px">
+</figure>
+
 # Combinational Logic Components
 
 In this section, we will further our exploration of the SystemVerilog language by building some common combinational logic circuits.

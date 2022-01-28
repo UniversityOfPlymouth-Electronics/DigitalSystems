@@ -2,6 +2,10 @@
 
 ---
 
+<figure>
+<img src="../img/hdl.png" width="300px">
+</figure>
+
 # Combination Logic
 
 In this section, we will begin our exploration of the SystemVerilog language by starting with simpler combinational logic circuits.

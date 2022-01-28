@@ -6,7 +6,6 @@
 
 <figure>
 <img src="../img/hdl.png" width="300px">
-<figcaption>Hardware Definition Language</figcaption>
 </figure>
 
 ## Digital Systems (Level 5)
