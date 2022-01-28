@@ -30,17 +30,21 @@ It is assumed the student is knowledgable in digital electronics, including the 
 
 ## Plymouth Students
 
-Below is a table cross referencing the series of lectures and associated lab sessions.
+Below is a table cross referencing the series of lectures and associated lab sessions. Some of topics are covered in Semester 1, with most covered in Semester 2.
 
-| Lecture | Title | Lab |
-| - | - | - |
-| Lecture 1 | [	SystemVerilog and FPGAs](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0be4e1b8-9156-439e-a98a-ae1d011735e0) | [Getting Started](../getting_started/README.md) |
-| Lecture 2 | [Combinational Logic with SystemVerilog](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8908f7c0-6a97-42c9-987a-ae1d01173520) | [Combinational Logic](./comb_logic.md) |
-| Lecture 3 | [Combinational Logic Components](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d55c066b-00e9-4876-aa21-ae1d01173486) | [Combinational Logic components](./comb_logic_components.md) |
-| - |
+| Lecture | Title | Lab | Week |
+| - | - | - | - |
+| Lecture 1 | [	SystemVerilog and FPGAs](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0be4e1b8-9156-439e-a98a-ae1d011735e0) | [Getting Started](../getting_started/README.md) | S1 |
+| Lecture 2 | [Combinational Logic with SystemVerilog](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8908f7c0-6a97-42c9-987a-ae1d01173520) | [Combinational Logic](./comb_logic.md) | S1 |
+| Lecture 3 | [Combinational Logic Components](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d55c066b-00e9-4876-aa21-ae1d01173486) | [Combinational Logic components](./comb_logic_components.md) | 1 |
+| Lecture 4 | Sequential Logic | Coming Soon | 2 |
+| Lecture 5 | Sequential Logic Components | Coming Soon | 3 |
+| Lecture 6 | Finite State Machines | Coming Soon | 4 |
+| Lecture 7 | Complex Systems | Coming Soon | 5 |
+| |
+
 
 Note that these videos are only accessible to University of Plymouth (UK) students.
-
 
 <hr>
 
