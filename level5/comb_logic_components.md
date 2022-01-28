@@ -16,14 +16,14 @@ This practical session is designed to be standalone. However, chapter 4 in [1] w
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Combinational Logic](#)
-[Task 215: 2-1 Multiplexer](#Task-215:-Multiplexer)
-[Task 216: N-to-1 Multiplexer](#Task-216:-N-to-1-Multiplexer)
-[Task-218: Addition](#Task-218:-Addition)
-[Task-220: Shift and Rotate](#Task-220:-Shift-and-Rotate)
-[Task-222: Multiply and Divide](#Task-222:-Multiply-and-Divide)
-[Task-224: Decoders](#Task-224:-Decoders)
-[Task-225: Demultiplexers](#Task-225:-Demultiplexers)
-[Task-226: Encoders](#Task-226:-Encoders)
+[Task 215: 2-1 Multiplexer](#Task-215-Multiplexer)
+[Task 216: N-to-1 Multiplexer](#Task-216-N-to-1-Multiplexer)
+[Task-218: Addition](#Task-218-Addition)
+[Task-220: Shift and Rotate](#Task-220-Shift-and-Rotate)
+[Task-222: Multiply and Divide](#Task-222-Multiply-and-Divide)
+[Task-224: Decoders](#Task-224-Decoders)
+[Task-225: Demultiplexers](#Task-225-Demultiplexers)
+[Task-226: Encoders](#Task-226-Encoders)
 [Challenges](#Challenges)
 [Reflection](#Reflection)
 [References](#References)
@@ -48,7 +48,7 @@ The basic building blocks of digital electronics are fundamental gates, includin
 
 To build on and reinforce what we learned in the previous section, we will now look at examples of combinational building blocks. Some new concepts and techniques are also introduced, including the use of don't care inputs and high-impedance outputs.
 
-## Task-215: Multiplexer
+## Task-215 Multiplexer
 
 The figure below shows a simple 2-to-1 multiplexer:
 
@@ -211,7 +211,7 @@ We have spent some considerable time looking at different ways to implement a si
 
 <sup>**</sup>It is unlikely that something as simple as a 2-to-1 multiplexer can be further optimised.
 
-## Task 216: N-to-1 Multiplexer
+## Task 216 N-to-1 Multiplexer
 
 Let's now scale up our multiplexer design to have 4 inputs. To select which of the 4 inputs to route to the output, we need `log`<sub>2</sub>(4)=2 select lines.
 
@@ -353,7 +353,7 @@ Note the default parameter value for `N` is set to 4.
 | - | The input value for `x` should be 10101100 |
 | - | A solution `muxN_tb-solution.sv` is provided if you get stuck |
 
-## Task-218: Addition
+## Task-218 Addition
 
 One of the most useful features of FPGAs is the ability to perform arithmetic, often in parallel. Some of the core arithmetic operations can be performed with combinational logic. We will look at some of these now.
 
@@ -455,7 +455,7 @@ You can see how the `generate` statement has replicated the full-adder component
 </figure>
 
 
-## Task-220: Shift and Rotate
+## Task-220 Shift and Rotate
 Shift and rotate are common operations performed on binary numbers (packed arrays in the case of SystemVerilog).
 
 ### Shift
@@ -571,7 +571,7 @@ endmodule
 ### Challenge (optional)
 Can you write a generic component to rotate an N bit input by M bits, where M<N?
 
-## Task-222: Multiply and Divide
+## Task-222 Multiply and Divide
 A shift can be used as very efficient scaler. It is common that algorithms are engineered to require multiples that are a power of 2, thus avoiding the need for multiplication of division.
 
 However, there are times when multiplication and division are needed. This is quite a large topic, and one that needs it's own discussion. Some of the practicalities will be covered here.
@@ -629,7 +629,7 @@ Add another multiplier to multiply `prod1` and `prod2` to produce a 32-bit resul
 
 <p title="Should be an additional 2">How many additional dedicated multipliers are used?</p>
 
-## Task-224: Decoders
+## Task-224 Decoders
 What we define by encoding or decoding data is very context specific. Both have inputs that are transformed into outputs. However, there are some standard *decoder* components we encounter in digital system design.
 
 In the first example, the decoder as a 3-bit binary input `SEL`. This selects which of the 8 possible outputs `Y[7..0]` will be asserted `HIGH`.
@@ -734,7 +734,7 @@ It is important to note that this uses `casez` and not `case` (as described in s
 3. Again with the same strip of 1024 LEDs, you wish to display one of 23 patterns. *How many input lines does the decoder need?*
 **<p title="ceiling(log2(23)) = 5. Some input combinations will not be used">Hover here for the solution</p>**
 
-## Task-225: Demultiplexers
+## Task-225 Demultiplexers
 A demultiplexer is the mirror of a multiplexer. It can also be considered a *type* of decoder (which results in the terms being confused).
 
 * A multiplexer routes one of `N` input signals to a single output
@@ -782,7 +782,7 @@ As you can probably see, this is a special case of a decoder. The input data sig
 | 4 | Write a testbench to test the component `demux.sv` |
 | - | Use ModelSim to run the simulation |
 
-## Task-226: Encoders
+## Task-226 Encoders
 An encoder does much the same thing as a decoder, but again, there are some standard uses of the term. One example is the priority-encoder (as covered in Zwolinski [1]).
 
 The truth table for a 4-input priority encoder is shown below:
