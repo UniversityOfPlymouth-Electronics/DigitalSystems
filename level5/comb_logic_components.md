@@ -376,7 +376,7 @@ endmodule
 
 Here we rely on the `+` operator to add packed arrays using 2's compliment arithmetic. We do not specify any Boolean algebra or gates in the design.
 
-| Task 217 | Arithmetic |
+| Task 218 | Arithmetic |
 | - | - |
 | 1 | In ModelSim, change the directory to `task-218` |
 | 2 | Compile both `adder_N.sv` and `adder_N_tb.sv` |
@@ -432,7 +432,7 @@ module ripple_adder #(parameter N = 4)
 endmodule
 ```
 
-| Task 217 | continued |
+| Task 218 | continued |
 | - | - |
 | 6 | Modify `adder_N_tb.sv` to simultaneously test the ripple adder |
 | - | Make sure you instantiate the rippled adder and give it separate outputs |
