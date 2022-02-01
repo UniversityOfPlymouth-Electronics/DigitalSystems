@@ -1,6 +1,6 @@
 module srgate (output logic Q, Qbar, input logic S, R);
 
-always @(S,R) 
+always @(S,R)
 begin
 	if ( (S==1) && (R==0) )
 		{Q, Qbar} <= 2'b10;

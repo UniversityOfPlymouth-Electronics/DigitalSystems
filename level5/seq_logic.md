@@ -73,7 +73,7 @@ begin
 		{Q, Qbar} <= 2'b10;
 	else if ( (S == 0) && (R == 1) )
 		{Q, Qbar} <= 2'b01;
-	else if ( (S == 1'b1) && (R == 1'b1) )
+	else if ( (S == 1) && (R == 1) )
 		{Q, Qbar} <= 2'bzz;
     // No coverage of the input combination 0,0!!!
 end
@@ -96,7 +96,10 @@ The excitation list (or event list) is a very important concept in both Verilog 
 | - | - |
 | 3 | Compile and edit the solution `srgate_tb-solution.sv` | 
 | 4 | Run the simulation. Note the output |
-| 5 | Now watch [the following video](TBD) |
+| 5 | Now watch [the following video](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=61f7d931-6535-4ec9-a155-ae2f0120e8c9) |
+| 6 | Replicate what you saw in the video. Use the debugger in ModelSim to step through to better understand the behaviour being modelled |
+
+An extract from the testbench is shown below. For this block, we can see the excitation list contains both `S` and `R`, so if either changes, so the block is updated and the values of `S` and `R` are written to the console. 
 
 ```verilog
 //This block only runs when S or R **change**
@@ -104,7 +107,11 @@ always @(S,R)
 begin
 	$display("{S,R}={%b,%b}", S, R);
 end
+```
 
+If `Q` changes as a result of `S` and `R` changing, then the following block detects this and displays the value of `Q`.
+
+```verilog
 //This block only runs when Q changes
 always @(Q)
 begin
@@ -112,8 +119,60 @@ begin
 end
 ```
 
+Now we see how the excitation list is used to detect change events, let's return to the S-R Latch and look again at the excitation list:
 
-## Blocking and non-blocking assignment
+```verilog
+module srgate (output logic Q, Qbar, input logic S, R);
+always @(S,R) 
+begin
+	if ( (S==1) && (R==0) )
+		{Q, Qbar} <= 2'b10;
+	else if ( (S == 0) && (R == 1) )
+		{Q, Qbar} <= 2'b01;
+	else if ( (S == 1) && (R == 1) )
+		{Q, Qbar} <= 2'bzz;
+    // No coverage of the input combination 0,0!!!
+end
+endmodule
+```
+
+The `always` block asserts `Q` and `Bbar`, but only update if `S` or `R` change. Updates to `Q` and `Bbar` are therefore synchronised with changes in either `S` or `R`. It should be stressed that unlike the testbench, this component can be synthesised.
+
+| Task-230 | continued |
+| - | - |
+| 7 | What happens if you remove `R` from the excitation list? | 
+| - | Also look at the wave output. Double click and error message to jump to the position in the wave |
+| 8 | Now remove the excitation list entirely. Recompile and start the simulation. Do NOT click the Run -All button. This time step line by line through the simulation. |
+
+Now how `always` without a excitation list performs an infinite loop?
+
+| Task-230 | continued |
+| - | - |
+| 9 | Finally, change `always` to `always_latch` |
+| - | Note this is only supported in SystemVerilog. Excitation lists are not permitted |
+| 10 | Simulate - does the component behave correctly and pass all tests? | 
+
+`always_latch` is usually preferred to `always` as it is safer. It will infer the correct excitation list (so you don't forget - an easy mistake to make!). Another way to do this is to use `always @*` (supported in Verilog) although they are not entirely equivalent.
+
+### Variation
+The example so far has used the familiar `if else`. You can also use a `case` statement.
+
+```verilog
+module srgate (output logic Q, Qbar, input logic S, R);
+always_latch
+begin
+	case ({S,R})
+		2'b10 : {Q, Qbar} <= 2'b10;
+		2'b01 : {Q, Qbar} <= 2'b01;
+		2'b11 : {Q, Qbar} <= 2'bzz;		
+	endcase
+	// Again, no coverage of the input combination 0 0
+end
+endmodule
+```
+
+## Task-232 Blocking and non-blocking assignment
+
 
 ## `@always` blocks
 
