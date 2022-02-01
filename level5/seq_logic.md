@@ -87,14 +87,37 @@ Some other points to note:
 * This component used something referred to as a **non-blocking assignment operator** `<=`
 * The `always` statement is followed by `@(S,R)`. This is known as an *event list* (also known as an excitation list)
 
-
 S-R Latches are just one type of latch.
+
+### Excitation Lists
+The excitation list (or event list) is a very important concept in both Verilog and SystemVerilog.
+
+| Task-230 | continued |
+| - | - |
+| 3 | Compile and edit the solution `srgate_tb-solution.sv` | 
+| 4 | Run the simulation. Note the output |
+| 5 | Now watch [the following video](TBD) |
+
+```verilog
+//This block only runs when S or R **change**
+always @(S,R)
+begin
+	$display("{S,R}={%b,%b}", S, R);
+end
+
+//This block only runs when Q changes
+always @(Q)
+begin
+	$display("Q => %b", Q);
+end
+```
+
 
 ## Blocking and non-blocking assignment
 
 ## `@always` blocks
 
-## Excitation Lists
+
 
 ## Asynchronous Inputs
 
