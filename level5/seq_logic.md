@@ -173,6 +173,51 @@ endmodule
 
 ## Task-232 Blocking and non-blocking assignment
 
+You may have noticed the use of the non-blocking assignment operator `<=`. This was instead of the blocking assignment operator `=`.
+
+There is quite a lot we could say about these two operators, and they are a source of confusion.
+
+Inside an `always` block, the difference is essentially this:
+
+* A blocking operator takes immediate effect
+* A non-blocking operator does not take effect until the end of the block
+
+| Task-232 | Blocking and non-blocking assignment |
+| - | - |
+| 1 | [watch this video]() and replicate |
+
+This version uses the blocking assignment:
+
+```verilog
+module dlatch_b (output logic Y, notY, input logic D, EN);
+always_latch
+begin
+	if (EN == 1) begin
+		Y    = D;	
+		notY = ~Y;
+	end 
+end
+endmodule 
+```
+
+Contrast with this version, which uses the non-blocking assignment:
+
+```verilog
+module dlatch_nb (output logic Y, notY, input logic D, EN);
+always_latch
+begin
+	if (EN == 1) begin
+		Y    <= D;	
+		notY <= ~Y;
+	end 
+end
+endmodule 
+```
+
+<figure>
+<img src="../img/circuit/blocking_vs_nonblocking.jpg" width="600px">
+<figcaption>Course Icon</figcaption>
+</figure>
 
 ## `@always` blocks
 
