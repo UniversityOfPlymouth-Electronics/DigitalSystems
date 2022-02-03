@@ -287,7 +287,9 @@ The D Flip Flop is *similar* to the D Latch, except it is not level triggered. I
 
 > Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
 
-For the D Flip Flop, the convention is that the output `Q` latches the input value `D` *when its clock input rises*.
+For the D Flip Flop, the convention is that the output `Q` latches the input value `D` *when its clock input rises*. Let's now look at the HDL.
+
+
 
 ## J-K Flip-Flop
 
