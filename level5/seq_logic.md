@@ -148,11 +148,13 @@ Now how `always` without a excitation list performs an infinite loop?
 
 | Task-230 | continued |
 | - | - |
-| 9 | Finally, change `always` to `always_latch` |
+| 9 | Change `always` to `always_latch` |
 | - | Note this is only supported in SystemVerilog. Excitation lists are not permitted |
 | 10 | Simulate - does the component behave correctly and pass all tests? | 
 
 `always_latch` is usually preferred to `always` as it is safer. It will infer the correct excitation list (so you don't forget - an easy mistake to make!). Another way to do this is to use `always @*` (supported in Verilog) although they are not entirely equivalent.
+
+Note that Simulation tools may behave differently.
 
 ### Variation
 The example so far has used the familiar `if else`. You can also use a `case` statement.
@@ -171,67 +173,125 @@ end
 endmodule
 ```
 
-## Task-232 Blocking and non-blocking assignment
-
-You may have noticed the use of the non-blocking assignment operator `<=`. This was instead of the blocking assignment operator `=`.
-
-There is quite a lot we could say about these two operators, and they are a source of confusion.
-
-Inside an `always` block, the difference is essentially this:
-
-* A blocking operator takes immediate effect
-* A non-blocking operator does not take effect until the end of the block
-
-| Task-232 | Blocking and non-blocking assignment |
+| Task-230 | continued |
 | - | - |
-| 1 | [watch this video]() and replicate |
+| 11 | Change `always` to `always_comb` and re-simulate |
+| -  | Does the latching behaviour remain? |
+| 12 | Open the Quartus project. Try and build. What happens? |
 
-This version uses the blocking assignment:
+It is interesting that ModelSim did not issue a warning or error, and the latching behaviour was still modelled. Quartus however considered this an error.
+
+### Assignment Operators
+You may have noticed that the so-called *non-blocking* assignment operator `<=` was used instead of the *blocking* operator `=`. More will be said about this later (it needs careful explanation!). For now, note the following guideline: for combinational logic, use `=`. For sequential logic, use `<=`.
+
+### `@always` blocks
+In verilog, the `@always` block is used for behavioural HDL. The stimulus list and the code within needs to be written carefully to avoid *unintended* (e.g. unintended latching). The compiler does not necessarily warn you either.
+
+To help you be more prescriptive, SystemVerilog introduces three more:
+
+* `always_comb` for combinational logic
+* `always_latch` for latching behaviour
+* `always_ff` for flip-flop behaviour (see below)
+
+## Task-232 Asynchronous Inputs
+In simulation, it is possible to initialise signals at the start of simulation. When you synthesise however, this will have no effect. The initial state of logic gates will be dependant on the hardware, and not on your HDL. Therefore, it is considered good practise to always initialise hardware to a known state when power is first applied. This is typically with a reset signal. 
+
+| Task-232 | Asynchronous Inputs |
+| - | - |
+| 1 | In the folder Task-232, open the Quartus Project. Build and program. |
+| 2 | Press key0 to SET, then press key1 to RESET |
+| 3 | Can you explain why no LEDs are on when you first program the FPGA? |
+
+This component now has an **asynchronous reset** added.
 
 ```verilog
-module dlatch_b (output logic Y, notY, input logic D, EN);
-always_latch
+module srgate (output logic Q, Qbar, input logic S, R, n_reset);
+
+always @(S,R,n_reset)
 begin
-	if (EN == 1) begin
-		Y    = D;	
-		notY = ~Y;
-	end 
+	if (n_reset == 0) begin
+		Q    <= 0;
+		Qbar <= 0;
+	end
+	else if ( (S==1) && (R==0) )
+		{Q, Qbar} <= 2'b10;
+	else if ( (S == 0) && (R == 1) )
+		{Q, Qbar} <= 2'b01;
+	else if ( (S == 1'b1) && (R == 1'b1) )
+		{Q, Qbar} <= 2'bzz;
+	// No coverage of the input combination 0 0 !!!!
 end
-endmodule 
+
+endmodule
 ```
 
-Contrast with this version, which uses the non-blocking assignment:
+Note how the `n_reset` (active low) was added. This input signal takes precedence over the other two, so as long as `n_reset` is held low, `Q` and `Qbar` are both held low.
+
+| Task-232 | continued |
+| - | - |
+| 4 | Write a testbench for this version of the SR-latch. Include the asynchronous input. Check that `S` and `R` are ignored as long as `n_reset` is low |
+| - | A solution `srgate_tb-solution.sv` is provided |
+
+## Task-232 D-Latch
+The SR Latch is the most basic sequential building block, but is rarely used. Much more common is the D-Latch (see section 5.1.2 in [1]).
+
+A SystemVerilog model for a D-Latch is shown below:
 
 ```verilog
-module dlatch_nb (output logic Y, notY, input logic D, EN);
+module dlatch (output logic Q, input logic D, EN, n_Reset);
+
 always_latch
-begin
-	if (EN == 1) begin
-		Y    <= D;	
-		notY <= ~Y;
-	end 
-end
-endmodule 
+	if (n_Reset == 1'b0) 
+		Q <= 0;
+	else if (EN == 1'b1)
+		Q <= D;
+
+endmodule
 ```
 
-<figure>
-<img src="../img/circuit/blocking_vs_nonblocking.jpg" width="600px">
-<figcaption>Course Icon</figcaption>
-</figure>
+> **Note** that although all states of `n_Reset` are covered, the condition for `EN=0` is not covered. This is the latching condition.
 
-## `@always` blocks
+In some ways, this HDL defines a D-Latch clearer than words. First of all, an asynchronous reset has been added. This overrides all other behaviour as before.
+What is of most interest is the behaviour when `n_Reset = 1`.
 
+* When the **level** of `EN` is HIGH, then the output `Q` will simply follow the value of input `D`
+* When the **level** of `EN` is LOW, the output `Q` will latch it's current value
 
+Note the stress of the word *level*. As long as `EN` is held HIGH, so `Q` will follow `D`. A truth table can be written as follows:
 
-## Asynchronous Inputs
+| n_Reset | EN | D | Q |
+| - | -  | - | - |
+| 0 | x | x | 0 |
+| 1 | 0  | x | Q |
+| 1 | 1  | 0 | 0 |
+| 1 | 1  | 1 | 1 |
 
-## D-Latch
+where `x` represents a don't care. Another way to look at it is that the device ignores the input `D` when `EN` is LOW.
 
-## Edge Triggered Outputs - the D-Type flip-flop
+| Task-234 | D-Latch |
+| - | - |
+| 1 | Compile the modules `dlatch.sv` and `dlatch_tb.sv` |  
+| 2 | Simulate the testbench - produce a waveform showing the simulation output |
+| 3 | Read the comments in the test bench. Complete the test bench |
 
-## Testing Sequential Logic
+Note how the following sequences are used for testing:
+
+* With `EN` LOW, set `D` to a specific value
+* Pull `EN` HIGH for a short period of time - the output should follow `D`
+* Pull `EN` LOW again - the output should remain the same (latched)
+
+Imagine that the pulse width of `EN` is made to be very short. We might refer to such a signal as a *strobe*. Such a technique could be used as a way to capture (and latch) the valid of `D` at an specific point in time. This the basis of a D-Flip Flop.
+
+## Task-234 D-Type flip-flop
+The D Flip Flop is *similar* to the D Latch, except it is not level triggered. Instead it is **edge triggered**.
+
+> Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
+
+For the D Flip Flop, the convention is that the output `Q` latches the input value `D` *when its clock input rises*.
 
 ## J-K Flip-Flop
+
+## Testing Sequential Logic
 
 ## Modelling Delays
 
