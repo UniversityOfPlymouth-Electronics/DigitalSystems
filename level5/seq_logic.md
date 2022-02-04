@@ -287,7 +287,49 @@ The D Flip Flop is *similar* to the D Latch, except it is not level triggered. I
 
 > Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
 
-For the D Flip Flop, the convention is that the output `Q` latches the input value `D` *when its clock input rises*. Let's now look at the HDL.
+For the D Flip Flop, the output `Q` latches the input value `D` *when its clock input rises*. Let's now look at the HDL.
+
+```verilog
+module d_ff (output logic Q, input logic D, CLK);
+
+//D-Type Flip-Flop (without asynchronous reset)
+always_ff @(posedge CLK) begin
+	//Q is equal to D when the clock rises
+	Q <= D;
+end
+```
+
+Note that `always_ff` is used. Synthesis tools will check the code in the block describes a flip-flop. It also *requires* an excitation list. `Q` will only update on the *positive edge* (rising edge) of the CLK signal.
+
+We can add an asynchronous reset as follows:
+
+```verilog
+//D-Type Flip-Flop (with asynchronous reset)
+module d_ff1 (output logic Q, input logic D, CLK, n_Reset);
+
+always_ff @(posedge CLK, negedge n_Reset) begin
+	//Reset takes precedence
+	if (n_Reset == 1'b0)
+		Q <= 0;
+	else
+		//Otherwise Q = D (and latches)
+		Q <= D;
+end
+endmodule
+```
+
+As this is an active LOW reset, a negative (falling) edge on the reset will ensure the output is reset as soon as it becomes `0`. As this is not tied to the timing of the clock edge, so we say it is **asynchronous**.
+
+ | Task-234 | D-Type flip-flop |
+ | - | - |
+ | 1 | Compile `d_ff.sv` and the test bench `d_ff_tb.sv` |
+ | 2 | Run the testbench and show a waveform output |
+ | - | Study this waveform to check if it matches your understanding of a D-Type Flip Flop |
+ | 3 | The `d_ff.sv` file contains two variants. The second `d_ff1` includes an asynchronous reset |
+ | - | Modify the testbench to test this component. Add tests to test the reset. This should include: |
+ | - | When reset is LOW, the D input is ignored |
+ | - | The reset can be pulled low at *any* time and is not related to the clock |
+ | - | A solution `d_ff_tb-solution.sv` is provided |
 
 
 
