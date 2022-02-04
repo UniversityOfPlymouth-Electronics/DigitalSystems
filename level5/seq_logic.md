@@ -232,7 +232,7 @@ Note how the `n_reset` (active low) was added. This input signal takes precedenc
 | 4 | Write a testbench for this version of the SR-latch. Include the asynchronous input. Check that `S` and `R` are ignored as long as `n_reset` is low |
 | - | A solution `srgate_tb-solution.sv` is provided |
 
-## Task-232 D-Latch
+## Task-234 D-Latch
 The SR Latch is the most basic sequential building block, but is rarely used. Much more common is the D-Latch (see section 5.1.2 in [1]).
 
 A SystemVerilog model for a D-Latch is shown below:
@@ -282,7 +282,7 @@ Note how the following sequences are used for testing:
 
 Imagine that the pulse width of `EN` is made to be very short. We might refer to such a signal as a *strobe*. Such a technique could be used as a way to capture (and latch) the valid of `D` at an specific point in time. This the basis of a D-Flip Flop.
 
-## Task-234 D-Type flip-flop
+## Task-236 D-Type flip-flop (DFF)
 The D Flip Flop is *similar* to the D Latch, except it is not level triggered. Instead it is **edge triggered**.
 
 > Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
@@ -326,14 +326,16 @@ As this is an active LOW reset, a negative (falling) edge on the reset will ensu
  | 2 | Run the testbench and show a waveform output |
  | - | Study this waveform to check if it matches your understanding of a D-Type Flip Flop |
  | 3 | The `d_ff.sv` file contains two variants. The second `d_ff1` includes an asynchronous reset |
- | - | Modify the testbench to test this component. Add tests to test the reset. This should include: |
+ | - | Modify the testbench to test this component instead. Add tests to test the reset. This should include: |
  | - | When reset is LOW, the D input is ignored |
  | - | The reset can be pulled low at *any* time and is not related to the clock |
  | - | A solution `d_ff_tb-solution.sv` is provided |
 
+## Task-238 J-K Flip-Flop
+Another commonly used sequential building block is the KJ Flip Flop. This is similar to the SR latch (J is set, K is reset), but it is synchronous and `{J,K} = 2'b11` is valid. Please see section 5.3 in [1].
 
 
-## J-K Flip-Flop
+
 
 ## Testing Sequential Logic
 
