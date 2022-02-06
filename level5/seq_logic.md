@@ -334,15 +334,29 @@ As this is an active LOW reset, a negative (falling) edge on the reset will ensu
 ## Task-238 J-K Flip-Flop
 Another commonly used sequential building block is the KJ Flip Flop. This is similar to the SR latch (J is set, K is reset), but it is synchronous and `{J,K} = 2'b11` is valid. Please see section 5.3 in [1].
 
+To describe the JK flip-flop in words:
 
+* The JK Flip-Flop has inputs J,K and CLK, and output Q
+* Q only changes on the falling edge of the clock (CLK)
+* On the falling edge of the clock:
+   * If J is HIGH and K is LOW,  then Q latches HIGH
+   * If J is LOW  and K is HIGH, then Q latches LOW
+   * If J is HIGH and K is HIGH, then Q toggles (flips state)
+   * If J is LOW  and K is LOW,  then simply latches
 
+It is very important to note that the inputs are only samples on the clock (CLK) falling edge.
 
-## Testing Sequential Logic
+| Task-328 | J-K Flip-Flop |
+| - | - |
+| 1 | In ModelSim, change the folder to Task328 |
+| 2 | Using the desctription above, attempt to create a component `jkff` that models this behaviour |
+| - | A solution `jkff-solution.sv` is available |
+| 3 | Write a testbench `jkff_tb` to test that all the bullet points above are modelled correctly |
+
 
 ## Modelling Delays
 
 ## Testing
-
 
 ## References
 
