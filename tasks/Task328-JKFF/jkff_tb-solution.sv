@@ -7,7 +7,11 @@ jkff u1(Q,J,K,CLK);
 
 initial
 begin
-	repeat(20) #50ps CLK = ~CLK;
+	CLK = 0;
+	repeat(20) begin
+		#50ps;
+		CLK = ~CLK;
+	end
 end
 
 initial begin
@@ -36,6 +40,18 @@ initial begin
 	{J,K} = 2'b00;
 	@(negedge CLK);	
 
+	//Toggle
+	@(posedge CLK);
+	{J,K} = 2'b11;
+	@(negedge CLK);
+	@(posedge CLK);
+	@(negedge CLK);
+
+	// Latch
+	@(posedge CLK);
+	{J,K} = 2'b00;
+	@(negedge CLK);	
+end
 
 endmodule
 
