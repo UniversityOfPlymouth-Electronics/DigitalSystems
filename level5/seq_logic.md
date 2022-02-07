@@ -464,6 +464,7 @@ initial begin
 	#1ps;
 	assert (Q==1) $display("Pass"); else $error("FAIL");
 	...
+```
 
 ### Understanding `always`
 The keyword `always` is so named for a reason - it repeats forever (always). This is much like a `while(1)` loop in C. So for example:
