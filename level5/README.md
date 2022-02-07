@@ -36,7 +36,7 @@ Below is a table cross referencing the series of lectures and associated lab ses
 | Lecture 1 | [	SystemVerilog and FPGAs](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0be4e1b8-9156-439e-a98a-ae1d011735e0) | [Getting Started](../getting_started/README.md) | S1 |
 | Lecture 2 | [Combinational Logic with SystemVerilog](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8908f7c0-6a97-42c9-987a-ae1d01173520) | [Combinational Logic](./comb_logic.md) | S1 |
 | Lecture 3 | [Combinational Logic Components](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d55c066b-00e9-4876-aa21-ae1d01173486) | [Combinational Logic components](./comb_logic_components.md) | 1 |
-| Lecture 4 | Sequential Logic | Coming Soon | 2 |
+| Lecture 4 | Sequential Logic | [Sequential Logic](./seq_logic.md) | 2 |
 | Lecture 5 | Sequential Logic Components | Coming Soon | 3 |
 | Lecture 6 | Finite State Machines | Coming Soon | 4 |
 | Lecture 7 | Complex Systems | Coming Soon | 5 |

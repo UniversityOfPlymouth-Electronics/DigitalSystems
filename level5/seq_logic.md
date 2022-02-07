@@ -509,7 +509,7 @@ Synthesis and linting tools will check the logic description matches the type of
 
 A key concept is that `always` blocks describe blocks of hardware, and all hardware blocks are placed in a circuit and operate concurrently. Therefore, `always` blocks are considered to run simultaneously. In the absense of modelled delays, they also **perform their operations in zero time**. This is no different to any other component, such as an AND gate.  
 
->> HDL inside an always block is purely a sequential description of hardware behaviour. There is no CPU. 
+> HDL inside an always block is purely a sequential description of hardware behaviour. There is no CPU. 
 
 Sequential logic is **event driven**. Internal logic and output states are not updated unless something changes. From a simulation perspective, what would be the point of running any simulations if you know nothing will change? `always` blocks are usually blocked using a list of signals. This is known by various names:
 
