@@ -354,12 +354,181 @@ It is very important to note that the inputs are only sampled on the clock (`CLK
 | 2 | Using the desctription above, attempt to create a component `jkff` that models this behaviour |
 | - | A solution `jkff-solution.sv` is provided |
 | 3 | Write a testbench `jkff_tb` to test that all the bullet points above are modelled correctly |
-| - | A solutin `jkff-solution.sv` is provided |
+| - | A solution `jkff-solution.sv` is provided |
+| 4 | Add the following to your testbench and observe the output |
+| - | Set both `J` and `K` to `1` (`{J,K} = 2'b11`). Observe the output over 8 clock cycles |
 
-## Modelling Delays
+In the latter experiment, you should have observed the output toggling. Note the frequency and phase of the output in contrast to the clock signal `CLK`.
+
+## Task 240 Modelling Delays
+In this section, there has been no consideration of intrinsic properties, such as delays. To model this correctly, you would probably use a synthesis tool such as Quartus and perform a gate-level-simulation.
+
+Sometimes it is useful to add some simply delay modelling into our models.
+
+| Task-240 | Modelling Delays |
+| - | - |
+| 1 | In the Task240 folder, compile `d_ff.sv` and the test bench `d_ff_tb.sv` |
+| 2 | Run the testbench and show a waveform output |
+| 3 | Add assert statements to check the outputs. Note that you will have to allow of the delay in the output `Q` |
+
+In this task, a D-Flip Flop was modelled with a fixed delay on the output (this is in contrast to a full model, where each gate delay could be modelled).
+
+```verilog
+//D-Type Flip-Flop (with asynchronous reset)
+module d_ff #(parameter Tpd=10ps) (output logic Q, input logic D, CLK, n_Reset);
+
+logic q_int;
+assign #Tpd Q = q_int;
+
+always_ff @(posedge CLK, negedge n_Reset) begin
+	//Reset takes precedence
+	if (n_Reset == 1'b0) begin
+		q_int <= 0;
+	end
+	else begin
+		//Otherwise Q = D (and latches)
+		q_int <= D;
+	end
+end
+	
+endmodule
+```
+
+Blocking statements such as delays are not permitted inside an `assert_ff` block. Therefore, an internal logic signal `q_int` is added as an intermediate step. 
 
 ## Testing
+Through out this section, test benches have been used to confirm our models. There are some points of interest worth highlighting:
+
+### `initial` blocks
+`initial` blocks are a simulation-only feature of SystemVerilog. They are activated at the start of simulation and continue until either blocked or completed.
+
+You can have multiple `initial` blocks which all perform operations concurrently.
+
+### Clocks
+Simulating a clock is very important. The approach taken here is to prescribe a fixed number of clock cycles. 
+
+```verilog
+initial begin
+	CLK=0;
+    repeat(20) 
+		#50ps CLK = ~CLK;  
+end 
+```
+
+First the clock MUST be initialised to either `0` or `1`. Then the clock is toggled 20 times, every 50ps (in this case). This amounts to 10 clock cycles before this block terminates. Note the use of the `repeat(N)` statement. A for-loop could equally have been used.
+
+Another approach commonly see is to repeat forever.
+
+```verilog
+initial begin
+	CLK=0;
+    forever 
+		#50ps CLK = ~CLK;  
+end 
+```
+
+This does require that the simulator can detect when to stop simulation or that an upper bound it put on simulation time.
+
+### Reset Signals
+An `initial` block is also useful for generating a reset signal.
+
+```verilog
+initial begin
+	n_reset = 0;
+	#50ps;
+	n_reset = 1;
+end
+```
+
+Note this will operate in parallel with other `initial` or `always` blocks.
+
+### Waiting for a change
+When writing a testbench, it can seem daunting. When is the right time to change the inputs and check the output? Rather than use timings, you might find it helpful to write your testbench in a way that is *event driven*. For example:
+
+```verilog
+initial begin
+	//Wait for reset to be pulled low
+	@(negedge n_reset);
+
+	D = 0;
+	...
+```
+
+When you want to monitor an output, you can also block and wait for it to change:
+
+```verilog
+initial begin
+	@(Q);	//Wait for Q to change
+
+	@(posedge CLK);	//Wait for the clock to change to a `1`
+	#1ps;
+	assert (Q==1) $display("Pass"); else $error("FAIL");
+	...
+
+### Understanding `always`
+The keyword `always` is so named for a reason - it repeats forever (always). This is much like a `while(1)` loop in C. So for example:
+
+```verilog
+	always begin
+		X = ~X;
+		#10ps;
+	end
+```
+
+This would loop and your simulation would seem to freeze! What is missing is a condition to stop and allow other blocks in the simulator to use some CPU time. For example:
+
+```verilog
+	always @(LE) begin
+		X = ~X;
+		#10ps;
+	end
+```
+
+When the `always` block repeats it checks to see if `LE` has **changed**. If not, it blocks and yields control back to the simulator.
+
+## Reflection
+In this section, we have considered SystemVerilog models for some of the most fundamental building blocks of sequential logic:
+
+* S-R Latch
+* D Latch
+* D Flip Flop
+* J-K Flip Flop
+
+Latching behaviour is central to this. Where a signal is conditionally asserted, but not all conditions are covered, then an implicit latch is created. When no condition is matched, the output retains it's current value. Feedback circuitry is used to synthesise this behaviour. 
+
+Latches are level triggered whereas a flip-flop is edge triggered. For a D-Latch, the output can change *while* the latch-enable (`LE`) signal is high. For the flip-flop, outputs are updated only on the edge of a clock signal (a much shorter time window). Flip-flops are said to have outputs that are *synchronous* with respect to the clock.
+
+Synchronous logic is usually modelled and described using an `always` block. SystemVerilog has a number of variants:
+
+* `always` - part of the Verilog standard, and provided backwards compatibility.
+* `always_comb` - a block of sequential statements that describe combinational logic.
+* `always_latch` -  a block of sequential statements that describe logic with latched outputs
+* `always_ff` - a block of sequential statements that describes logic with edge-triggered logic
+
+Synthesis and linting tools will check the logic description matches the type of always block.
+
+A key concept is that `always` blocks describe blocks of hardware, and all hardware blocks are placed in a circuit and operate concurrently. Therefore, `always` blocks are considered to run simultaneously. In the absense of modelled delays, they also **perform their operations in zero time**. This is no different to any other component, such as an AND gate.  
+
+>> HDL inside an always block is purely a sequential description of hardware behaviour. There is no CPU. 
+
+Sequential logic is **event driven**. Internal logic and output states are not updated unless something changes. From a simulation perspective, what would be the point of running any simulations if you know nothing will change? `always` blocks are usually blocked using a list of signals. This is known by various names:
+
+* sensitivity list
+* excitation list
+* event list
+
+What is so impressive is how such behaviour modelling can be synthesised. This does not mean the process is fool-proof. We still need to check hardware synthesis matches the simulation.
+
+`always_latch` statements infer their list automatically. `always_ff` however cannot do this as it needs to know which signal to use for edge triggering, and which edge to use.
+
+We also saw blocking and non-blocking assignments. Combinational logic should use blocking assertions (`=`) and sequential logic should use non-blocking `<=`. This helps ensure simulation and synthesis behave in the same way.
+
+It is easy to get caught out with sequential logic. Try to keep each block simple. It is better to use separate simple blocks than one large complex one.
 
 ## References
 
 See [References](references.md) for a list of numbered references in this course.
+
+---
+
+[Next - Sequential Logic Components]()
