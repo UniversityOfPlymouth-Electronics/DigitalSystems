@@ -12,7 +12,7 @@ In this section, we will begin to look at sequential logic circuits.
 
 This practical session is designed to be standalone. However, chapter 5 in [1] will compliment it as supplementary reading.
 
-| TABLE OF CONTENTS |
+| TABLE OF CONTENTS (To Be Done) |
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Sequential Logic](#)
