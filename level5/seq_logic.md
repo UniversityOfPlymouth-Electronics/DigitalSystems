@@ -15,11 +15,24 @@ This practical session is designed to be standalone. However, chapter 5 in [1] w
 | TABLE OF CONTENTS (To Be Done) |
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
-[Sequential Logic](#)
-[Task 230: Implicit Latches](#Task-230-Implicit Latches)
-
+[Sequential Logic](#Sequential-Logic)
+[Task-230 Latching Outputs](#Task-230-Latching-Outputs)
+[Excitation Lists](#excitation-lists)
+[Assignment Operators](#assignment-operators)
+[`always` blocks](#always-blocks)
+[Task-232 Asynchronous Inputs](#task-232-asynchronous-inputs)
+[Task-234 D-Latch](#task-234-d-latch)
+[Task-236 D-Type flip-flop (DFF)](#task-236-d-type-flip-flop-dff)
+[Task-238 J-K Flip-Flop](#task-238-j-k-flip-flop)
+[Task 240 Modelling Delays](#task-240-modelling-delays)
+[Testing](#testing)
+[`initial` blocks](#initial-blocks)
+[Clocks](#clocks)
+[Reset Signals](#reset-signals)
+[Waiting for a change](#waiting-for-a-change)
+[Understanding `always`](#understanding-always)
 [Challenges](#Challenges)
-[Reflection](#Reflection)
+[Reflection](#reflection)
 [References](#References)
 
 ## Intended Learning Outcomes
@@ -184,7 +197,7 @@ It is interesting that ModelSim did not issue a warning or error, and the latchi
 ### Assignment Operators
 You may have noticed that the so-called *non-blocking* assignment operator `<=` was used instead of the *blocking* operator `=`. More will be said about this later (it needs careful explanation!). For now, note the following guideline: for combinational logic, use `=`. For sequential logic, use `<=`.
 
-### `@always` blocks
+### `always` blocks
 In verilog, the `@always` block is used for behavioural HDL. The stimulus list and the code within needs to be written carefully to avoid *unintended* (e.g. unintended latching). The compiler does not necessarily warn you either.
 
 To help you be more prescriptive, SystemVerilog introduces three more:
@@ -485,7 +498,17 @@ This would loop and your simulation would seem to freeze! What is missing is a c
 	end
 ```
 
-When the `always` block repeats it checks to see if `LE` has **changed**. If not, it blocks and yields control back to the simulator.
+When the `always` block repeats, it checks to see if `LE` has **changed**. If not, it blocks and yields control back to the simulator.
+
+## Challenges
+A derivative of the J-K Flip Flop is the T Flip Flop. The truth table is shown below:
+
+T | Q<sup>+</sup> | <span style="text-decoration:overline">Q</span><sup>+</sup> |
+| - | - | - |
+| 0 | Q | <span style="text-decoration:overline">Q</span> |
+| 1 | <span style="text-decoration:overline">Q</span> | Q |
+
+Write and test a component that implements a T Flip Flop.
 
 ## Reflection
 In this section, we have considered SystemVerilog models for some of the most fundamental building blocks of sequential logic:
