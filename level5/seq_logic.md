@@ -368,8 +368,8 @@ Sometimes it is useful to add some simply delay modelling into our models.
 | Task-240 | Modelling Delays |
 | - | - |
 | 1 | In the Task240 folder, compile `d_ff.sv` and the test bench `d_ff_tb.sv` |
-| 2 | Run the testbench and show a waveform output |
-| 3 | Add assert statements to check the outputs. Note that you will have to allow of the delay in the output `Q` |
+| 2 | Run the testbench and show a waveform output. Note that the tests are failing. Why is this? |
+| 3 | Fix the assert statements that check the outputs. Note that you will have to allow of the delay in the output `Q` |
 
 In this task, a D-Flip Flop was modelled with a fixed delay on the output (this is in contrast to a full model, where each gate delay could be modelled).
 
