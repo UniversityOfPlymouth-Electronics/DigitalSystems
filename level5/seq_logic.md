@@ -508,7 +508,11 @@ T | Q<sup>+</sup> | <span style="text-decoration:overline">Q</span><sup>+</sup> 
 | 0 | Q | <span style="text-decoration:overline">Q</span> |
 | 1 | <span style="text-decoration:overline">Q</span> | Q |
 
-Write and test a component that implements a T Flip Flop.
+Write and test a component that implements a T Flip Flop. Include an asynchronous reset as an input. You will find this discussed in section 5.3 of [1].
+
+Now write a test bench for your component. Note any difficulty in determining all the testing scenarios.
+
+Finally, test your component in Quartus. Start with a copy of Quartus project in Task 215. 
 
 ## Reflection
 In this section, we have considered SystemVerilog models for some of the most fundamental building blocks of sequential logic:
