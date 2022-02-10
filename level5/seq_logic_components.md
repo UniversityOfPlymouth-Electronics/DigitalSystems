@@ -142,6 +142,11 @@ What I hope is becoming clear is that this circuit *only works because of the in
 * T<sub>setup</sub> is known as the set-up time
 * T<sub>hold</sub> is known as the hold time
 
+<figure>
+<img src="../img/setup_and_hold.png" width="400px">
+<figcaption>Showing the set-up and hold times for a flip-flop. T<sub>setup</sub> is the time the input must be stable before the clock edge; T<sub>hold</sub> is the time the input must be stable after the clock edge; T<sub>d</sub> is the intrinsic delay between the clock edge the output changing. The input is captured either side of the clock edge. </figcaption>
+</figure>
+
 Usually, for a DFF, T<sub>hold</sub>=0. In words, once the clock has risen, any changes in the input `D` will be both ignored and tolerated.
 
 A zero hold time is traded for a large setup time. T<sub>setup</sub> > 0. In words, the input `D` **must** be set and stable T<sub>setup</sub> in advance of the clock edge. *Failure to observe this can result in unpredictable outputs*.
@@ -152,10 +157,12 @@ T<sub>clk</sub> > T<sub>d</sub> + T<sub>setup</sub>
 
 This limits how fast we can drive the clock before set-up violation occurs (so overclockers, beware!). We will revisit this topic later in the course. However, you can read more in section 13.5 in [1].
 
+| Task-242 | Continued |
+| - | - |
+| 11 | Increase the clock frequency and show the circuit failing  | 
+
 ## Multiple Bit Registers
 It is recommended you read the accompanying text for this section: Section 5.4.1 in [1].
-
-
 
 
 ## Counters

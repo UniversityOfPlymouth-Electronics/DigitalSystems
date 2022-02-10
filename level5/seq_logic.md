@@ -300,6 +300,11 @@ The D Flip Flop is *similar* to the D Latch, except it is not level triggered. I
 
 > Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
 
+<figure>
+<img src="../img/dff_from_latch.png" width="600px">
+<figcaption>Building a D-Type Flip-Flop from a D-Type Latch and an edge transition detector, where `LE` is the Latch Enable, `D` is the data input and `Q` is the latched output</figcaption>
+</figure>
+
 For the D Flip Flop, the output `Q` latches the input value `D` *when its clock input rises*. Let's now look at the HDL.
 
 ```verilog
