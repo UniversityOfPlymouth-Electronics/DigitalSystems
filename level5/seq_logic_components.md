@@ -272,9 +272,17 @@ Note how the input and outputs signals are `N` bit wide. Otherwise, this is very
 
 | Task-244 | continued |
 | - | - |
-| 7 | Write a testbench `d_ffN_tb.sv` to show the reset and latching behaviour of this component |
+| 7 | Write a testbench `d_ffN_tb.sv` to show the reset and latching behaviour of this component. |
 
-## Parallel In Serial Out
+Registers used to store binary words are central to many designs, and will be revisited many times on this course.
+
+## Task-246 Parallel In Serial Out
+So far, we have considered serial-in-parallel-out and parallel-in-parallel-out. We finally look at the basis of serial data transmission, parallel-in-serial-out. For such a device we the following fundamental requirements:
+
+* The ability to load a parallel N-bit word into the register and store it
+* The ability to shift the N-bits out one-by-one
+
+
 
 
 ## Counters
