@@ -652,19 +652,9 @@ https://fpgasoftware.intel.com/eula.
 	(bus)
 )
 (connector
-	(pt 552 384)
-	(pt 640 384)
-	(bus)
-)
-(connector
 	(text "key0" (rect 602 400 625 417)(font "Intel Clear" ))
 	(pt 640 416)
 	(pt 592 416)
-)
-(connector
-	(text "EN" (rect 602 416 614 433)(font "Intel Clear" ))
-	(pt 640 432)
-	(pt 592 432)
 )
 (connector
 	(pt 584 512)
@@ -685,14 +675,24 @@ https://fpgasoftware.intel.com/eula.
 	(pt 336 400)
 )
 (connector
-	(text "CK1" (rect 602 384 622 401)(font "Intel Clear" ))
-	(pt 640 400)
-	(pt 592 400)
-)
-(connector
 	(text "CK1" (rect 370 496 390 513)(font "Intel Clear" ))
 	(pt 424 512)
 	(pt 360 512)
+)
+(connector
+	(text "CK1" (rect 602 384 622 401)(font "Intel Clear" ))
+	(pt 584 400)
+	(pt 640 400)
+)
+(connector
+	(text "EN" (rect 602 416 614 433)(font "Intel Clear" ))
+	(pt 592 432)
+	(pt 640 432)
+)
+(connector
+	(pt 552 384)
+	(pt 640 384)
+	(bus)
 )
 (junction (pt 520 40))
 (text "LEDs" (rect 1296 536 1325 555)(font "Intel Clear" (font_size 8)))

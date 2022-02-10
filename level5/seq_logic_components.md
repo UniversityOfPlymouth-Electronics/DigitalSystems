@@ -242,6 +242,39 @@ Note the additional `if` statement. If not reset, and there is a rising clock ed
 
 Let's now consider a fully behavioural model of a `PIPO` device.
 
+```verilog
+module d_ffN #(parameter N=8) (output logic [N-1:0] Q, input logic [N-1:0] D, input logic CLK, N_RESET, EN);
+
+logic [N-1:0] q_int;
+assign #(10ps) Q = q_int;
+
+always_ff @(posedge CLK, negedge N_RESET) begin
+	//Reset takes precedence
+	if (N_RESET == 1'b0) begin
+		q_int <= 8'b0;
+	end
+	else begin
+		//Otherwise if EN=1 then Q = D (and latches)
+		if (EN == 1) 
+			q_int <= D;
+	end
+end
+	
+endmodule
+```
+
+Note how the input and outputs signals are `N` bit wide. Otherwise, this is very similar. A simulation is shown below:
+
+<figure>
+<img src="../img/circuit/dffN_EN.png" width="500px">
+<figcaption>N-bit Parallel-In-Parallel-Out register. Note how the input `D` is ignored unless `EN`=1</figcaption>
+</figure>
+
+| Task-244 | continued |
+| - | - |
+| 7 | Write a testbench `d_ffN_tb.sv` to show the reset and latching behaviour of this component |
+
+## Parallel In Serial Out
 
 
 ## Counters
