@@ -12,7 +12,7 @@ In this section, we will begin to look at sequential logic circuits.
 
 This practical session is designed to be standalone. However, chapter 5 in [1] will compliment it as supplementary reading.
 
-| TABLE OF CONTENTS (To Be Done) |
+| TABLE OF CONTENTS |
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Sequential Logic](#Sequential-Logic)
@@ -559,4 +559,4 @@ See [References](references.md) for a list of numbered references in this course
 
 ---
 
-[Next - Sequential Logic Components]()
+[Next - Sequential Logic Components](seq_logic_components.md)
