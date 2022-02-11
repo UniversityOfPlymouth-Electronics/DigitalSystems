@@ -381,6 +381,7 @@ If you leave it long enough, the counter will overflow or underflow. You might p
 | 11 | Add some additional logic to stop the counter counting beyond the maximum value or below 0 |
 | 12 | Again, test on the hardware |
 
+There are other counters you could build (see the [challenges](#challenges) if you have time! )
 
 ## Task-250 Memory
 
@@ -390,7 +391,9 @@ TBD
 
 1. In Task-242, a file `cascaded_dff` was created by Quartus. Can you shorten this file by using the `generate` statement?
 
-2. In Terk-248, write a testbench to show that the counter can count up, count down, and does not overflow or underflow. Tip: use a smaller `N`=4 to keep it shorter.
+2. In Task-248, write a testbench to show that the counter can count up, count down, and does not overflow or underflow. Tip: use a smaller `N`=4 to keep it shorter.
+
+3. Build and test a Johnson counter (see 5.5.2 in [1])
 
 ## Reflection
 
