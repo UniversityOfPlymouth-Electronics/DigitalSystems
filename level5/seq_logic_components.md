@@ -277,11 +277,21 @@ Note how the input and outputs signals are `N` bit wide. Otherwise, this is very
 Registers used to store binary words are central to many designs, and will be revisited many times on this course.
 
 ## Task-246 Parallel In Serial Out
-So far, we have considered serial-in-parallel-out and parallel-in-parallel-out. We finally look at the basis of serial data transmission, parallel-in-serial-out. For such a device we the following fundamental requirements:
+So far, we have considered serial-in-parallel-out and parallel-in-parallel-out. To complete the set, we now look at the basis of serial data transmission, parallel-in-serial-out. For such a device we have the following fundamental requirements:
 
 * The ability to load a parallel N-bit word into the register and store it
 * The ability to shift the N-bits out one-by-one
 
+| Task-246 | Parallel In Serial Out |
+| - | - |
+| 1 | Open the Quartus project in Task246 |
+| 2 | Build and program the FPGA |
+| 3 | Hold down 
+
+<figure>
+<img src="../img/circuit/p2s.png" width="600px">
+<figcaption>Parallel-to-Serial Shift Register with parallel LOAD and input enable</figcaption>
+</figure>
 
 
 
