@@ -387,6 +387,8 @@ There are other counters you could build (see the [challenges](#challenges) if y
 
 TBD
 
+Read section 5.6 in [1] for more details.
+
 ## Challenges
 
 1. In Task-242, a file `cascaded_dff` was created by Quartus. Can you shorten this file by using the `generate` statement?
