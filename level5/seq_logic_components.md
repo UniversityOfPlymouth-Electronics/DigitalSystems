@@ -286,24 +286,111 @@ So far, we have considered serial-in-parallel-out and parallel-in-parallel-out. 
 | - | - |
 | 1 | Open the Quartus project in Task246 |
 | 2 | Build and program the FPGA |
-| 3 | Hold down 
+| 3 | Press and release key0 to reset |
+| - | You should see the clock flashing on LED[7] |
+| - | Set the DIL switched to the pattern 1010 |
+| - | When the clock LED goes OFF, press and fold key1 to shift the bits into LED[0] |
+
+In the schematic you can see a component `p2s`. Double-clicking this will reveal another schematic (shown below). 
 
 <figure>
 <img src="../img/circuit/p2s.png" width="600px">
 <figcaption>Parallel-to-Serial Shift Register with parallel LOAD and input enable</figcaption>
 </figure>
 
+Study this schematic so that you understand how it works. Because schematic capture was used, it would be easy to convert this to structural HDL. However, it is probably much quicker to use behavioural HDL
+
+| Task-246 | Continued |
+| - | - |
+| 4 | Create a component `parallel_to_serial.sv` |
+| 5 | Write a behavioural model of the figure above |
+| - | Some key points are included below. A solution is provided |
+
+**KEY POINTS**
+* The device as a N-bit input `DATAW` used to LOAD an initial value into the DFFs (the register)
+* If EN is HIGH
+   * When SHIFT is LOW, the flip flops are initialised with the input `DATAW`. The lsb appears on the output immediately
+   * When SHIFT is HIGH, the bits are shifted right on each clock edge. A zero is shifted into the msb position.
+* If EN is LOW, the component will neither LOAD or SHIFT
+* Reset takes precedence of all the above and sets the outputs of the DFFs to zero.
+* Hint: your internal shift register is simple created with `logic [N-1:0] sr;`
+
+## Task-248 Counters
+Counters are a very commonly used device. Section 5.5 in [1] details some of the different types, including:
+
+* Binary counter
+* Johnson counter
+* Linear Feedback Shift Register (LFSR)
+
+We will look at a simple binary counter.
+
+| Task-248 | Counters |
+| - | - |
+| 1 | Using ModelSim change the folder to Task248 |
+| 2 | Compile `counterN.sv` |
+| 3 | Simulate this component and test interactively. Force `N_RESET` to 0 and force CLK to be a clock. Run for one clock cycle, the force `N_RESET` to 1 |
+| - | Observe the output counting |
+
+Let us look at this code more closely:
+
+```verilog
+module counterN #(parameter N=8) (output logic [N-1:0] Y, input logic CLK, input logic N_RESET);
+
+logic [N-1:0] count;
+
+//Connect output to internal register count
+assign Y = count;
+
+always_ff @(posedge CLK) begin
+	if (N_RESET == 0) 
+		count <= 0;
+	else
+		count <= count + 1;
+end
+
+endmodule
+```
+
+Note that an asynchronous reset is used to reset the count. Without this, we cannot guarantee the counter will start at zero. The counter counts on the positive edge of the clock.
+
+As an exercise in using Quartus, attempt the following tasks (check with the tutors if you get stuck).
+
+| Task-248 | continued |
+| - | - |
+| 4 | Open the Quartus project and add this file to the project |
+| 5 | Create a component based on this module |
+| 6 | Add the component to the schematic |
+| - | Use CK2 as the clock |
+| - | Use key0 as the reset |
+| - | Set the parameter N to 8 |
+| - | Connect the output to the LEDs |
+| 7 | Build and program to see the counter driving the LEDs |
+
+Now let's add an an additional input. 
+
+| Task-248 | continued |
+| - | - |
+| 8 | Add an additional input `DIR` that controls the direction of the count (Up or Down) |
+| 9 | Connect this to key1 |
+| 10 | Test on the FPGA |
+
+If you leave it long enough, the counter will overflow or underflow. You might prefer the counter only counts up to 2<sup>N</sup>-1 or down to 0.
+
+| Task-248 | continued |
+| - | - |
+| 11 | Add some additional logic to stop the counter counting beyond the maximum value or below 0 |
+| 12 | Again, test on the hardware |
 
 
-## Counters
+## Task-250 Memory
 
-## Memory
+TBD
 
 ## Challenges
 
 1. In Task-242, a file `cascaded_dff` was created by Quartus. Can you shorten this file by using the `generate` statement?
 
-
+2. In Terk-248, write a testbench to show that the counter can count up, count down, and does not overflow or underflow. Tip: use a smaller `N`=4 to keep it shorter.
 
 ## Reflection
 
