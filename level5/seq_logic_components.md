@@ -384,10 +384,18 @@ If you leave it long enough, the counter will overflow or underflow. You might p
 There are other counters you could build (see the [challenges](#challenges) if you have time! )
 
 ## Task-250 Memory
+Storing data in memory is a common feature of a digital system. Memory divides broadly two categories:
 
-TBD
+* Read Only Memory (Often called ROM)
+* Read/Write Memory (Often called RAM)
+
+Memory can be synthesized with logic gates, but modern FPGA devices often have banks of on-device memory. 
 
 Read section 5.6 in [1] for more details.
+
+We are going to focus on two examples: Using a ROM to implement combinational logic and synchronous RAM.
+
+TBD
 
 ## Challenges
 
