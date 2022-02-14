@@ -389,18 +389,136 @@ Storing data in memory is a common feature of a digital system. Memory divides b
 * Read Only Memory (Often called ROM)
 * Read/Write Memory (Often called RAM)
 
-Memory can be synthesized with logic gates, but modern FPGA devices often have banks of on-device memory. 
+Memory can be synthesized with logic gates, but modern FPGA devices often have banks of on-device memory. Many FPGA manufacturers also provide convenient ways to initialise memory from power-on. As this is a FPGA centric course, we will also look at some synthesis issues.
 
 Read section 5.6 in [1] for more details.
 
-We are going to focus on two examples: Using a ROM to implement combinational logic and synchronous RAM.
+We are going to focus on a few select examples: 
+
+* Synchronous RAM
+* Using a ROM to implement combinational logic
+   * Synchronous
+   * Asynchronous
 
 ### Synchronous RAM
+The ability to store samples in memory is supported in both the SystemVerilog langue and Quartus synthesis tools. A simple writeable memory is shown below:
+
+```verilog
+module SyncRAM #(parameter M = 4, N = 8)
+                (output logic [N-1:0] Qout, 
+				 input logic [M-1:0] Address, 
+				 input logic [N-1:0]Data, 
+				 input logic WE, Clk);
+
+logic [N-1:0] mem [0:(1 << M)-1]; /* synthesis ramstyle = "M9K" */
+
+always_comb
+	Qout = mem[Address];
+
+always_ff @(posedge Clk)
+	if (WE)
+		mem[Address] <= Data;
+
+endmodule
+
+```
+
+In this example, the memory capacity is `2`<sup>`M`</sup> words, each `N` bits wide. The storage array is defined using:
+
+```verilog
+logic [N-1:0] mem [0:(1 << M)-1];
+```
+
+The output simply looks up the value from the array `mem`
+
+```verilog
+always_comb
+	Qout = mem[Address];
+```
+
+Memory is written on the rising edge of the clock, IF the Write Enable (`WE`) input is high.
+
+```verilog
+always_ff @(posedge Clk)
+	if (WE)
+		mem[Address] <= Data;
+```
+
+Note that this device has both an input port and an output port. We will look at an example in a later section.
 
 ### ROM
 
+A ROM is a slightly more difficult device as it has to be initialised with data values when power is supplied. The FPGA does not have an internal EEPROM, but can initialise writable memory to be used as a ROM. In simulation this is mostly straightforward. Luckily, both Xilinx and Intel FPGAs can synthesize memory using one of several methods.
 
-See [8] for a list of synthesis directives.
+The following two components are functionally identical. Both simulate and both synthesise using Quartus and a Cyclone FPGA.
+
+In the first example, ROM data is included in the source. Note how the unpacked array must be initialised with `'{`.
+
+```verilog
+module single_port_rom_async
+#(parameter DATA_WIDTH=8, parameter ADDR_WIDTH=3)
+(
+	input [(ADDR_WIDTH-1):0] addr,
+	output reg [(DATA_WIDTH-1):0] q
+);
+
+	// Declare the ROM variable
+	reg [DATA_WIDTH-1:0] rom[2**ADDR_WIDTH-1:0] = '{
+	
+		8'b10101010, 8'b11110000, 8'b00001111, 8'b11001100,
+		8'b11100111, 8'b00011000, 8'b10110111, 8'b11101101
+		
+		}; /* synthesis romstyle = "M9K" */
+
+	assign q = rom[addr];
+
+endmodule
+```
+
+If you prefer to store your ROM values in a text file, you can also do this:
+
+```verilog
+module single_port_rom_async
+#(parameter DATA_WIDTH=8, parameter ADDR_WIDTH=2)
+(
+	input [(ADDR_WIDTH-1):0] addr,
+	output reg [(DATA_WIDTH-1):0] q
+);
+
+	// Declare the ROM variable
+	reg [DATA_WIDTH-1:0] rom[2**ADDR_WIDTH-1:0]; 
+
+	initial
+	begin
+		mem[Address] <= Data;
+		//Fill rom data with space separated values in a text file 
+		$readmemb("single_port_rom_init.txt", rom);
+	end
+
+	assign q = rom[addr];
+
+endmodule
+```
+
+Note that although most text-books tell you the `initial` block is a simulation only feature, Quartus interprets it for the purpose of power-on initialisation! Note you need to check the manufacturers documentation. 
+
+| Task-250 | Memory |
+| - | - |
+| 1 | Open the Quartus project in Task250 |
+| 2 | Build and deploy |
+| 3 | Wait a few seconds, then an LED pattern should display |
+| 4 | Go back at study the schematic |
+
+In this example, data from a synchronous ROM is copied into a RAM. Then each value in the ram is used to drive an LED pattern.
+
+| Task-250 | Memory |
+| - | - |
+| 5 | Launch ModelSim (Tools->Run Simulation Tool->RTL Simulation) |
+| 6 | Compile all the SystemVerilog files in the task folder (up 3) |
+| 7 | Copy `single_port_rom_init.txt` into the modelsim folder |
+| 8 | Write a testbench to test both asynchronous ROM devices (`single_port_rom_async` and `single_port_rom_async2`) and to check they produce the same outputs |
+
+You might have noticed some comments with the the word `synthesis`. These are ignored by the simulator by used by Quartus. See [8] for a list of synthesis directives.
 
 ## Challenges
 
