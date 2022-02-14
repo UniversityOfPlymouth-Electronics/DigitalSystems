@@ -12,7 +12,7 @@ In this section, we will begin to look at sequential logic circuits.
 
 This practical session is designed to be standalone. However, chapter 5 in [1] will compliment it as supplementary reading.
 
-| TABLE OF CONTENTS (TO BE DONE) |
+| TABLE OF CONTENTS |
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Sequential Logic Components](#Sequential-Logic-Components)
@@ -519,6 +519,37 @@ In this example, data from a synchronous ROM is copied into a RAM. Then each val
 | 7 | Copy `single_port_rom_init.txt` into the modelsim folder |
 | 8 | Write a testbench to test both asynchronous ROM devices (`single_port_rom_async` and `single_port_rom_async2`) and to check they produce the same outputs |
 
+### ROM and Combinational Logic
+You can use ROM to replace combinational logic. Consider the following truth-table:
+
+| A | B | C | Y |
+| - | - | - | - |
+| 0 | 0 | 0 | 000 |
+| 0 | 0 | 1 | 100 |
+| 0 | 1 | 0 | 100 |
+| 0 | 1 | 1 | 100 |
+| 1 | 0 | 0 | 101 |
+| 1 | 0 | 1 | 101 |
+| 1 | 1 | 0 | 110 |
+| 1 | 1 | 1 | 111 |
+
+You might recognise this as part of a priority encoder (msb of Y is the valid output; bits 1 and 0 of Y are the encoder outputs). What is does is not so important here. 
+
+> You can look a this truth-table as a block of initialised ROM memory. Stored in this ROM memory are 8 values, each 3-bits wide.
+>
+> {A,B,C} constitute the address while Y is the data stored at that address.
+
+| Task-250 | continued |
+| - | - |
+| 9 | Create a component pri_enc_rom. Implement the logic using a ROM |
+| 10 | Test this component by simulating in ModelSim`
+
+You module should have three inputs `A`, `B` and `C` and a 3-bit output `Y`.
+
+```verilog
+module pri_enc_rom (output logic [2:0] Y, input logic A, B, C);
+```
+
 You might have noticed some comments with the the word `synthesis`. These are ignored by the simulator by used by Quartus. See [8] for a list of synthesis directives.
 
 ## Challenges
@@ -529,7 +560,22 @@ You might have noticed some comments with the the word `synthesis`. These are ig
 
 3. Build and test a Johnson counter (see 5.5.2 in [1])
 
+4. Build and test a full adder circuit (A+B+Cin -> SUM,Cout) using a ROM. Build this such that the output only updated on the rising edge of a clock.
+
+
 ## Reflection
+In this section we examined some more complex sequential logic components. D-Type Flip Flops were cascaded to build shift registers. These circuits are the basis of sequential serial interfacing. It is interesting that they work because of intrinsic delays, and that hold-time is traded away for set-up time.
+
+The parallel to parallel register is a very important component that we will be making great use of in subsequent sections. The ability to store a parallel value in a register where it can be stored for later is one of the most fundamental functions of a microprocessor (as well as other devices).
+
+Memory components were simulated and synthesized with HDL. Such devices can be useful for both storage and for rapid loop-up. Extensions of this include buffers, such as the "First In First Out" (FIFO) buffer commonly used in real-time systems. 
+
+One thing that might be apparent is how concise behavioural HDL can be, especially in contrast to structural. It is also much easier for us to read and understand the intent.
+
+The components in this section feature in many larger systems. They (and others) are building blocks that are frequently *reused*. Many of them feature in standard libraries provided by manufacturers. As we look to build more complex systems, these components will form part of what is known as a system **datapath**, with data flowing in and out. Complimenting and orchestrating the movement of data is often another type of device, known as a **controller**. The controller is typically a state machine. 
+
+State machines are so important in this regard, that they deserve a section all of their own. This is the next topic.
+
 
 ## References
 
@@ -537,4 +583,4 @@ See [References](references.md) for a list of numbered references in this course
 
 ---
 
-[Next - Sequential Logic Components](seq_logic_components.md)
+[Next - Finite State Machines](finite_state_machines.md)

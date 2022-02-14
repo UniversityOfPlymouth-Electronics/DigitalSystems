@@ -22,7 +22,7 @@ It is assumed the student is knowledgable in digital electronics, including the 
 1. [Combinational Logic components](./comb_logic_components.md)
 1. [Sequential Logic](./seq_logic.md)
 1. [Sequential Logic Components](./seq_logic_components.md)
-1. [Finite State Machines](./fsm.md)
+1. [Finite State Machines](./finite_state_machines.md)
 1. [Complex Systems](./complex_sys.md)
 1. [Glossary](../glossary/README.md)
 
