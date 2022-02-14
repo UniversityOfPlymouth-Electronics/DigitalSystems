@@ -6,7 +6,7 @@
 <img src="../img/hdl.png" width="300px">
 </figure>
 
-# Sequential Logic
+# Sequential Logic Components
 
 In this section, we will begin to look at sequential logic circuits.
 
@@ -17,9 +17,10 @@ This practical session is designed to be standalone. However, chapter 5 in [1] w
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Sequential Logic Components](#Sequential-Logic-Components)
 [Shift Registers](#task-242-shift-registers)
-[Multiple Bit Registers](#multiple-bit-registers)
-[Counters](#counters)
-[Memory](#memory)
+[Multiple Bit Registers](#task-244-multiple-bit-registers)
+[Parallel In Serial Out](#task-246-parallel-in-serial-out)
+[Counters](#task-248-counters)
+[Memory](#task-250-memory)
 [Challenges](#Challenges)
 [Reflection](#reflection)
 [References](#References)
