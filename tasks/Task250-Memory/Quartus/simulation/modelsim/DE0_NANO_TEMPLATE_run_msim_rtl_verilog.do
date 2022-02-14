@@ -5,8 +5,9 @@ if {[file exists rtl_work]} {
 vlib rtl_work
 vmap work rtl_work
 
-vlog -vlog01compat -work work +incdir+C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus {C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus/pll_main.v}
-vlog -vlog01compat -work work +incdir+C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus/db {C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus/db/pll_main_altpll.v}
-vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task242-CascadedDFF {C:/git/DigitalSystems/tasks/Task242-CascadedDFF/d_ff.sv}
-vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus {C:/git/DigitalSystems/tasks/Task242-CascadedDFF/Quartus/clk_div_N.sv}
+vlog -vlog01compat -work work +incdir+C:/git/DigitalSystems/tasks/Task250-Memory/Quartus {C:/git/DigitalSystems/tasks/Task250-Memory/Quartus/pll_main.v}
+vlog -vlog01compat -work work +incdir+C:/git/DigitalSystems/tasks/Task250-Memory/Quartus/db {C:/git/DigitalSystems/tasks/Task250-Memory/Quartus/db/pll_main_altpll.v}
+vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task250-Memory {C:/git/DigitalSystems/tasks/Task250-Memory/lookup.sv}
+vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task250-Memory {C:/git/DigitalSystems/tasks/Task250-Memory/syncram.sv}
+vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task250-Memory/Quartus {C:/git/DigitalSystems/tasks/Task250-Memory/Quartus/clk_div_N.sv}
 

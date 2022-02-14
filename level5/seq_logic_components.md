@@ -395,7 +395,12 @@ Read section 5.6 in [1] for more details.
 
 We are going to focus on two examples: Using a ROM to implement combinational logic and synchronous RAM.
 
-TBD
+### Synchronous RAM
+
+### ROM
+
+
+See [8] for a list of synthesis directives.
 
 ## Challenges
 
