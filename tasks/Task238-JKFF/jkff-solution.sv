@@ -11,3 +11,4 @@ always @(negedge CLK) begin
 end
 
 endmodule
+
