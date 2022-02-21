@@ -20,7 +20,7 @@ Both can be made to perform the same task, and both will be studied.
 We will begin with an simple example application of a FSM.
 
 <figure>
-<img src="../img/circuit/push_release_FSM_cct.png" width="600px">
+<img src="../img/circuit/push_release_FSM_cct.png">
 </figure>
 
 
