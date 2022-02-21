@@ -250,7 +250,10 @@ This task is based on the design discussed above.
 | - | Warning (10270): Verilog HDL Case Statement warning at fsm-moore.sv(21): incomplete case statement has no default case item |
 | - | Why is this warning being raised? |
 | 9 | Once more, restore the code back to it's original state |
-| 10 | 
+| 10 | Open the Quartus project "Challenge" |
+
+TO BE DONE
+
 
 
 
