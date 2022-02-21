@@ -17,10 +17,24 @@ There are generally speaking two types of FSM:
 Both can be made to perform the same task, and both will be studied.
 
 ## Moore Machines
+We will begin with an simple example application of a FSM.
+
+<figure>
+<img src="../img/circuit/push_release_FSM_cct.png" width="600px">
+</figure>
+
+
+
 
 
 <figure>
 <img src="../img/mooremachine_arch.png" width="500px">
+</figure>
+
+
+
+<figure>
+<img src="../img/fsm-moore-pressrelease.png" width="300px">
 </figure>
 
 
