@@ -292,13 +292,108 @@ The state diagram for this controller is shown below:
 <figcaption>Finite State Diagram for Challenge 252. The inputs UP_PULSE and DOWN_PULSE are shortened for UP and DOWN for clarity</figcaption>
 </figure>
 
-Notes:
+Note the following:
 
 * The state encoding is chosen so no output logic is needed. 
-* The inputs `UP_PULSE` and `DOWN_PULSE` are always one clock cycle in duration, and are generated when a button is pressed and released.
+* The inputs `UP_PULSE` and `DOWN_PULSE` are generated when a button is pressed and released, and are always one clock cycle in duration 
    * Having already performed this function in another state machine, this helps to make the `led_controller` state machine much simpler.
-   * Another example of *separation of concerns*
-* Use the *methods* next(), prev(), first() and last() ( [see section on enumerated types](#enumerated-types) ).
+   * This is another example of *separation of concerns*
+* Use the *methods* `next()`, `prev()`, `first()` and `last()` to your advantage ( [see section on enumerated types](#enumerated-types) ).
 * A solution is provided in the `Challenge-solution` folder
 
+## Task-254 Mealy Machine
+The Mealy machine has a slightly different architecture to the Moore Machine, and is depicted below:
 
+<figure>
+<img src="../img/mealy_machine.png" width="500px">
+<figcaption>Mealy Machine Architecture</figcaption>
+</figure>
+
+To contrast this with a Moore Machine:
+
+* The next state is a function of the current state and inputs (same as Moore)
+* The outputs are a function of *both* the current state *and inputs* (different to Moore)
+
+We return to the first example in this section, where we designed a Moore Machine to produce a pulse when a switch is pressed and released. This required 3 states. Therefore, 2 flip flops were needed for the state encoding (00, 01, 10). A modified state diagram for this FSM is shown below:
+
+<figure>
+<img src="../img/fsm-moore-pressrelease-modified.png" width="300px">
+<figcaption>Moore Machine Finite State Diagram for a PUSH-RELEASE controlled switch</figcaption>
+</figure>
+
+We can convert this to a Mealy Machine. First, we write the state-transition diagram for the Moore Machine as follows:
+
+| STATE | -> |  X=0 | X=1 | Y |
+| - | - | - | - | - |
+| S0 | | S0(self) | S1 | 0 |
+| S1 | | S0 | S2 | 1 |
+| S2 | | S0 | S2 (self) | 0 |
+
+As you can see, there is no redundancy and no opportunity for state minimisation in Moore Machine format.
+
+We next make a note of the output `Y` for a given state as follows:
+
+| STATE | Y |
+| - | - |
+| S0 | 0 |
+| S1 | 1 |
+| S2 | 0 |
+
+Substituting `S0` for `S0/0`, `S1` for `S1/1` and `S2` for `S2/0`,
+we write the Mealy Machine state transition table as follows:
+
+| STATE | -> |  X=0 | X=1 |
+| - | - | - | - | 
+| S0 | | S0(self)/0 | S1/1 |
+| S1 | | S0/0 | S2/0 |
+| S2 | | S0/0 | S2 (self)/0 |
+
+We see rows for `S1` and `S2` are equivalent. Therefore, we write a new Mealy State Diagram:
+
+<figure>
+<img src="../img/fsm-mealy-pressrelease.png" width="300px">
+<figcaption>Mealy Machine Finite State Diagram for a PUSH-RELEASE controlled switch</figcaption>
+</figure>
+
+
+```verilog
+
+module fsm_mealy (input logic clk, reset, X, output logic Q);
+
+enum int unsigned { S0 = 1, S1 = 2} state, next_state;
+
+always_comb begin : next_state_logic
+	
+	//Default is to stay in the current state
+	next_state = state;
+	
+	//Conditionally update state
+	case(state)
+		
+	S0:	if (X == '1) 
+				next_state = S1;
+	
+	S1: if (X == '0)
+				next_state = S0;
+	
+	endcase
+	
+end
+	
+always_ff @(posedge clk or negedge reset) begin
+
+	if (reset == '0)
+		state <= S0;
+	else
+		state <= next_state;
+end
+	
+always_comb begin : output_logic
+	case(state)
+	S0:	Q = (X == 0) ? 0 : 1; //Note the output depends on X
+	S1:	Q = 0;
+	endcase
+end
+	
+endmodule
+```
