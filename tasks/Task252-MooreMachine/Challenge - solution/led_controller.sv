@@ -18,8 +18,8 @@ STATE_t state, next_state;
 
 function STATE_t nextState(input STATE_t s);
 begin
-	if (s == S7)
-		nextState = S7;
+	if (s == state.last())
+		nextState = state.last();
 	else
 		nextState = s.next();
 end
@@ -27,8 +27,8 @@ endfunction
 
 function STATE_t prevState(input STATE_t s);
 begin
-	if (s == S0)
-		prevState = S0;
+	if (s == state.first())
+		prevState = state.first();
 	else
 		prevState = s.prev();
 end
@@ -55,7 +55,7 @@ end
 always_ff @(posedge clk or negedge reset) begin
 
 	if (reset == '0)
-		state <= S0;
+		state <= state.first();
 	else
 		state <= next_state;
 end

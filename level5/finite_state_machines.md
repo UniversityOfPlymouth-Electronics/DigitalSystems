@@ -113,13 +113,39 @@ endmodule
 ```
 
 ### Enumerated Types
-First of all, we always encode the state (and next state) as an unsigned integer. Even better, we use an enumerated type (very similar to C and C++)
+First of all, we always encode the state (and next state) as an unsigned integer. Even better, we can use an enumerated type (very similar to C and C++)
 
 ```verilog
 enum int unsigned { S0 = 1, S1 = 2, S2 = 4 } state, next_state;
 ```
 
 This means `state` can take on the valid values of `S0`, `S1` and `S2`. Apart from this making code easier to read, it also allows the compiler to perform additional checks and issues warnings in case we forget one of the states (see below).
+
+There are some useful *methods* (think of these like functions that operate on the values).
+
+```verilog
+enum int unsigned { S0 = 1, S1 = 2, S2 = 4 } state, next_state;
+state = state.first();	// state is now S0
+state = state.last();   // state is now S2
+state = S0;
+state = state.next();	// state is now S1
+state = state.prev();	// state is now S0
+state = state.prev();	// state is now S2 (wraps around)
+$display(state.name()); // "S2"
+$display("%d", state.num()); // Number of elements 3
+```
+
+These functions are very useful if you want to iterate over all types.
+
+### typedef
+Like C and C++, we can create new types with `typedef`. So if we wish to reuse an enumerated type for example, we could write:
+
+```verilog
+typedef enum int unsigned { S0 = 1, S1 = 2, S2 = 4 } STATE_t;
+STATE_t state, next_state;
+```
+
+The `_t` suffix is often used to denote a type.
 
 ### Next State Logic
 On each clock cycle, the state may be updated. In a state diagram, an update is known as a state transition, as depicted by an arrow exiting the current state. The next state is dictated by two things:
@@ -252,13 +278,27 @@ This task is based on the design discussed above.
 | 9 | Once more, restore the code back to it's original state |
 | 10 | Open the Quartus project "Challenge" |
 
-TO BE DONE
+### Challenge
+Open the Quartus project in the `Challenge` folder. You will see a top level schematic.  Double click the `led_controller` and complete the next state logic.
+
+The output should be the same as the following video:
+
+https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=40a5f82c-65e6-440f-9587-ae4400b2f05a
+
+The state diagram for this controller is shown below:
+
+<figure>
+<img src="../img/challenge_252_fsd.png" width="600px">
+<figcaption>Finite State Diagram for Challenge 252. The inputs UP_PULSE and DOWN_PULSE are shortened for UP and DOWN for clarity</figcaption>
+</figure>
+
+Notes:
+
+* The state encoding is chosen so no output logic is needed. 
+* The inputs `UP_PULSE` and `DOWN_PULSE` are always one clock cycle in duration, and are generated when a button is pressed and released.
+   * Having already performed this function in another state machine, this helps to make the `led_controller` state machine much simpler.
+   * Another example of *separation of concerns*
+* Use the *methods* next(), prev(), first() and last() ( [see section on enumerated types](#enumerated-types) ).
+* A solution is provided in the `Challenge-solution` folder
 
 
-
-
-Note the use of the non-blocking assignment operator `<=`.
-
-
-
-COMING SOON
