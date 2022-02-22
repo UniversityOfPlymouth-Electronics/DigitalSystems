@@ -397,7 +397,7 @@ https://fpgasoftware.intel.com/eula.
 	)
 )
 (symbol
-	(rect 376 640 440 688)
+	(rect 368 640 432 688)
 	(text "NAND2" (rect 1 0 32 10)(font "Arial" (font_size 6)))
 	(text "inst7" (rect 3 37 25 54)(font "Intel Clear" ))
 	(port
@@ -473,9 +473,9 @@ https://fpgasoftware.intel.com/eula.
 	)
 )
 (symbol
-	(rect 392 232 520 344)
+	(rect 392 360 552 472)
 	(text "fsm_mealy" (rect 5 0 61 12)(font "Arial" ))
-	(text "inst2" (rect 8 96 30 113)(font "Intel Clear" ))
+	(text "inst4" (rect 8 96 31 108)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -498,20 +498,34 @@ https://fpgasoftware.intel.com/eula.
 		(line (pt 0 64)(pt 16 64))
 	)
 	(port
-		(pt 128 32)
+		(pt 0 80)
+		(input)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 21 75 45 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80))
+	)
+	(port
+		(pt 160 32)
 		(output)
 		(text "Q" (rect 0 0 8 12)(font "Arial" ))
-		(text "Q" (rect 101 27 109 39)(font "Arial" ))
-		(line (pt 128 32)(pt 112 32))
+		(text "Q" (rect 133 27 139 39)(font "Arial" ))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 160 48)
+		(output)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 111 43 139 55)(font "Arial" ))
+		(line (pt 160 48)(pt 144 48))
 	)
 	(drawing
-		(rectangle (rect 16 16 112 96))
+		(rectangle (rect 16 16 144 96))
 	)
 )
 (symbol
-	(rect 392 360 520 472)
+	(rect 392 232 552 344)
 	(text "fsm_mealy" (rect 5 0 61 12)(font "Arial" ))
-	(text "inst4" (rect 8 96 30 113)(font "Intel Clear" ))
+	(text "inst2" (rect 8 96 31 108)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -534,15 +548,113 @@ https://fpgasoftware.intel.com/eula.
 		(line (pt 0 64)(pt 16 64))
 	)
 	(port
-		(pt 128 32)
+		(pt 0 80)
+		(input)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 21 75 45 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80))
+	)
+	(port
+		(pt 160 32)
 		(output)
 		(text "Q" (rect 0 0 8 12)(font "Arial" ))
-		(text "Q" (rect 101 27 109 39)(font "Arial" ))
-		(line (pt 128 32)(pt 112 32))
+		(text "Q" (rect 133 27 139 39)(font "Arial" ))
+		(line (pt 160 32)(pt 144 32))
+	)
+	(port
+		(pt 160 48)
+		(output)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 111 43 139 55)(font "Arial" ))
+		(line (pt 160 48)(pt 144 48))
 	)
 	(drawing
-		(rectangle (rect 16 16 112 96))
+		(rectangle (rect 16 16 144 96))
 	)
+)
+(symbol
+	(rect 976 656 1144 768)
+	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
+	(text "inst10" (rect 8 96 37 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
+		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 21 43 55 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
+		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 127 27 147 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32))
+	)
+	(parameter
+		"N"
+		"256"
+		""
+		(type "PARAMETER_UNSIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 152 96))
+	)
+	(annotation_block (parameter)(rect 960 600 1142 638))
+)
+(symbol
+	(rect 640 664 808 776)
+	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
+	(text "inst8" (rect 8 96 31 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
+		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 21 43 55 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
+		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 127 27 147 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32))
+	)
+	(parameter
+		"N"
+		"256"
+		""
+		(type "PARAMETER_UNSIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 152 96))
+	)
+	(annotation_block (parameter)(rect 640 608 822 646))
 )
 (connector
 	(pt 176 88)
@@ -599,7 +711,7 @@ https://fpgasoftware.intel.com/eula.
 	(pt 720 40)
 )
 (connector
-	(text "UP" (rect 330 280 344 297)(font "Intel Clear" ))
+	(text "UP" (rect 346 280 360 297)(font "Intel Clear" ))
 	(pt 320 296)
 	(pt 392 296)
 )
@@ -608,7 +720,7 @@ https://fpgasoftware.intel.com/eula.
 	(pt 376 392)
 )
 (connector
-	(text "CLK1K" (rect 330 248 363 265)(font "Intel Clear" ))
+	(text "CLK1K" (rect 338 248 371 265)(font "Intel Clear" ))
 	(pt 320 264)
 	(pt 376 264)
 )
@@ -621,7 +733,7 @@ https://fpgasoftware.intel.com/eula.
 	(pt 384 408)
 )
 (connector
-	(text "areset" (rect 330 264 359 281)(font "Intel Clear" ))
+	(text "areset" (rect 338 264 367 281)(font "Intel Clear" ))
 	(pt 320 280)
 	(pt 384 280)
 )
@@ -633,16 +745,6 @@ https://fpgasoftware.intel.com/eula.
 	(text "DOWN" (rect 330 408 363 425)(font "Intel Clear" ))
 	(pt 392 424)
 	(pt 320 424)
-)
-(connector
-	(text "UP_PULSE" (rect 530 248 581 265)(font "Intel Clear" ))
-	(pt 584 264)
-	(pt 520 264)
-)
-(connector
-	(text "DOWN_PULSE" (rect 530 376 600 393)(font "Intel Clear" ))
-	(pt 520 392)
-	(pt 584 392)
 )
 (connector
 	(text "key0" (rect 162 640 185 657)(font "Intel Clear" ))
@@ -695,25 +797,6 @@ https://fpgasoftware.intel.com/eula.
 	(bus)
 )
 (connector
-	(pt 376 680)
-	(pt 376 672)
-)
-(connector
-	(text "areset" (rect 450 648 479 665)(font "Intel Clear" ))
-	(pt 440 664)
-	(pt 496 664)
-)
-(connector
-	(text "DOWN" (rect 330 640 363 657)(font "Intel Clear" ))
-	(pt 312 656)
-	(pt 376 656)
-)
-(connector
-	(text "UP" (rect 330 664 344 681)(font "Intel Clear" ))
-	(pt 304 680)
-	(pt 376 680)
-)
-(connector
 	(text "led[1]" (rect 850 328 878 345)(font "Intel Clear" ))
 	(pt 840 344)
 	(pt 920 344)
@@ -752,6 +835,95 @@ https://fpgasoftware.intel.com/eula.
 	(text "led[0]" (rect 850 304 878 321)(font "Intel Clear" ))
 	(pt 808 320)
 	(pt 920 320)
+)
+(connector
+	(text "DOWN_PULSE" (rect 562 376 632 393)(font "Intel Clear" ))
+	(pt 552 392)
+	(pt 616 392)
+)
+(connector
+	(text "UP_PULSE" (rect 562 248 613 265)(font "Intel Clear" ))
+	(pt 552 264)
+	(pt 624 264)
+)
+(connector
+	(text "TMR2_START" (rect 562 392 628 409)(font "Intel Clear" ))
+	(pt 552 408)
+	(pt 624 408)
+)
+(connector
+	(text "TMR1_START" (rect 562 264 628 281)(font "Intel Clear" ))
+	(pt 552 280)
+	(pt 624 280)
+)
+(connector
+	(text "CLK1K" (rect 922 672 955 689)(font "Intel Clear" ))
+	(pt 976 688)
+	(pt 912 688)
+)
+(connector
+	(text "CLK1K" (rect 594 680 627 697)(font "Intel Clear" ))
+	(pt 592 696)
+	(pt 640 696)
+)
+(connector
+	(text "TMR2_START" (rect 922 688 988 705)(font "Intel Clear" ))
+	(pt 976 704)
+	(pt 912 704)
+)
+(connector
+	(text "areset" (rect 920 704 949 721)(font "Intel Clear" ))
+	(pt 976 720)
+	(pt 912 720)
+)
+(connector
+	(text "TMR1_START" (rect 584 696 650 713)(font "Intel Clear" ))
+	(pt 584 712)
+	(pt 640 712)
+)
+(connector
+	(text "TMR1_RDY" (rect 314 296 369 313)(font "Intel Clear" ))
+	(pt 392 312)
+	(pt 304 312)
+)
+(connector
+	(text "TMR2_RDY" (rect 314 424 369 441)(font "Intel Clear" ))
+	(pt 304 440)
+	(pt 392 440)
+)
+(connector
+	(text "TMR1_RDY" (rect 826 680 881 697)(font "Intel Clear" ))
+	(pt 808 696)
+	(pt 888 696)
+)
+(connector
+	(text "TMR2_RDY" (rect 1162 672 1217 689)(font "Intel Clear" ))
+	(pt 1144 688)
+	(pt 1216 688)
+)
+(connector
+	(pt 368 680)
+	(pt 368 672)
+)
+(connector
+	(text "DOWN" (rect 322 640 355 657)(font "Intel Clear" ))
+	(pt 312 656)
+	(pt 368 656)
+)
+(connector
+	(text "UP" (rect 330 664 344 681)(font "Intel Clear" ))
+	(pt 304 680)
+	(pt 368 680)
+)
+(connector
+	(text "areset" (rect 442 648 471 665)(font "Intel Clear" ))
+	(pt 432 664)
+	(pt 488 664)
+)
+(connector
+	(text "areset" (rect 592 712 621 729)(font "Intel Clear" ))
+	(pt 584 728)
+	(pt 640 728)
 )
 (junction (pt 376 264))
 (junction (pt 384 280))

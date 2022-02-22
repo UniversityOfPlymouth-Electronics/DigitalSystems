@@ -1,4 +1,4 @@
-module fsm_mealy (input logic clk, reset, X, output logic Q);
+module fsm_mealy (input logic clk, reset, X, RDY, output logic Q, START);
 
 typedef enum int unsigned { S0 = 1, S1 = 2} state_t;
 state_t state, next_state;

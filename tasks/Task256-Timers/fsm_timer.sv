@@ -1,4 +1,4 @@
-module fsm_timer #(parameter int N=4) (output logic RDY, input logic CLK, START, RESTART, N_RESET);
+module fsm_timer #(parameter int unsigned N=4) (output logic RDY, input logic CLK, START, N_RESET);
 
    typedef enum int unsigned {READY='b001, STARTED='b010, STOPPED='b100} state_t;
 
@@ -15,8 +15,8 @@ module fsm_timer #(parameter int N=4) (output logic RDY, input logic CLK, START,
       case (state)
       READY:   next_state = (START == 1) ? STARTED : READY;
       STARTED: next_state = (count == 1) ? STOPPED : STARTED;
-      STOPPED: next_state = (RESTART == 1) ? READY : STOPPED;
-      default: next_state =  READY;
+      STOPPED: next_state = READY;
+      default: next_state = READY;
       endcase
    end
 
