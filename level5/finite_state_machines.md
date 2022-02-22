@@ -450,10 +450,27 @@ Timers can be quite elaborate, but we are going to start with a simple example. 
 | - | - |
 | 1 | Open the Quartus project in Task256 |
 | - | Build and deploy. It is based on the example in the previous task. Test to see it working. |
-
-
+| 2 | Read the source and comments in `fsm_timer.sv` |
+| - | A timing diagram from a simulation of this component is shown below |
 
 <figure>
 <img src="../img/timer_timing.png" >
 <figcaption>Timing diagram for the timer</figcaption>
 </figure>
+
+The key behaviours are as follows:
+
+* When the `START` input is HIGH, the timer starts to count from N-1 down to 0 (where N is a parameter)
+* When the count reaches zero, the `RDY` output goes HIGH for one clock cycles
+* The timer then waits for `START` again
+
+To add compensation for switch bounce, the component `fsm_mealy` has been modified such that is has a new input and output:
+
+* `START` (output) which is connected to the `START` input port of the timer. This is used to start the timer counting.
+* `RDY` which is connected to the `RDY` output port of the timer. This input is used to check when the timer is finished.
+
+| Task256 | continued |
+| - | - |
+| 3 | Modify  ..... |
+
+
