@@ -426,12 +426,34 @@ It is interesting to compare the Moore machine and Mealy machine outputs for the
 
 Do you get equivalent outputs? It should be noted that the precise timing of the Mealy output will depend on the input `X`. We would normally assume `X` is a synchronous signal.
 
-## Adding Switch Debounce with a Timer
+## Task-256 Timers
 The examples so far have assumed the switches to be ideal. Real world switch inputs will have contact noise. Let us assume we were to use some cheaper push switches with no debounce circuitry. Debounce would work as follows:
 
 1. Wait for switch to be pressed
-1. Wait for 200ms (and ignore the switch)
+1. Wait for Tms (and ignore the switch)
 1. Wait for switch to be released
-1. Wait for 200ms (and ignore the switch)
+1. Wait for Tms (and ignore the switch)
+1. Repeat
 
-How do you wait for 200ms? 
+How do you wait for Tms? Remember, we are writing components that are synthesised in hardware, and there is NO CPU. Delay instructions in SystemVerilog only have meaning in simulation. The answer is usually to use a timer.
+
+The figure below depicts the idea of using a timer. The timer will start counting once the `START` signal is asserted HIGH. After the required number of clock cycles, the timer will reset and set the `READY` signal HIGH. When the FSM needs to wait for a period of time, in a given state it can start the timer and not advance to the next until the `READY` signal flags that time has past. In essence, this is two synchronised state machines. 
+
+<figure>
+<img src="../img/fsm_timer.png" width="400px">
+<figcaption>Two coupled state machines: a controller and a timer</figcaption>
+</figure>
+
+Timers can be quite elaborate, but we are going to start with a simple example. You can always design your own and customise it as much as you like!
+
+| Task256 | Timers |
+| - | - |
+| 1 | Open the Quartus project in Task256 |
+| - | Build and deploy. It is based on the example in the previous task. Test to see it working. |
+
+
+
+<figure>
+<img src="../img/timer_timing.png" >
+<figcaption>Timing diagram for the timer</figcaption>
+</figure>
