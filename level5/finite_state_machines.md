@@ -355,45 +355,83 @@ We see rows for `S1` and `S2` are equivalent. Therefore, we write a new Mealy St
 <figcaption>Mealy Machine Finite State Diagram for a PUSH-RELEASE controlled switch</figcaption>
 </figure>
 
+Now we are down to 2 states, which requires only ONE d-type flip flop.
+The implementation of the Mealy machine is shown in the file `fsm_mealy.sv` and is copied below.
 
 ```verilog
-
 module fsm_mealy (input logic clk, reset, X, output logic Q);
 
-enum int unsigned { S0 = 1, S1 = 2} state, next_state;
+typedef enum int unsigned { S0 = 1, S1 = 2} state_t;
+state_t state, next_state;
 
 always_comb begin : next_state_logic
-	
-	//Default is to stay in the current state
-	next_state = state;
-	
-	//Conditionally update state
-	case(state)
-		
-	S0:	if (X == '1) 
-				next_state = S1;
-	
-	S1: if (X == '0)
-				next_state = S0;
-	
-	endcase
-	
+
+   //Default is to stay in the current state
+   next_state = state;
+
+   //Conditionally update state
+   case(state)
+
+   S0:   if (X == '1)
+            next_state = S1;
+
+   S1:   if (X == '0)
+            next_state = S0;
+   default:
+         next_state = S0;
+
+   endcase
+
 end
-	
+
 always_ff @(posedge clk or negedge reset) begin
 
-	if (reset == '0)
-		state <= S0;
-	else
-		state <= next_state;
+   if (reset == '0)
+      state <= S0;
+   else
+      state <= next_state;
 end
-	
+
 always_comb begin : output_logic
-	case(state)
-	S0:	Q = (X == 0) ? 0 : 1; //Note the output depends on X
-	S1:	Q = 0;
-	endcase
+   case(state)
+   S0:   Q = (X == 0) ? 0 : 1;
+   S1:   Q = 0;
+   default: Q = 0;
+   endcase
 end
-	
+
 endmodule
 ```
+
+The main differences are there are less states, and the output logic has changed. Looking specifically at the output logic, we can see `Q` is a function of both `state` and `X`.
+
+```verilog
+   case(state)
+   S0:   Q = (X == 0) ? 0 : 1;
+   S1:   Q = 0;
+   default: Q = 0;
+   endcase
+```
+
+It is interesting to compare the Moore machine and Mealy machine outputs for the same inputs. 
+
+| Task254 | Mealy Machine |
+| - | - |
+| 1 | Open the Quartus project in Task254 |
+| 2 | Build and deploy the project to your FPGA board |
+| - | Check that it works as before |
+| - | Review `fsm_mealy.sv` |
+| 3 | Complete the test bench `fsm_mealy_tb.sv` and show the two state machines perform a similar function |
+| - | See `fsm_mealy_tb-solution.sv` if you are stuck |
+
+Do you get equivalent outputs? It should be noted that the precise timing of the Mealy output will depend on the input `X`. We would normally assume `X` is a synchronous signal.
+
+## Adding Switch Debounce with a Timer
+The examples so far have assumed the switches to be ideal. Real world switch inputs will have contact noise. Let us assume we were to use some cheaper push switches with no debounce circuitry. Debounce would work as follows:
+
+1. Wait for switch to be pressed
+1. Wait for 200ms (and ignore the switch)
+1. Wait for switch to be released
+1. Wait for 200ms (and ignore the switch)
+
+How do you wait for 200ms? 
