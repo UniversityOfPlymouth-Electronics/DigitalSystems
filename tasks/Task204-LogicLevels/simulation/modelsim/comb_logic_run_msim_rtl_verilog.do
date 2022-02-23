@@ -5,5 +5,5 @@ if {[file exists rtl_work]} {
 vlib rtl_work
 vmap work rtl_work
 
-vlog -sv -work work +incdir+C:/git/DigitalSystems/tasks/Task204-LogicLevels {C:/git/DigitalSystems/tasks/Task204-LogicLevels/uop_dlatch.sv}
+vlog -sv -work work +incdir+C:/Users/jaywe/OneDrive\ -\ University\ of\ Plymouth/Documents/GitHub/DigitalSystems/tasks/Task204-LogicLevels {C:/Users/jaywe/OneDrive - University of Plymouth/Documents/GitHub/DigitalSystems/tasks/Task204-LogicLevels/uop_dlatch.sv}
 
