@@ -437,7 +437,7 @@ The examples so far have assumed the switches to be ideal. Real world switch inp
 
 How do you wait for Tms? Remember, we are writing components that are synthesised in hardware, and there is NO CPU. Delay instructions in SystemVerilog only have meaning in simulation. The answer is usually to use a timer.
 
-The figure below depicts the idea of using a timer. The timer will start counting once the `START` signal is asserted HIGH. After the required number of clock cycles, the timer will reset and set the `READY` signal HIGH. When the FSM needs to wait for a period of time, in a given state it can start the timer and not advance to the next until the `READY` signal flags that time has past. In essence, this is two synchronised state machines. 
+The figure below depicts the idea of using a timer. The timer will start counting once the `START` signal is asserted HIGH. After the required number of clock cycles, the timer will reset and set the `READY` signal HIGH. When the FSM needs to wait for a period of time, in a given state it can start the timer and not advance to the next until the `READY` signal flags that time has past. In essence, these are two synchronised state machines. 
 
 <figure>
 <img src="../img/fsm_timer.png" width="400px">
@@ -461,16 +461,52 @@ Timers can be quite elaborate, but we are going to start with a simple example. 
 The key behaviours are as follows:
 
 * When the `START` input is HIGH, the timer starts to count from N-1 down to 0 (where N is a parameter)
-* When the count reaches zero, the `RDY` output goes HIGH for one clock cycles
+* When the count reaches zero, the `RDY` output goes HIGH for one clock cycle
 * The timer then waits for `START` again
 
-To add compensation for switch bounce, the component `fsm_mealy` has been modified such that is has a new input and output:
+To add compensation for switch bounce, the component `fsm_moore` has been modified such that is has a new input and output:
+
+<figure>
+<img src="../img/circuit/fsm_timerports.png" width="200px" >
+<figcaption>Modified FSM to include control and feedback signal</figcaption>
+</figure>
+
 
 * `START` (output) which is connected to the `START` input port of the timer. This is used to start the timer counting.
 * `RDY` which is connected to the `RDY` output port of the timer. This input is used to check when the timer is finished.
 
+However, the code has not been changed to use the new input and output. Your task is to now modify the state machine in `fsm_moore` to make use of this timer.
+
 | Task256 | continued |
 | - | - |
-| 3 | Modify  ..... |
+| 3 | Modify `fsm_moore.sv` to include switch-bounce compensation. |
+| - | Add additional states to control and monitor the timer (as per the figure below) |
+| - | Make the delay large to begin with so it is apparent when it is working |
+
+<figure>
+<img src="../img/fsm_link_to_timer.png"  >
+<figcaption>Modified State Diagram to include switch bounce compensation</figcaption>
+</figure>
+
+Remember that no all outgoing arrows are shown. For example, in `S0` we do not care about the input `RDY`. So the outgoing arrow apples for `{X,RDY}={1,0}` or `{1,1}`.
+
+## Reflection
+
+This section has introduced the simulation and synthesis of Moore and Mealy machines in SystemVerilog.
+
+Finite State Machines are a key component in any complex system. They frequently play the role of a *controller* , asserting control signals and monitoring status signals.
+
+We used a finite state machine template provided with the Quartus software. This separates next state logic, output logic and the update of the state itself into distinct always blocks. As states are added, or new problems are presented, the same template can be reused.
+
+We need to be careful not to let our state machines become unwieldy. In this section we create separate state machines, and coupled them together. A good example of this is a timer. If we were to integrate a timer into another state machine, no only would be generate a lot of additional states and complexity, we would be writing HDL that cannot easily be repurposed.
+
+As we will see in the next section, state machine based designs can be used to trade gate count for speed.
+
+## References
+
+See [References](references.md) for a list of numbered references in this course.
 
 
+---
+
+[NEXT - Complex Systems](./complex_sys.md)

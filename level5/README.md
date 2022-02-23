@@ -38,7 +38,7 @@ Below is a table cross referencing the series of lectures and associated lab ses
 | Lecture 3 | [Combinational Logic Components](https://plymouth.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=d55c066b-00e9-4876-aa21-ae1d01173486) | [Combinational Logic components](./comb_logic_components.md) | 1 |
 | Lecture 4 | Sequential Logic | [Sequential Logic](./seq_logic.md) | 2 |
 | Lecture 5 | Sequential Logic Components |  [Sequential Logic Components](./seq_logic_components.md) | 3 |
-| Lecture 6 | Finite State Machines | Coming Soon | 4 |
+| Lecture 6 | Finite State Machines | [Finite State Machines](./finite_state_machines.md) | 4 |
 | Lecture 7 | Complex Systems | Coming Soon | 5 |
 | |
 

@@ -1,5 +1,5 @@
 
-module fsm_moore (input logic clk, reset, X, output logic Q);
+module fsm_moore (input logic clk, reset, X, RDY, output logic Q, START);
 
 typedef enum int unsigned { S0 = 1, S1 = 2, S2 = 4 } state_t;
 state_t state, next_state;

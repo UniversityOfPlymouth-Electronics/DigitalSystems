@@ -473,93 +473,9 @@ https://fpgasoftware.intel.com/eula.
 	)
 )
 (symbol
-	(rect 976 656 1144 768)
-	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
-	(text "inst10" (rect 8 96 37 108)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
-		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "START" (rect 0 0 34 12)(font "Arial" ))
-		(text "START" (rect 21 43 55 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
-		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 168 32)
-		(output)
-		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
-		(text "RDY" (rect 127 27 151 39)(font "Arial" ))
-		(line (pt 168 32)(pt 152 32))
-	)
-	(parameter
-		"N"
-		"256"
-		""
-		(type "PARAMETER_UNSIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 152 96))
-	)
-	(annotation_block (parameter)(rect 960 600 1142 638))
-)
-(symbol
-	(rect 640 664 808 776)
-	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
-	(text "inst8" (rect 8 96 31 108)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
-		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "START" (rect 0 0 34 12)(font "Arial" ))
-		(text "START" (rect 21 43 55 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
-		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 168 32)
-		(output)
-		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
-		(text "RDY" (rect 127 27 151 39)(font "Arial" ))
-		(line (pt 168 32)(pt 152 32))
-	)
-	(parameter
-		"N"
-		"256"
-		""
-		(type "PARAMETER_UNSIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 152 96))
-	)
-	(annotation_block (parameter)(rect 640 608 822 646))
-)
-(symbol
 	(rect 392 232 552 344)
-	(text "fsm_moore" (rect 5 0 61 12)(font "Arial" ))
-	(text "inst11" (rect 8 96 36 113)(font "Intel Clear" ))
+	(text "fsm_moore_soln" (rect 5 0 87 12)(font "Arial" ))
+	(text "inst4" (rect 8 96 30 113)(font "Intel Clear" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -608,8 +524,8 @@ https://fpgasoftware.intel.com/eula.
 )
 (symbol
 	(rect 392 360 552 472)
-	(text "fsm_moore" (rect 5 0 61 12)(font "Arial" ))
-	(text "inst14" (rect 8 96 36 113)(font "Intel Clear" ))
+	(text "fsm_moore_soln" (rect 5 0 87 12)(font "Arial" ))
+	(text "inst5" (rect 8 96 30 113)(font "Intel Clear" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -655,6 +571,90 @@ https://fpgasoftware.intel.com/eula.
 	(drawing
 		(rectangle (rect 16 16 144 96))
 	)
+)
+(symbol
+	(rect 640 664 808 776)
+	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
+	(text "inst8" (rect 8 96 31 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
+		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 21 43 55 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
+		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 127 27 151 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32))
+	)
+	(parameter
+		"N"
+		"64"
+		""
+		(type "PARAMETER_UNSIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 152 96))
+	)
+	(annotation_block (parameter)(rect 640 608 822 646))
+)
+(symbol
+	(rect 976 656 1144 768)
+	(text "fsm_timer" (rect 5 0 55 12)(font "Arial" ))
+	(text "inst10" (rect 8 96 37 108)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "CLK" (rect 0 0 21 12)(font "Arial" ))
+		(text "CLK" (rect 21 27 42 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "START" (rect 0 0 34 12)(font "Arial" ))
+		(text "START" (rect 21 43 55 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "N_RESET" (rect 0 0 49 12)(font "Arial" ))
+		(text "N_RESET" (rect 21 59 70 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 168 32)
+		(output)
+		(text "RDY" (rect 0 0 24 12)(font "Arial" ))
+		(text "RDY" (rect 127 27 151 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32))
+	)
+	(parameter
+		"N"
+		"64"
+		""
+		(type "PARAMETER_UNSIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 152 96))
+	)
+	(annotation_block (parameter)(rect 960 600 1142 638))
 )
 (connector
 	(pt 176 88)
