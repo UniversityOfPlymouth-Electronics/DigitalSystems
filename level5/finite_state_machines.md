@@ -490,6 +490,14 @@ However, the code has not been changed to use the new input and output. Your tas
 
 Remember that no all outgoing arrows are shown. For example, in `S0` we do not care about the input `RDY`. So the outgoing arrow apples for `{X,RDY}={1,0}` or `{1,1}`.
 
+| Task258 | Linked State Machines |
+| - | - |
+| 1 | Open the Quartus project in Task258 |
+| - | Build and deploy. It is derived on the solution in the previous task. Test to see it working. |
+
+
+
+
 ## Reflection
 
 This section has introduced the simulation and synthesis of Moore and Mealy machines in SystemVerilog.
