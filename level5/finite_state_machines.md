@@ -493,9 +493,21 @@ Remember that no all outgoing arrows are shown. For example, in `S0` we do not c
 | Task258 | Linked State Machines |
 | - | - |
 | 1 | Open the Quartus project in Task258 |
-| - | Build and deploy. It is derived on the solution in the previous task. Test to see it working. |
+| - | Examine the top level schematic |
+| 2 | Your task is to complete the modules `fsm_moore` and `fsm_timer` to implement the ASM diagrams below. Currently they are incomplete an do not compile. |
+| - | The intention is that to turn on the LED, the push button has to be pressed for 0.5s |
+| - | A solution is provided |
+| - | Consult the lectures on ASM charts |
 
+<figure>
+<img src="../img/asm_controller.png" width="400px">
+<figcaption>ASM chart for the fsm_moore component </figcaption>
+</figure>
 
+<figure>
+<img src="../img/asm_timer.png" width="250px">
+<figcaption>ASM chart for the fsm_timer component </figcaption>
+</figure>
 
 
 ## Reflection
