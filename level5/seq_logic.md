@@ -12,7 +12,7 @@ In this section, we will begin to look at sequential logic circuits.
 
 This practical session is designed to be standalone. However, chapter 5 in [1] will compliment it as supplementary reading.
 
-| TABLE OF CONTENTS (To Be Done) |
+| TABLE OF CONTENTS |
 | - |
 [Intended Leaning Outcomes](#Intended-Learning-Outcomes)
 [Sequential Logic](#Sequential-Logic)
@@ -300,6 +300,11 @@ The D Flip Flop is *similar* to the D Latch, except it is not level triggered. I
 
 > Consider adding some additional circuitry that connects to the `EN` input of a D Latch. This circuitry produces a *very* narrow `EN` pulse when it's clock input changes in a prescribed direction.
 
+<figure>
+<img src="../img/dff_from_latch.png" width="600px">
+<figcaption>Building a D-Type Flip-Flop from a D-Type Latch and an edge transition detector, where `LE` is the Latch Enable, `D` is the data input and `Q` is the latched output</figcaption>
+</figure>
+
 For the D Flip Flop, the output `Q` latches the input value `D` *when its clock input rises*. Let's now look at the HDL.
 
 ```verilog
@@ -508,7 +513,11 @@ T | Q<sup>+</sup> | <span style="text-decoration:overline">Q</span><sup>+</sup> 
 | 0 | Q | <span style="text-decoration:overline">Q</span> |
 | 1 | <span style="text-decoration:overline">Q</span> | Q |
 
-Write and test a component that implements a T Flip Flop.
+Write and test a component that implements a T Flip Flop. Include an asynchronous reset as an input. You will find this discussed in section 5.3 of [1].
+
+Now write a test bench for your component. Note any difficulty in determining all the testing scenarios.
+
+Finally, test your component in Quartus. Start with a copy of Quartus project in Task 215. 
 
 ## Reflection
 In this section, we have considered SystemVerilog models for some of the most fundamental building blocks of sequential logic:
@@ -555,4 +564,4 @@ See [References](references.md) for a list of numbered references in this course
 
 ---
 
-[Next - Sequential Logic Components]()
+[Next - Sequential Logic Components](seq_logic_components.md)

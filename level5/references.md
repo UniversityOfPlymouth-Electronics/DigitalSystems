@@ -14,3 +14,6 @@
 [6] SystemVerilog., https://www.asic-world.com/systemverilog, accessed 27 September 2021
 
 [7] https://www.systemverilog.io/, accessed 29 September 2021
+
+[8] Verilog HDL Synthesis Attributes and Directives., https://www.intel.com/content/www/us/en/programmable/quartushelp/17.0/hdl/vlog/vlog_file_dir.htm, accessed 14th Feb. 2022
+

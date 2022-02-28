@@ -1,6 +1,7 @@
 [//]: # (This comment won't be rendered to the visitor!)
 
 # For Authors
+These are notes for authors writing markdown
 
 [Latex to PNG conversion](http://www.latex2png.com/)
 
