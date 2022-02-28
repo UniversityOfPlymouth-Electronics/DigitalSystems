@@ -1,3 +1,4 @@
+Chris Tipney wrote this
 The text just above the start of Task201, the first AB is missing the bars
 
 This video has the wrong latching behaviour at time 8.29 (ish):
