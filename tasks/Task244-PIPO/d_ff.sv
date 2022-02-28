@@ -1,0 +1,19 @@
+//D-Type Flip-Flop (with asynchronous reset)
+module d_ff (output logic Q, input logic D, CLK, n_Reset, EN);
+
+logic q_int;
+assign #(10ps) Q = q_int;
+
+always_ff @(posedge CLK, negedge n_Reset) begin
+	//Reset takes precedence
+	if (n_Reset == 1'b0) begin
+		q_int <= 0;
+	end
+	else begin
+		//Otherwise Q = D (and latches)
+		if (EN == 1) 
+			q_int <= D;
+	end
+end
+	
+endmodule
