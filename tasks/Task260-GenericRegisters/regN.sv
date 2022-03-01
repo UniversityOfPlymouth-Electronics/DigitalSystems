@@ -8,7 +8,7 @@ module regN #(parameter N=8) (
    // Internal storage
    logic [N-1:0] latched;
    
-   // Used for simulating delays
+   // Delay only used for simulation
    assign #(5ps) q = latched;
    
    always_ff @(posedge clk, negedge reset) begin
