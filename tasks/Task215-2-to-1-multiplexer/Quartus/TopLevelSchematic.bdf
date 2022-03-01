@@ -486,14 +486,14 @@ https://fpgasoftware.intel.com/eula.
 	(pt 760 520)
 )
 (connector
-	(text "led[0]" (rect 754 160 782 177)(font "Intel Clear" ))
-	(pt 744 176)
-	(pt 824 176)
-)
-(connector
 	(text "key0" (rect 194 248 217 265)(font "Intel Clear" ))
 	(pt 184 264)
 	(pt 296 264)
+)
+(connector
+	(text "CK2" (rect 754 160 774 177)(font "Intel Clear" ))
+	(pt 592 176)
+	(pt 824 176)
 )
 (junction (pt 744 520))
 (text "LEDs" (rect 1072 392 1101 411)(font "Intel Clear" (font_size 8)))
