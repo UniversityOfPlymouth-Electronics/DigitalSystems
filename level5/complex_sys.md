@@ -118,7 +118,21 @@ Note again that the data and `load` signal is presented **in advance** of the cl
 
 Let's now extend this idea with a text book classic example: the pipelined adder.
 
-## Task-262 Pipelined adder
+## Task-262 Tri-State Outputs
+As a general rule, we avoid the use of tr-state logic with FPGAs
+
+
+
+
+
+
+** TO BE DONE **
+
+
+
+
+
+## Task-264 Pipelined adder
 The pipelined adder is a device which allows multiple values to be added in sequence. In this example, we are to add four separate 8-bit values. We could do this directly, but it would cost us three adder circuits:
 
 | Equation | Circuit |
@@ -126,7 +140,7 @@ The pipelined adder is a device which allows multiple values to be added in sequ
 | `(A + B + C + D)` | Four-port adder, or three parallel 2-port adders `(A+B) + (C+D)` calculated simultaneously. This is fast but consumed 3x adder circuits |
 |  `R1 🡐 (A+B)`, `R1 🡐 (R1+C)`, `R1 🡐 (R1+D)` | Use a single adder circuit over 3 consecutive clock cycles. This is slower, but potentially uses less space |  
 
-| Task-262 | Pipelined adder |
+| Task-264 | Pipelined adder |
 | - | - |
 | 1 | Open the Quartus project and build. Do not program the board |
 | 2 | Double click the vector waveform file `Waveform.wvf` |
@@ -156,7 +170,7 @@ Drilling down into the dataflow component, we see a combination of multiplexers,
 
 The controller is routing data by setting the multiplexer select and register load load lines.
 
-| Task-262 | Continued |
+| Task-264 | Continued |
 | - | - |
 | 4 | Inspect the controller component. It is a Moore machine |
 | - | Can you reverse engineer this back to an ASM chart? |
@@ -164,7 +178,7 @@ The controller is routing data by setting the multiplexer select and register lo
 
 A problem with this design is that intermediate outputs are presented. To solve this, do the following:
 
-| Task-262 | Continued |
+| Task-264 | Continued |
 | - | - |
 | 5 | Add another register to the dataflow. We shall call this the output register. The input should be `Y[7..0]` and it should have it's own `load` signal. |
 | 6 | Update the controller to load the correct and final sum into the output register. This will need at least one extra state. |
