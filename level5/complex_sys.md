@@ -124,7 +124,6 @@ As a general rule, we avoid the use of tr-state logic with FPGAs. Most devices c
 * Output pins utilise tri-state buffers. Multiple outputs can drive common pins
 * Bus networks can be substituted with multiplexers
 
-### Tristate Outputs
 Let's look at the single case where tri-state outputs can be used.
 
 | Task 262 | BusOutputs |
@@ -134,15 +133,35 @@ Let's look at the single case where tri-state outputs can be used.
 | 2 | Press key0 to switch the device driving the output pins |
 | 3 | Simulate `oe_enable` in ModelSim - Examine how the outputs (`oe[1:0]`) change when the `sel` input is changed |
 |- | <p title="A state machine is used so that each OE is pulled low before the other is pulled high, with one clock cycle margin. This avoids the risk of short-circuiting the power rails">What is the function of this block? Hover the mouse to see the answer</p>
-| 4 | I Quartus, click Tools->Netlist Viewers->RTL Viewer. Expand one of the `regN` component to reveal the tri-state buffers |
+| 4 | In Quartus, click Tools->Netlist Viewers->RTL Viewer. Expand one of the `regN` component to reveal the tri-state buffers |
 
 Care is needed when switching devices. Some extra logic (`oe_selector`) is included to ensure the output enables cannot be high at the same time. Bus systems not only need careful timing, but can also be slow.
 
 | Task 262 | Continued |
 | - | - |
-| 5 | Modify the design and add some logic between the tri-state registers and the output pins. |
+| 5 | Modify the design and add some logic between the tri-state registers and the output pins, such as in the figure below. |
+| - |  In Quartus, build, then once again click Tools->Netlist Viewers->RTL Viewer. |
 
-## Task-264 Pipelined adder
+<figure>
+<img src="../img/tristate-to-logic.png" width="600px">
+<figcaption>Internal Tri-State Bus will be converted to multiplexers</figcaption>
+</figure>
+
+You should find that Quartus has replaced tri-state outputs with a tri-state bus component, which is effectively a multiplexer.
+
+| Task 262 | Continued |
+| - | - |
+| 6 | Modify the registers so that no tri-state logic is used (permanently enable the devices). Do NOT connect the outputs, and instead route the connected outputs through multiplexer. You can use the `BUSMUX` mega-function component |
+| - | A solution is provided |
+
+<figure>
+<img src="../img/busmux.png" width="200px">
+<figcaption>BUSMUX megafunction used to implement internal bus structures</figcaption>
+</figure>
+
+Unless absolutely required, for FPGAs you would avoid bus structures, and favour multiplexer trees instead. It is both faster and safer. No special output enable timing logic is needed either. 
+
+## Task-266 Pipelined adder
 The pipelined adder is a device which allows multiple values to be added in sequence. In this example, we are to add four separate 8-bit values. We could do this directly, but it would cost us three adder circuits:
 
 | Equation | Circuit |
@@ -150,7 +169,7 @@ The pipelined adder is a device which allows multiple values to be added in sequ
 | `(A + B + C + D)` | Four-port adder, or three parallel 2-port adders `(A+B) + (C+D)` calculated simultaneously. This is fast but consumed 3x adder circuits |
 |  `R1 🡐 (A+B)`, `R1 🡐 (R1+C)`, `R1 🡐 (R1+D)` | Use a single adder circuit over 3 consecutive clock cycles. This is slower, but potentially uses less space |  
 
-| Task-264 | Pipelined adder |
+| Task-266 | Pipelined adder |
 | - | - |
 | 1 | Open the Quartus project and build. Do not program the board |
 | 2 | Double click the vector waveform file `Waveform.wvf` |
@@ -180,7 +199,7 @@ Drilling down into the dataflow component, we see a combination of multiplexers,
 
 The controller is routing data by setting the multiplexer select and register load load lines.
 
-| Task-264 | Continued |
+| Task-266 | Continued |
 | - | - |
 | 4 | Inspect the controller component. It is a Moore machine |
 | - | Can you reverse engineer this back to an ASM chart? |
@@ -188,7 +207,7 @@ The controller is routing data by setting the multiplexer select and register lo
 
 A problem with this design is that intermediate outputs are presented. To solve this, do the following:
 
-| Task-264 | Continued |
+| Task-266 | Continued |
 | - | - |
 | 5 | Add another register to the dataflow. We shall call this the output register. The input should be `Y[7..0]` and it should have it's own `load` signal. |
 | 6 | Update the controller to load the correct and final sum into the output register. This will need at least one extra state. |
