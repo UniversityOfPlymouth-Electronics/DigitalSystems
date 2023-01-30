@@ -382,6 +382,7 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_SIMULATION_TOOL "<None>"
+set_global_assignment -name SYSTEMVERILOG_FILE ../mux2_behavioural_v1.sv
 set_global_assignment -name VERILOG_FILE pll_main.v
 set_global_assignment -name SDC_FILE DE0_NANO_TEMPLATE.SDC
 set_global_assignment -name BDF_FILE TopLevelSchematic.bdf
