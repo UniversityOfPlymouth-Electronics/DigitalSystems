@@ -10,8 +10,8 @@ logic cout, cout_internal;
 
 //instantiate adder
 
-adder_N (.N(N)) u1 (sum[N-1:0], cout_internal, 	a[N-1:0], b[N-1:0], 0);
-adder_N (.N(N)) u2 (sum[M-1:N], cout, 		a[M-1:N], b[M-1:N], cout_internal);
+adder_N #(.N(N)) u1(sum[N-1:0], cout_internal, a[N-1:0], b[N-1:0], 0);
+adder_N #(.N(N)) u2(sum[M-1:N], cout, 		a[M-1:N], b[M-1:N], cout_internal);
 
 initial 
 	begin
@@ -22,7 +22,7 @@ initial
                 b = j;
 		S = i + j;	//Integer summation
                 #10ps;
-		assert ({Cout,SUM} == S) $display("PASS"); else $display("ERROR %d + %d <> %d", i, j, SUM);
+		assert ({cout,sum} == S) $display("PASS"); else $display("ERROR %d + %d <> %d", i, j, SUM);
               end
             end
 	end
