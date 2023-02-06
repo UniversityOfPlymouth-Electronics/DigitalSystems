@@ -1,6 +1,6 @@
 module srgate (output logic Q, Qbar, input logic S, R);
 
-always @(S,R)
+always_latch
 begin
 	if ( (S==1) && (R==0) )
 		{Q, Qbar} <= 2'b10;

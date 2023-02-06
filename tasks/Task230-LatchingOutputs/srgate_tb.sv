@@ -7,8 +7,7 @@ srgate u1 (Q, Qbar, S, R);
 
 initial
 begin
-	//initial state, unknown output
-	{S,R}=2'b00;
+
 	#100ps
 	assert ({Q,Qbar} === 2'bx) 
 	$display("PASSED input %b%b\t Q %b Qbar %b, Expected Q ? Qbar ?", S, R, Q, Qbar);

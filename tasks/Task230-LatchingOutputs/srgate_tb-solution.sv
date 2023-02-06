@@ -1,4 +1,4 @@
-module srgate_tb;
+module srgate_tb_solution;
 
 //Internal signals
 logic Q, notQ, S,R;
