@@ -1,6 +1,7 @@
 module srgate (output logic Q, Qbar, input logic S, R);
 
 always_latch
+/*always @(S,R)*/		//alternate method with sensitivity list
 begin
 	if ( (S==1) && (R==0) )
 		{Q, Qbar} <= 2'b10;
