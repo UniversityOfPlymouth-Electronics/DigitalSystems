@@ -38,9 +38,9 @@ initial begin
 	D = 1;		//Set D = 1
 	@(posedge CLK);	//Wait for positive edge of clock
 	#1 assert(Q == D) $display("PASS"); else $error("FAIL");	//Check Q
-	#10ps;	
+	#20ps;	
 	n_res = 0;
-	#15ps;
+	#20ps;
 	n_res = 1;
 	#1 assert(Q == 0) $display("RESET PASS"); else $error("RESET FAIL");	//Check Q
 
