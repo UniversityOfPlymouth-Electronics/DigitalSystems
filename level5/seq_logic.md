@@ -350,7 +350,7 @@ As this is an active LOW reset, a negative (falling) edge on the reset will ensu
  | - | A solution `d_ff_tb-solution.sv` is provided |
 
 ## Task-238 J-K Flip-Flop
-Another commonly used sequential building block is the KJ Flip Flop. This is similar to the SR latch (J is set, K is reset), but it is synchronous and `{J,K} = 2'b11` is valid. 
+Another commonly used sequential building block is the JK Flip Flop. This is similar to the SR latch (J is set, K is reset), but it is synchronous and `{J,K} = 2'b11` is valid. 
 
 Please see section 5.3 in [1].
 
