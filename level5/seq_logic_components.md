@@ -290,7 +290,7 @@ So far, we have considered serial-in-parallel-out and parallel-in-parallel-out. 
 | 3 | Press and release key0 to reset |
 | - | You should see the clock flashing on LED[7] |
 | - | Set the DIL switched to the pattern 1010 |
-| - | When the clock LED goes OFF, press and fold key1 to shift the bits into LED[0] |
+| - | When the clock LED goes OFF, press and hold key1 to shift the bits into LED[0] |
 
 In the schematic you can see a component `p2s`. Double-clicking this will reveal another schematic (shown below). 
 
