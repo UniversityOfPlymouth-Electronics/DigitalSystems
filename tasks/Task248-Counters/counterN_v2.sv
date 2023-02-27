@@ -5,7 +5,7 @@ logic [N-1:0] count;
 //Connect output to internal register count
 assign Y = count;
 
-always_ff @(posedge CLK) begin
+always_ff @(posedge CLK, negedge N_RESET) begin
 	if (N_RESET == 0) 
 		count <= 0;
 	else
