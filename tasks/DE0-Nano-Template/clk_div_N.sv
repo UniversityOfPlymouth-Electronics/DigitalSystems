@@ -16,7 +16,7 @@ begin
          yy <= !yy;             //Toggle output
       end
    else
-      count <= count + 1;       //Increment count
+      count <= count + '1;       //Increment count
 
 end
 
