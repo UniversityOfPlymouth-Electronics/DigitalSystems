@@ -26,6 +26,7 @@
 *.a
 *.lib
 !**/mbed-os.lib
+!**/libuopmsb.lib
 
 # Executables
 *.exe
