@@ -96,6 +96,7 @@ behavioural_run_msim_rtl_vhdl.do
 BUILD
 .mbed
 mbed-os
+libuopmsb
 
 # system
 .DS_Store
