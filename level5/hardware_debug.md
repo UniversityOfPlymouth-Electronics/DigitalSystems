@@ -34,8 +34,9 @@ Follow the step below, **in the order that they are written**.
 
 <figure>
 <img src="../img/mcu_to_fpga.jpg" width=450>
-<figcaption>Connect the FPGA to the MCU using the ribbon cable provided. Always program the MCU with the provided code before doing this.</figcaption>
+<figcaption>Figure 1. Connect the FPGA to the MCU using the ribbon cable provided. Always program the MCU with the provided code before doing this.</figcaption>
 </figure>
+
 
 You should now see the following:
 
