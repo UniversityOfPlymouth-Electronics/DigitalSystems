@@ -67,7 +67,7 @@ We also need a chip select. In this example, it was decided to do control chip s
 DigitalOut cs(PC_6);  
 ```
 
-When we initialise our system, we need to
+When we initialise our system, we need to set the mode and speed:
 
 ```C++
 // Chip must be deselected, Chip Select is active LOW
